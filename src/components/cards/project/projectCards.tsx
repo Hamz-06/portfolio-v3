@@ -1,21 +1,25 @@
 'use client'
 
-import { ProjectCardType } from "@/app/(home)/page"
 import { cn } from "@/lib/utils"
+import { SanityProject } from "@/types/projects/projects"
 import { Play } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 
 interface MusicCardProps {
-  cardDetails: ProjectCardType,
+  cardDetails: SanityProject,
   aspectRatio?: "square" | "portrait" | "landscape" | "round"
   className?: string
   onClick?: () => void
 }
 
 export function ProjectCard({
-  cardDetails: { id, title, subtitle, imageUrl, type, href },
+  cardDetails: { title,
+    first_image_url: firstImageUrl,
+    slug,
+    project_type: _projectType,
+    sub_title: subTitle },
   className,
   onClick,
 }: MusicCardProps) {
@@ -42,7 +46,7 @@ export function ProjectCard({
           )}
         >
           <Image
-            src={imageUrl || "/placeholder.svg"}
+            src={firstImageUrl || "/placeholder.svg"}
             alt={title}
             fill
             className={cn(
@@ -65,10 +69,10 @@ export function ProjectCard({
       </div>
 
       <div className="flex flex-col">
-        <Link href={href} className="line-clamp-1 font-medium hover:underline">
+        <Link href={`/${slug}`} className="line-clamp-1 font-medium hover:underline">
           {title}
         </Link>
-        {subtitle && <span className="line-clamp-2 text-sm text-zinc-400">{subtitle}</span>}
+        {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
       </div>
     </div>
   )

@@ -10,4 +10,4 @@ type SanityProject = {
 
 type SanityHomeQuery = Partial<Record<ProjectTypes, SanityProject[]>>
 
-export type { SanityProject, SanityHomeQuery }
+export type { SanityProject, SanityHomeQuery, ProjectTypes }

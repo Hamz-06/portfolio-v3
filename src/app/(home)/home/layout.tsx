@@ -24,7 +24,7 @@ export default function RootLayout({
       <div className="flex flex-1 overflow-hidden relative">
         <ResizablePanelGroup direction="horizontal">
           {/* Sidebar - Resizable */}
-          <ResizablePanel defaultSize={20} minSize={15} maxSize={25} className="hidden md:block">
+          <ResizablePanel defaultSize={20} minSize={20} maxSize={25} className="hidden lg:block">
             <div className="flex-col h-full bg-zinc-900 p-3 gap-2 rounded-2xl ml-2 mr-1">
               <Sidebar />
             </div>

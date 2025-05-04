@@ -10,10 +10,9 @@ export type HomeRouteResponse = SanityHomeQuery
 
 export async function GET() {
   try {
-
-    return NextResponse.json(mockData()
-
-      , { status: 200 })
+    console.log("Fetching data from Sanity...")
+    return NextResponse.json(
+      mockData, { status: 200 })
 
     const queryAllEntries = await client.fetch<SanityHomeQuery>(POST_QUERY_ALL, {})
 
@@ -29,82 +28,23 @@ export async function GET() {
     }, { status: 500 })
   }
 }
-function mockData(): SanityHomeQuery {
-  const mockData: SanityHomeQuery = {
-    projects: [
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-    ],
-    blogs: [
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-      {
-        title: 'Portfolio Website',
-        first_image_url: '/bart-simpson-cartoon.png',
-        slug: 'portfolio-website',
-        sub_title: 'A modern web portfolio built with Next.js',
-        project_type: 'projects',
-      },
-    ]
-  }
-  return mockData
-}
+
+
+const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];
+
+const randomSlug = (base: string, i: number) => `${base}-${i + 1}`;
+const randomImage = () => images[Math.floor(Math.random() * images.length)];
+
+const createRandomProjects = (type: 'projects' | 'blogs', count: number) =>
+  Array.from({ length: count }, (_, i) => ({
+    title: `Project ${i + 1}`,
+    first_image_url: randomImage(),
+    slug: randomSlug(type, i),
+    sub_title: `This is project number ${i + 1}`,
+    project_type: type,
+  }));
+
+const mockData = {
+  projects: createRandomProjects('projects', 5),
+  blogs: createRandomProjects('blogs', 5),
+};

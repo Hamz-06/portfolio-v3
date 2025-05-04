@@ -1,20 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootStateDashboard } from '../store/allProjectsStore'
-import { ProjectTypes, SanityHomeQuery } from '@/types/projects/projects';
+import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
+import { NavigationStep } from '@/components/footer/footer';
 
 
 interface ProjectState {
   originalProjects: SanityHomeQuery;
   selectedProjects: SanityHomeQuery;
   selectedCategories: ProjectTypes[] | null;
-  allCategories: ProjectTypes[]
+  allCategories: ProjectTypes[],
+  allProjectsArray: SanityProject[],
+  currentProject: SanityProject | null
 }
 const initialState: ProjectState = {
   originalProjects: {},
   selectedProjects: {},
   selectedCategories: null,
-  allCategories: []
+  allCategories: [],
+  allProjectsArray: [],
+  currentProject: null
 }
 
 export const projectsList = createSlice({
@@ -22,16 +27,15 @@ export const projectsList = createSlice({
   initialState: initialState,
   reducers: {
     setProjectsList: (state, action: PayloadAction<SanityHomeQuery>) => {
-      console.log('setProjectsList', action.payload)
       state.originalProjects = structuredClone(action.payload);
       state.selectedProjects = structuredClone(action.payload);
-
+      console.log('action.payload', action.payload)
       state.allCategories = Object.keys(action.payload) as ProjectTypes[]
+      state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
     },
     setSelectedCategory: (state, action: PayloadAction<ProjectTypes[]>) => {
       const _selectedCategories = new Set([...(state.selectedCategories || []), ...action.payload]);
       const updatedSelectedCategories = Array.from(_selectedCategories);
-      console.log('setSelectedCategory', _selectedCategories)
 
       const filteredObjects = Object
         .entries(state.originalProjects)
@@ -66,11 +70,45 @@ export const projectsList = createSlice({
       state.selectedCategories = updatedSelectedCategories;
       state.selectedProjects = filteredProjects;
     },
+    setCurrentProject: (state, action: PayloadAction<SanityProject | null>) => {
+      state.currentProject = action.payload;
+    },
+    navigateCurrentProject: (state, action: PayloadAction<NavigationStep>) => {
+      if (!state.currentProject) {
+        state.currentProject = state.allProjectsArray[0];
+        return;
+      }
+      const currentIndex = state.allProjectsArray
+        .findIndex((project) => project.slug === state.currentProject!.slug);
+
+      if (currentIndex === -1) {
+        state.currentProject = state.allProjectsArray[0];
+        return;
+      }
+
+      const nextIndex = action.payload === 'next' ? currentIndex + 1 : currentIndex - 1;
+      if (nextIndex < 0 || nextIndex >= state.allProjectsArray.length) {
+        return; // do nothing
+      }
+      state.currentProject = state.allProjectsArray[nextIndex];
+
+    },
+    shuffleCurrentProject: (state) => {
+      const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
+      state.currentProject = state.allProjectsArray[randomIndex];
+    }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { setProjectsList, setSelectedCategory, removeSelectedCategory } = projectsList.actions
+export const {
+  setProjectsList,
+  setSelectedCategory,
+  removeSelectedCategory,
+  setCurrentProject,
+  navigateCurrentProject,
+  shuffleCurrentProject
+} = projectsList.actions
 
 export const useProjectsList = (): ProjectState['selectedProjects'] =>
   useSelector((state: RootStateDashboard) => state.projectListProvider.selectedProjects)
@@ -80,5 +118,8 @@ export const useSelectedCategories = (): ProjectState['selectedCategories'] =>
 
 export const useAllCategories = (): ProjectState['allCategories'] =>
   useSelector((state: RootStateDashboard) => state.projectListProvider.allCategories)
+
+export const useCurrentProject = (): ProjectState['currentProject'] =>
+  useSelector((state: RootStateDashboard) => state.projectListProvider.currentProject)
 
 export default projectsList.reducer

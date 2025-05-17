@@ -1,29 +1,29 @@
-
 import { HomeRouteResponse } from "@/app/(api)/api/home/route";
 import "../../globals.css";
-import Footer from "@/components/footer/footer";
+import Footer from "@/components/footer/spotify/footer";
 import Header from "@/components/header/header";
 import Sidebar from "@/components/sidebar/sidebar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { SanityHomeQuery, SanityProject } from "@/types/projects/projects";
-import { DashboardProvider } from "@/redux/provider/projectListProvider";
-import { getCookie } from "@/server-actions/cookieHelper";
-
+import { SanityHomeQuery } from "@/types/projects/projects";
+import { MainLayoutProvider } from "@/redux/provider/mainLayoutProvider";
+import { getCurrentProjectIndexCookie } from "@/server-actions/cookies/currentProjectCookie";
 
 
 export default async function RootLayout({
   children,
+  modal
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
 
   const projects = await getAllProjects()
-  const currentProject = await getCurrentProject()
+  const currentProjectIndex = await getCurrentProjectIndex()
 
   return (
     // <html>
     // <body>
-    <DashboardProvider projects={projects} currentProject={currentProject}>
+    <MainLayoutProvider projects={projects} currentProject={currentProjectIndex}>
       <div className="flex flex-col h-screen bg-black text-white">
         <div className="h-16 bg-black flex items-center px-4 sticky top-0 z-10">
           <Header />
@@ -31,11 +31,7 @@ export default async function RootLayout({
         <div className="flex flex-1 overflow-hidden relative">
           <ResizablePanelGroup direction="horizontal">
             {/* Sidebar - Resizable */}
-            <ResizablePanel defaultSize={20} minSize={20} maxSize={25} className="hidden lg:block">
-              <div className="flex-col h-full bg-zinc-900 p-3 gap-2 rounded-2xl ml-2 mr-1">
-                <Sidebar />
-              </div>
-            </ResizablePanel>
+            <Sidebar className="flex-col h-full bg-zinc-900 p-3 gap-2 rounded-2xl ml-2 mr-1" />
 
             <ResizableHandle />
 
@@ -54,7 +50,8 @@ export default async function RootLayout({
           <Footer />
         </div>
       </div>
-    </DashboardProvider>
+      {modal}
+    </MainLayoutProvider>
     // </body>
     // </html>
   );
@@ -69,6 +66,6 @@ async function getAllProjects(): Promise<SanityHomeQuery> {
   return await res.json() as HomeRouteResponse;
 }
 
-async function getCurrentProject(): Promise<SanityProject | null> {
-  return await getCookie<SanityProject>('current-project')
+async function getCurrentProjectIndex(): Promise<number | null> {
+  return await getCurrentProjectIndexCookie()
 }

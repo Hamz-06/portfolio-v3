@@ -1,6 +1,8 @@
 import React from 'react'
+import { SearchBar } from './searchBar'
 
 function Header() {
+  console.log('Header component rendered')
   return (
     <div className="w-full grid grid-cols-3 items-center">
       {/* Left section */}
@@ -67,30 +69,7 @@ function Header() {
 
       {/* Center section - Search box */}
       <div className="flex justify-center">
-        <div className="relative w-full max-w-md">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-zinc-400"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </div>
-          <input
-            type="search"
-            className="block w-full rounded-full bg-zinc-800 py-2 pl-10 pr-3 text-sm text-zinc-200 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-white"
-            placeholder="What do you want to play?"
-          />
-        </div>
+        <SearchBar />
       </div>
 
       {/* Right section */}

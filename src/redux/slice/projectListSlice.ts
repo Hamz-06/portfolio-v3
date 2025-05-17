@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
-import { RootStateDashboard } from '../store/allProjectsStore'
+import { RootStateDashboard } from '../store/mainLayoutStore'
 import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
-import { NavigationStep } from '@/components/footer/footer';
+import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
+import { setCurrentProjectIndexCookie } from '@/server-actions/cookies/currentProjectCookie';
 
 
 interface ProjectState {
@@ -29,7 +30,6 @@ export const projectsList = createSlice({
     setProjectsList: (state, action: PayloadAction<SanityHomeQuery>) => {
       state.originalProjects = structuredClone(action.payload);
       state.selectedProjects = structuredClone(action.payload);
-      console.log('action.payload', action.payload)
       state.allCategories = Object.keys(action.payload) as ProjectTypes[]
       state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
     },
@@ -70,8 +70,8 @@ export const projectsList = createSlice({
       state.selectedCategories = updatedSelectedCategories;
       state.selectedProjects = filteredProjects;
     },
-    setCurrentProject: (state, action: PayloadAction<SanityProject | null>) => {
-      state.currentProject = action.payload;
+    setCurrentProject: (state, action: PayloadAction<number | null>) => {
+      state.currentProject = state.allProjectsArray[action.payload ?? 0] || [];
     },
     navigateCurrentProject: (state, action: PayloadAction<NavigationStep>) => {
       if (!state.currentProject) {
@@ -88,13 +88,16 @@ export const projectsList = createSlice({
 
       const nextIndex = action.payload === 'next' ? currentIndex + 1 : currentIndex - 1;
       if (nextIndex < 0 || nextIndex >= state.allProjectsArray.length) {
-        return; // do nothing
+        return;
       }
+      setCurrentProjectIndexCookie(nextIndex)
       state.currentProject = state.allProjectsArray[nextIndex];
 
     },
     shuffleCurrentProject: (state) => {
       const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
+
+      setCurrentProjectIndexCookie(randomIndex)
       state.currentProject = state.allProjectsArray[randomIndex];
     }
   }
@@ -121,5 +124,9 @@ export const useAllCategories = (): ProjectState['allCategories'] =>
 
 export const useCurrentProject = (): ProjectState['currentProject'] =>
   useSelector((state: RootStateDashboard) => state.projectListProvider.currentProject)
+
+export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
+  useSelector((state: RootStateDashboard) => state.projectListProvider.allProjectsArray)
+
 
 export default projectsList.reducer

@@ -1,0 +1,1 @@
+export type CookieKey = 'current-project-index' 

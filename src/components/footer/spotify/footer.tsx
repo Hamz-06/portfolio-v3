@@ -4,11 +4,18 @@ import { Button } from '../../ui/button'
 import { ListMusic, Laptop, Volume2 } from 'lucide-react'
 import { DisplayCurrentProject } from './displayCurrentProject'
 import { ProjectControls } from './currentProjectControls'
+import { useMainLayoutBar } from '@/redux/slice/layoutSlice'
+import clsx from 'clsx'
 
+type FooterProps = {
+  className: string;
+}
+function Footer({ className }: FooterProps) {
+  const mainLayoutBar = useMainLayoutBar();
+  if (!mainLayoutBar) return <></>;
 
-function Footer() {
   return (
-    <>
+    <div className={clsx(className)}>
       <div className="flex items-center w-1/3">
         <DisplayCurrentProject />
       </div>
@@ -31,7 +38,7 @@ function Footer() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

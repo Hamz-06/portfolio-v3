@@ -1,3 +1,9 @@
 @import "tailwindcss";
 /* @import "tw-animate-css"; */
 
+:root {
+  --desktop-header-height: 64px;
+  --desktop-footer-height: 80px;
+}
+
+  

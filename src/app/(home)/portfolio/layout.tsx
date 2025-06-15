@@ -23,8 +23,10 @@ export default async function RootLayout({
     <MainLayoutProvider projects={projects} currentProject={currentProjectIndex}>
       <div className="flex flex-col h-screen bg-black text-white">
 
-        <Header className="h-16 bg-black flex items-center px-4 sticky top-0 z-10" />
+        <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-10" />
+
         {children}
+
         <Footer className="h-20 bg-black p-2 flex items-center" />
 
       </div>

@@ -21,13 +21,13 @@ export default async function RootLayout({
   const currentProjectIndex = await getCurrentProjectIndex()
   return (
     <MainLayoutProvider projects={projects} currentProject={currentProjectIndex}>
-      <div className="flex flex-col h-screen bg-black text-white">
+      <div className="flex flex-col h-screen text-white">
 
-        <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-10" />
+        <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-30" />
 
         {children}
 
-        <Footer className="h-[var(--desktop-footer-height)] p-2 flex items-center" />
+        <Footer className="h-[var(--desktop-footer-height)] fixed z-38 bottom-0 w-full bg-black p-2 flex items-center" />
 
       </div>
       {/* {modal} */}

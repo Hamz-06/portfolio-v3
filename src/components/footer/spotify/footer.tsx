@@ -20,18 +20,14 @@ function Footer({ className }: FooterProps) {
     <AnimatePresence>
 
 
-      {displayFooter && <motion.div
-        // exit={{
-        //   y: -200,
-        // }}
-        // animate={{
-        //   opacity: 1,
-        // }}
-        // initial={false}
-        // transition={{
-        //   duration: 2,
-        //   ease: "easeInOut",
-        // }}
+      {<motion.div
+        animate={{ opacity: displayFooter ? 1 : 0 }}
+
+        initial={false}
+        transition={{
+          duration: 2,
+          ease: "linear",
+        }}
         className={clsx(className)}
       >
         <div className="flex items-center w-1/3">

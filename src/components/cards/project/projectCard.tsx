@@ -7,6 +7,12 @@ import { useInView } from "motion/react"
 import { useDispatch } from 'react-redux'
 import { displayFooter } from '@/redux/slice/layoutSlice'
 
+
+// main page -> z35
+// footer -> z38
+// second page -> z37
+
+
 function ProjectCard() {
   const dispatch = useDispatch()
   const [clicked, setClicked] = useState(false)
@@ -74,13 +80,18 @@ function ProjectCard() {
     <>
       <SliderFrontPage clicked={clicked} onToggle={() => handleClick(!clicked)} />
 
-      <div ref={scrollRef} className="relative flex-1 bg-amber-300 overflow-auto">
+      <div ref={scrollRef}
+        // style={{ height: isInView ? 'clip' : 'scroll' }}
+
+        className="relative flex-1 bg-amber-300 overflow-y-scroll"
+      >
+
         {/* Amber full background */}
 
         {/* Orange scrollable content with transparency */}
         <motion.div
           ref={secondPageRef}
-          className="bg-amber-400 bg-opacity-60 translate-y-full absolute h-full w-full p-4 z-999 text-black">
+          className="bg-amber-400 bg-opacity-60 translate-y-full absolute h-full w-full p-4 text-black z-37">
           {inViewStatus ? "✅ At least 30% in view" : "❌ Less than 30% in view"}
 
           Orange scrolls over amber with transparency.<br />
@@ -98,9 +109,11 @@ type SliderFrontPageProps = {
 
 function SliderFrontPage({ clicked, onToggle }: SliderFrontPageProps) {
   return (
-    <>
+    <div
+      style={{ zIndex: clicked ? 999 : 35 }}
+      className='w-full h-full absolute z-35 pointer-events-none'>
       <motion.div
-        className="w-full h-[50%] bg-amber-600 z-20 absolute border-black border-2 pointer-events-none"
+        className="w-full h-[50%] bg-amber-600  absolute border-black border-2 pointer-events-none"
         animate={clicked ? { y: '0' } : { y: 'var(--desktop-header-height)' }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
@@ -125,12 +138,12 @@ function SliderFrontPage({ clicked, onToggle }: SliderFrontPageProps) {
       />
 
       <motion.div
-        className="w-full h-[50%] top-1/2 bg-amber-600 z-20 absolute border-black border-2 pointer-events-none"
+        className="w-full h-[50%] top-1/2 bg-amber-600  absolute border-black border-2 pointer-events-none"
         initial={false}
         animate={clicked ? { y: '0' } : { y: 'calc(-1 * var(--desktop-footer-height))' }}
         transition={{ type: 'tween', ease: 'easeInOut' }}
       />
-    </>
+    </div>
   )
 }
 

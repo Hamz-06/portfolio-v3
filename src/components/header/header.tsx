@@ -1,15 +1,12 @@
 'use client'
 import React from 'react'
 import { SearchBar } from './searchBar'
-import { useMainLayoutBar } from '@/redux/slice/layoutSlice';
 import clsx from 'clsx';
 
 type HeaderProps = {
   className: string;
 }
 function Header({ className }: HeaderProps) {
-  const mainLayoutBar = useMainLayoutBar();
-  if (!mainLayoutBar) return <></>;
 
   return (
     <div className={clsx(className)}>

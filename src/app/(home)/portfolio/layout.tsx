@@ -27,7 +27,7 @@ export default async function RootLayout({
 
         {children}
 
-        <Footer className="h-20 bg-black p-2 flex items-center" />
+        <Footer className="h-[var(--desktop-footer-height)] p-2 flex items-center" />
 
       </div>
       {/* {modal} */}

@@ -23,7 +23,7 @@ export default async function RootLayout({
     <MainLayoutProvider projects={projects} currentProject={currentProjectIndex}>
       <div className="flex flex-col h-screen text-white">
 
-        <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-30" />
+        <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-38" />
 
         {children}
 

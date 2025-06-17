@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useInView } from "motion/react"
 import { useDispatch } from 'react-redux'
@@ -19,49 +19,56 @@ function ProjectCard() {
   const [inViewStatus, setInViewStatus] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
-  const secondPageRef = useRef<null>(null);
-  const isInView = useInView(secondPageRef, { amount: 0.2 });
+  const secondPageRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(secondPageRef, { amount: 0.5 });
 
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
+  const { scrollYProgress } = useScroll({
+    container: scrollRef,
+  })
 
-    let timer: ReturnType<typeof setTimeout> | null = null
-    let isBelowThreshold = false
+  let timer: ReturnType<typeof setTimeout> | null = null
+  let isBelowThreshold = false
 
-    const handleScroll = () => {
-      const scrollTop = el.scrollTop
-      const scrollHeight = el.scrollHeight
-      const clientHeight = el.clientHeight
+  const handleScroll = (scrollPercent: number) => {
+    if (scrollPercent <= 0.5) {
+      if (!isBelowThreshold) {
+        isBelowThreshold = true;
 
-      const percent = (scrollTop / (scrollHeight - clientHeight)) * 100
-
-      if (percent <= 0.5) {
-        if (!isBelowThreshold) {
-          isBelowThreshold = true
-          timer = setTimeout(() => {
-            setClicked(true)
-            timer = null
-          }, 3000)
-        }
-      } else {
-        setClicked(false)
-        if (isBelowThreshold) {
-          isBelowThreshold = false
-          if (timer) {
-            clearTimeout(timer)
-            timer = null
+        timer = setTimeout(() => {
+          // Recheck if still below threshold
+          if (isBelowThreshold) {
+            setClicked(true);
           }
+          timer = null;
+        }, 3000);
+      }
+    } else {
+      setClicked(false);
+
+      if (isBelowThreshold) {
+        isBelowThreshold = false;
+
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
         }
       }
     }
+  };
 
-    // Initial call to set state correctly on mount
-    handleScroll()
+  useEffect(() => {
+    console.log("ScrollYProgress initialized:", scrollYProgress.get())
+    const unsub = scrollYProgress.on("change", (v) => {
+      const scrollPercentage = Math.round(v * 100);
+      console.log("Scrolled:", Math.round(v * 100), "%");
 
-    el.addEventListener('scroll', handleScroll)
-    return () => el.removeEventListener('scroll', handleScroll)
-  }, [])
+      handleScroll(scrollPercentage);
+    })
+    handleScroll(0); //init
+
+    return () => unsub()
+  }, [scrollYProgress])
+
 
   // when the second page is in view 
   useEffect(() => {
@@ -78,7 +85,7 @@ function ProjectCard() {
 
   return (
     <>
-      <SliderFrontPage clicked={clicked} onToggle={() => handleClick(!clicked)} />
+      <SliderFrontPage scrollYprogress={scrollYProgress} clicked={clicked} onToggle={() => handleClick(!clicked)} />
 
       <div ref={scrollRef}
         // style={{ height: isInView ? 'clip' : 'scroll' }}
@@ -88,10 +95,10 @@ function ProjectCard() {
 
         {/* Amber full background */}
 
-        {/* Orange scrollable content with transparency */}
+        {/* Orange scrollable content with transparency put it at the bottom */}
         <motion.div
           ref={secondPageRef}
-          className="bg-amber-400 bg-opacity-60 translate-y-full absolute h-full w-full p-4 text-black z-37">
+          className="bg-amber-400 bg-opacity-60 translate-y-[125%] absolute h-3/4 w-full p-4 text-black z-37">
           {inViewStatus ? "✅ At least 30% in view" : "❌ Less than 30% in view"}
 
           Orange scrolls over amber with transparency.<br />
@@ -105,9 +112,23 @@ function ProjectCard() {
 type SliderFrontPageProps = {
   clicked: boolean
   onToggle: () => void
+  scrollYprogress: MotionValue<number>
 }
 
-function SliderFrontPage({ clicked, onToggle }: SliderFrontPageProps) {
+function SliderFrontPage({ clicked, onToggle, scrollYprogress }: SliderFrontPageProps) {
+  // useEffect(() => {
+  //   const unsub = scrollYprogress.on("change", (v) => {
+  //     const _scrollPercentage = Math.round(v * 100);
+
+  //   })
+  //   return () => unsub()
+  // }, [scrollYprogress])
+
+  const blur = useTransform(scrollYprogress, [0, 1], [0, 10])
+  const boxShadow = useTransform(scrollYprogress,
+    [0, 1],
+    ['0px 0px 0px rgba(0,0,0,0)', '0px 15px 40px rgba(0,0,0,0.6)'])
+
   return (
     <div
       style={{ zIndex: clicked ? 999 : 35 }}
@@ -126,15 +147,10 @@ function SliderFrontPage({ clicked, onToggle }: SliderFrontPageProps) {
       </motion.div>
 
       <motion.div
+        style={{ filter: blur, boxShadow }}
+        animate={clicked ? { scale: 1.5 } : { scale: 1 }}
         className="w-40 h-40 z-30 absolute bg-red-600 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        animate={{ scale: clicked ? 1.5 : 1 }}
         initial={false}
-        transition={{
-          type: 'spring',
-          stiffness: 80,
-          damping: 20,
-          mass: 0.7,
-        }}
       />
 
       <motion.div

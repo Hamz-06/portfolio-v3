@@ -1,0 +1,10 @@
+<div class="relative h-96 w-96 overflow-hidden">
+  <!-- Spotify Green Background -->
+  <div class="absolute inset-0 bg-[#1DB954]"></div>
+
+  <!-- Dark Overlay that fades to the left -->
+  <div class="absolute inset-0 bg-gradient-to-l from-[#191414]/60 via-[#191414]/50 to-[#191414]/40"></div>
+
+  <!-- Subtle Bright Shadow at Top -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-200/5 via-transparent to-transparent"></div>
+</div>

@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
-import { Button } from '@/components/ui/button'
 import { useInView } from "motion/react"
 import { useDispatch } from 'react-redux'
 import { displayFooter } from '@/redux/slice/layoutSlice'
+import { Fullscreen } from 'lucide-react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
 
 // main page -> z35
@@ -89,11 +91,13 @@ function ProjectCard() {
 
       <div ref={scrollRef}
         // style={{ height: isInView ? 'clip' : 'scroll' }}
-
-        className="relative flex-1 bg-amber-300 overflow-y-scroll"
+        className="relative flex-1 bg-black overflow-y-scroll"
       >
 
         {/* Amber full background */}
+        {/* <motion.div className='p-5 text-lg font-medium absolute top-0 right-'>
+          hello
+        </motion.div> */}
 
         {/* Orange scrollable content with transparency put it at the bottom */}
         <motion.div
@@ -124,42 +128,74 @@ function SliderFrontPage({ clicked, onToggle, scrollYprogress }: SliderFrontPage
   //   return () => unsub()
   // }, [scrollYprogress])
 
-  const blur = useTransform(scrollYprogress, [0, 1], [0, 10])
+
+  const backgroundColor = 'red';
+  const blur = useTransform(scrollYprogress, [0, 1], [10, 0])
   const boxShadow = useTransform(scrollYprogress,
     [0, 1],
-    ['0px 0px 0px rgba(0,0,0,0)', '0px 15px 40px rgba(0,0,0,0.6)'])
+    ['0px 15px 40px rgba(0,0,0,0.6)', '0px 0px 0px rgba(0,0,0,0)'])
+
 
   return (
     <div
-      style={{ zIndex: clicked ? 999 : 35 }}
-      className='w-full h-full absolute z-35 pointer-events-none'>
+      style={{
+        zIndex: clicked ? 999 : 35,
+      }}
+      className={clsx('w-full h-full absolute z-35 pointer-events-none *:absolute',
+
+      )}
+    >
+
+      {/* black shade */}
+      <motion.div className='z-1  inset-0 w-full h-full  bg-gradient-to-l from-black/60 via-black/50 to-black/40' />
+      <motion.div className="z-1  inset-0 bg-gradient-to-b w-full h-full from-gray-50/5 via-transparent to-transparent" />
+
+      {/* // top red */}
       <motion.div
-        className="w-full h-[50%] bg-amber-600  absolute border-black border-2 pointer-events-none"
+        className={clsx("w-full h-[50%] absolute rounded-t-2xl")}
+        style={{ backgroundColor: backgroundColor }}
         animate={clicked ? { y: '0' } : { y: 'var(--desktop-header-height)' }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
-      >
-        <div className="pointer-events-auto">
-          <Button className="bg-red-900" onClick={onToggle}>
-            Toggle Expand {JSON.stringify(clicked)}
-          </Button>
-        </div>
-      </motion.div>
-
-      <motion.div
-        style={{ filter: blur, boxShadow }}
-        animate={clicked ? { scale: 1.5 } : { scale: 1 }}
-        className="w-40 h-40 z-30 absolute bg-red-600 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        initial={false}
       />
 
+
+      {/* image */}
       <motion.div
-        className="w-full h-[50%] top-1/2 bg-amber-600  absolute border-black border-2 pointer-events-none"
+        // style={{ filter: blur, boxShadow }}
+        animate={clicked ? { scale: 1.5 } : { scale: 1 }}
+        className=" z-37 w-[410px] h-[410px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+        rounded-2xl overflow-clip"
         initial={false}
+      >
+        <Image
+          src={"/bart-simpson-cartoon.png"}
+          fill={true}
+          alt={''}
+        />
+      </motion.div>
+
+      {/* bottom red */}
+      <motion.div
+        className="w-full h-[50%] top-1/2 rounded-b-2xl"
+        initial={false}
+        style={{ backgroundColor: backgroundColor }}
         animate={clicked ? { y: '0' } : { y: 'calc(-1 * var(--desktop-footer-height))' }}
         transition={{ type: 'tween', ease: 'easeInOut' }}
       />
-    </div>
+
+
+      <motion.div
+        className="z-2 pl-10 pb-10 bottom-0 left-0 text-white"
+        animate={{ y: clicked ? 0 : 'calc(-1 * var(--desktop-footer-height))' }}
+        initial={false}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      >
+        <a className="text-2xl font-extrabold">Song 123</a> <br />
+        <a className="font-light -translate-y-1 inline-block">marlon craft</a>
+      </motion.div>
+
+    </div >
   )
 }
 

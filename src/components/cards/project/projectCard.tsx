@@ -5,7 +5,7 @@ import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
 import { useInView } from "motion/react"
 import { useDispatch } from 'react-redux'
 import { displayFooter } from '@/redux/slice/layoutSlice'
-import { Fullscreen } from 'lucide-react'
+import { Diamond, Heart, Minimize2 } from 'lucide-react'
 import Image from 'next/image'
 import clsx from 'clsx'
 
@@ -185,6 +185,21 @@ function SliderFrontPage({ clicked, onToggle, scrollYprogress }: SliderFrontPage
       />
 
 
+      {/* controls, todo: refactor this */}
+      <motion.div
+        animate={clicked ? { y: '0' } : { y: 'var(--desktop-header-height)' }}
+        className="top-0 right-0 m-5 flex justify-center items-center z-35 pointer-events-auto"
+      >
+        <Minimize2 className='stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-2 rounded-full hover:bg-white/50 hover:drop-shadow-xl/50' />
+
+        <div className="w-[2px] mx-2 h-7 bg-gray-300"></div>
+
+        <Diamond className='stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-2 rounded-full hover:bg-white/50 hover:drop-shadow-xl/50' />
+
+        <Heart className='stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-2 rounded-full hover:bg-white/50 hover:drop-shadow-xl/50' />
+      </motion.div>
+
+      {/* song name  */}
       <motion.div
         className="z-2 pl-10 pb-10 bottom-0 left-0 text-white"
         animate={{ y: clicked ? 0 : 'calc(-1 * var(--desktop-footer-height))' }}

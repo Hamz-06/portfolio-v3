@@ -12,11 +12,9 @@ type ProjectProviderProps = {
 export function ProjectProvider({ children }: ProjectProviderProps) {
   const storeRef = useRef<MainProjectStore | null>(null)
 
-  console.log(storeRef.current)
   if (!storeRef.current) {
     storeRef.current = projectStore()
     storeRef.current.dispatch(exampleFnc(false))
-
   }
 
   return <Provider store={storeRef.current}>{children}</Provider>

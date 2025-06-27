@@ -68,8 +68,6 @@ export function ImageCarousel({ fullScreen }: ImageCarouselProps) {
           <CarouselContent>
             {images.map((src, index) => (
               <CarouselItem key={index}>
-                {/* <Card className="**:m-0"> */}
-                {/* <CardContent className="w-[410px] h-[410px] p-0 relative overflow-hidden"> */}
                 <div className="w-[410px] h-[410px] p-0 relative overflow-hidden">
 
                   <Image
@@ -79,8 +77,6 @@ export function ImageCarousel({ fullScreen }: ImageCarouselProps) {
                     className="object-cover rounded-lg"
                   />
                 </div>
-                {/* </CardContent> */}
-                {/* </Card> */}
               </CarouselItem>
             ))}
           </CarouselContent>

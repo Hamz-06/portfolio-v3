@@ -40,10 +40,7 @@ const libraryItems: PortfolioItem[] = [
 ]
 
 export default function SideBar({ className }: SideBarProps) {
-  console.log("Sidebar Rendered")
   return (
-    // <div className="flex flex-col h-full bg-black text-white">
-
     <div className={cn(className)}>
       {/* Library Header */}
       <div className="flex items-center justify-between p-4">
@@ -64,7 +61,7 @@ export default function SideBar({ className }: SideBarProps) {
           <Search className="h-5 w-5 text-zinc-400" />
         </button>
         <div className="flex items-center gap-1 text-sm text-zinc-400">
-          <span>Recents</span>
+          <span>Recent</span>
           <List className="h-5 w-5" />
         </div>
       </div>
@@ -114,6 +111,5 @@ export default function SideBar({ className }: SideBarProps) {
         </button>
       </div>
     </div>
-
   )
 }

@@ -1,35 +1,18 @@
 'use client'
-import { motion } from 'framer-motion'
 import React from 'react'
 import { Button } from '../../ui/button'
 import { ListMusic, Laptop, Volume2 } from 'lucide-react'
 import { DisplayCurrentProject } from './displayCurrentProject'
 import { ProjectControls } from './currentProjectControls'
 import clsx from 'clsx'
-import { useDisplayFooter } from '@/redux/slice/layoutSlice'
 
 type FooterProps = {
   className: string;
 }
 function Footer({ className }: FooterProps) {
-  const displayFooter = useDisplayFooter();
-  console.log("Display Footer: ", displayFooter);
-  // if (!displayFooter) return <></>;
 
   return (
-    <motion.div
-      animate={displayFooter ? {
-        opacity: 1,
-        y: 0,
-      } : {
-        opacity: 0,
-        y: 100,
-      }}
-      initial={false}
-      transition={{
-        duration: 0.3,
-        ease: "linear",
-      }}
+    <div
       className={clsx(className)}
     >
       <div className="flex items-center w-1/3">
@@ -54,7 +37,8 @@ function Footer({ className }: FooterProps) {
           </div>
         </div>
       </div>
-    </motion.div >
+
+    </div>
   )
 }
 

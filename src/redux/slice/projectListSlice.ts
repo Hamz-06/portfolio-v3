@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
 import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
 import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
-import { setCurrentProjectIndexCookie } from '@/server-actions/cookies/currentProjectCookie';
+import { setCurrentProjectIndexCookie } from '@/actions/server-actions/cookies/currentProjectCookie';
 
 
 interface ProjectState {

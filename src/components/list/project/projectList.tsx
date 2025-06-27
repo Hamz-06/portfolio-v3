@@ -1,5 +1,5 @@
 'use client'
-import { ProjectCard } from "@/components/cards/project/projectCards";
+import { ProjectCard } from "@/components/cards/portfolio/projectCards";
 import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectRows } from "@/components/rows/project/projectRows";
 import { useProjectsList } from "@/redux/slice/projectListSlice";

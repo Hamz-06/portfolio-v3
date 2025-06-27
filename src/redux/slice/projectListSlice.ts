@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
-import { RootStateDashboard } from '../store/mainLayoutStore'
+import { RootMainLayoutStore } from '../store/mainLayoutStore'
 import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
 import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
-import { setCurrentProjectIndexCookie } from '@/server-actions/cookies/currentProjectCookie';
+import { setCurrentProjectIndexCookie } from '@/actions/server-actions/cookies/currentProjectCookie';
 
 
 interface ProjectState {
@@ -114,19 +114,19 @@ export const {
 } = projectsList.actions
 
 export const useProjectsList = (): ProjectState['selectedProjects'] =>
-  useSelector((state: RootStateDashboard) => state.projectListProvider.selectedProjects)
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedProjects)
 
 export const useSelectedCategories = (): ProjectState['selectedCategories'] =>
-  useSelector((state: RootStateDashboard) => state.projectListProvider.selectedCategories)
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedCategories)
 
 export const useAllCategories = (): ProjectState['allCategories'] =>
-  useSelector((state: RootStateDashboard) => state.projectListProvider.allCategories)
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.allCategories)
 
 export const useCurrentProject = (): ProjectState['currentProject'] =>
-  useSelector((state: RootStateDashboard) => state.projectListProvider.currentProject)
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.currentProject)
 
 export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
-  useSelector((state: RootStateDashboard) => state.projectListProvider.allProjectsArray)
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.allProjectsArray)
 
 
 export default projectsList.reducer

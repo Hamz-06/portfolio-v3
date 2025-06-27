@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import projectListProvider from '../slice/projectListSlice'
 import layoutProvider from '../slice/layoutSlice'
 
-export const layoutStore = () => {
+export const mainLayoutStore = () => {
   return configureStore({
     reducer: {
       projectListProvider: projectListProvider,
@@ -11,7 +11,7 @@ export const layoutStore = () => {
   })
 }
 
-export type AppStoreDashboard = ReturnType<typeof layoutStore>
+export type MainLayoutStore = ReturnType<typeof mainLayoutStore>
 
-export type RootStateDashboard = ReturnType<AppStoreDashboard['getState']>
-export type AppDispatchDashboard = AppStoreDashboard['dispatch']
+export type RootMainLayoutStore = ReturnType<MainLayoutStore['getState']>
+export type AppMainLayoutStore = MainLayoutStore['dispatch']

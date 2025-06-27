@@ -85,8 +85,6 @@ export function SearchDropdown({ isOpen, onModal, searchList, querySearch }: Sea
             </div>
           ))}
         </div>
-
-
       </DialogContent>
     </Dialog>
 

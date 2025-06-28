@@ -5,7 +5,7 @@ import { useAllProjectsArray } from '@/redux/slice/projectListSlice'
 import { SanityProject } from '@/types/projects/projects'
 import { SearchDropdown } from '../modal/searchModal'
 import { Command, Search, XIcon } from 'lucide-react'
-import useCommandKListener from '@/actions/client-actions/keyStrokes'
+import useCommandKListener from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
 
@@ -66,7 +66,6 @@ function SearchBar() {
       <div
         className="hidden sm:flex items-center justify-center relative w-full max-w-md h-12 group">
 
-        {/* <div className="hidden sm:flex items-center justify-center w-full max-w-md h-12 "> */}
         <Input
           ref={inputRef}
           type="text"
@@ -75,8 +74,6 @@ function SearchBar() {
           className="block w-full rounded-full bg-zinc-800 py-3 pl-12 pr-4 text-sm text-white focus:outline-none 
         focus:ring-1 focus:ring-white focus:bg-zinc-700 hover:bg-zinc-700 transition-colors h-full border-0 peer"
         />
-        {/* </div> */}
-
 
         <div
           className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none 

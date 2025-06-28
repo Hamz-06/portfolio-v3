@@ -11,17 +11,17 @@ import ToolTip from '../tooltip/tooltip';
 type HeaderProps = {
   className: string;
 }
+const HOME_PAGE_ROUTE: Routes = '/portfolio';
+
 function Header({ className }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isHomePage = pathname === '/portfolio';
+  const isHomePage = pathname === HOME_PAGE_ROUTE;
 
   const redirectToHome = () => {
     if (isHomePage) return;
-    const homePath: Routes = '/portfolio';
-
-    router.push(homePath);
+    router.push(HOME_PAGE_ROUTE);
   }
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>

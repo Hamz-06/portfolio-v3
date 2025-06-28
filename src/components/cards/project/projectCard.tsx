@@ -8,11 +8,12 @@ import { ImageCarousel } from '@/components/carousel/imageCarousel'
 import { ProjectDetailsModal } from '@/components/modal/projectDetailsModal'
 import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
-import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-actions/likes/likedProjects'
+import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-functions/likedProjects'
 
 // Layout z-index notes
 // - Main page: z-35
-// - Footer: z-38
+// - header: z-38
+// - Footer: z-36
 // - Second page: z-37
 
 function ProjectCard() {

@@ -1,17 +1,30 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Input } from '../ui/input'
 import { useAllProjectsArray } from '@/redux/slice/projectListSlice'
 import { SanityProject } from '@/types/projects/projects'
 import { SearchDropdown } from '../modal/searchModal'
+import { Command, Search, XIcon } from 'lucide-react'
+import useCommandKListener from '@/actions/client-functions/keyStrokes'
+import { Button } from '../ui/button'
+import { usePathname } from 'next/navigation'
+
+const SEARCHABLE_KEYS: (keyof SanityProject)[] = ['title', 'sub_title']
 
 function SearchBar() {
   const allProjects = useAllProjectsArray()
   const [querySearchValue, setQuerySearchValue] = React.useState<SanityProject[]>([])
   const [queryValue, setQuerySearch] = React.useState<string>('')
   const [isModal, setModal] = React.useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const pathname = usePathname();
 
-  const keys: (keyof SanityProject)[] = ['title', 'sub_title']
+  // focus input on Command + K
+  useCommandKListener(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  })
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value
@@ -23,7 +36,7 @@ function SearchBar() {
       return
     }
     const value = allProjects.filter(project =>
-      keys.some(key => project[key].toLowerCase().includes(query.toLowerCase()))
+      SEARCHABLE_KEYS.some(key => project[key].toLowerCase().includes(query.toLowerCase()))
     )
     if (value.length > 0) {
       setModal(true)
@@ -34,40 +47,72 @@ function SearchBar() {
     setQuerySearchValue(value)
   }
 
+  // clear search when switching pages
+  useEffect(() => {
+    setQuerySearch('');
+  }, [pathname])
 
   return (
-    <div className="relative w-full max-w-md">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-zinc-400"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+    <>
+      <div className="flex justify-end items-center sm:hidden">
+        <Button
+          onClick={() => alert('search not implemented on mobile')}
+          asChild
+          className="p-0 rounded-full">
+          <Search className="w-5 h-5 text-zinc-400 hover:text-white" />
+        </Button>
       </div>
-      <Input
-        type="search"
-        onChange={handleSearch}
-        className="block w-full rounded-full bg-zinc-800 py-2 pl-10 pr-3 text-sm
-         text-zinc-200 placeholder:text-zinc-400 focus-visible:ring-1"
-        placeholder="What do you want to see?"
-      />
-      <SearchDropdown
-        isOpen={isModal}
-        onModal={() => { setModal(false) }}
-        searchList={querySearchValue}
-        querySearch={queryValue}
-      />
-    </div>
+
+      <div
+        className="hidden sm:flex items-center justify-center relative w-full max-w-md h-12 group">
+
+        <Input
+          ref={inputRef}
+          type="text"
+          value={queryValue}
+          onChange={handleSearch}
+          className="block w-full rounded-full bg-zinc-800 py-3 pl-12 pr-4 text-sm text-white focus:outline-none 
+        focus:ring-1 focus:ring-white focus:bg-zinc-700 hover:bg-zinc-700 transition-colors h-full border-0 peer"
+        />
+
+        <div
+          className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none 
+          peer-focus:*:stroke-white">
+          <Search className="w-6 h-6 stroke-zinc-400 group-hover:stroke-white" />
+        </div>
+
+        <div
+          onClick={() => setQuerySearch('')}
+          className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer hover:stroke-white"
+          style={{ display: queryValue.length > 0 ? 'flex' : 'none' }}>
+          <XIcon className="w-6 h-6 stroke-zinc-400" />
+        </div>
+
+        {/* Custom Placeholder */}
+        {queryValue.length === 0 && (
+          <div className="absolute left-12 top-1/2 -translate-y-1/2 flex items-center text-zinc-400 font-light pointer-events-none space-x-2">
+            <span>What do you want to play?</span>
+
+            <div className="flex items-center space-x-1 ml-2">
+              <kbd className="bg-zinc-700 rounded-md border border-zinc-500 p-1 inline-flex items-center justify-center w-7 h-7">
+                <Command className="w-4 h-4" />
+              </kbd>
+              <kbd className="bg-zinc-700 rounded-md border border-zinc-500 p-1 inline-flex items-center justify-center w-7 h-7">
+                <a className="text-sm leading-none">K</a>
+              </kbd>
+            </div>
+          </div>
+        )}
+
+
+        <SearchDropdown
+          isOpen={isModal}
+          onModal={() => setModal(false)}
+          searchList={querySearchValue}
+          querySearch={queryValue}
+        />
+      </div>
+    </>
   )
 }
 

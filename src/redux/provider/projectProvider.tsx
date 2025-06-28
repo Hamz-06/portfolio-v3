@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { MainProjectStore, projectStore } from "../store/projectLayoutStore";
-import { exampleFnc } from "../slice/exampleSlice";
 import { Provider } from "react-redux";
 
 type ProjectProviderProps = {
@@ -14,7 +13,6 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
 
   if (!storeRef.current) {
     storeRef.current = projectStore()
-    storeRef.current.dispatch(exampleFnc(false))
   }
 
   return <Provider store={storeRef.current}>{children}</Provider>

@@ -13,7 +13,6 @@ type ResizableLayoutProps = {
 function ResizableLayout({ className, children }: ResizableLayoutProps) {
   const toggleMenu = useToggleSidebar()
 
-  console.log("Toggle Menu: ", toggleMenu)
 
   return (
     <div className={clsx(className)}>

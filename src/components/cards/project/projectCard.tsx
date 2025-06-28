@@ -8,7 +8,7 @@ import { ImageCarousel } from '@/components/carousel/imageCarousel'
 import { ProjectDetailsModal } from '@/components/modal/projectDetailsModal'
 import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
-import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-actions/likes/likedProjects'
+import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-actions/likedProjects'
 
 // Layout z-index notes
 // - Main page: z-35

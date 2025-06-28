@@ -21,7 +21,7 @@ export default async function RootLayout({
       <div id='main' className="flex flex-col h-screen text-white">
         <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-38" />
         {children}
-        <Footer className="h-[var(--desktop-footer-height)] z-38 bottom-0 w-full bg-black p-2 flex items-center" />
+        <Footer className="h-[var(--desktop-footer-height)] z-36 bottom-0 w-full bg-black p-2 flex items-center" />
       </div>
     </MainLayoutProvider>
   );

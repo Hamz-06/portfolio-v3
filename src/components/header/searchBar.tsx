@@ -6,6 +6,7 @@ import { SanityProject } from '@/types/projects/projects'
 import { SearchDropdown } from '../modal/searchModal'
 import { Command, Search } from 'lucide-react'
 import useCommandKListener from '@/actions/client-actions/keyStrokes'
+import { Button } from '../ui/button'
 
 const SEARCHABLE_KEYS: (keyof SanityProject)[] = ['title', 'sub_title']
 
@@ -48,12 +49,15 @@ function SearchBar() {
   return (
     <>
       <div className="flex justify-end items-center sm:hidden">
-        <button className="p-2 rounded-full hover:bg-zinc-800">
-          <Search className="w-5 h-5 text-white" />
-        </button>
+        <Button
+          onClick={() => setModal(true)}
+          asChild
+          className="p-0 rounded-full">
+          <Search className="w-5 h-5 text-zinc-400 hover:text-white" />
+        </Button>
       </div>
 
-      <div className="hidden sm:flex items-center justify-center relative w-full max-w-md mx-auto h-12">
+      <div className="hidden sm:flex items-center justify-center relative w-full max-w-md h-12">
         <Input
           ref={inputRef}
           type="search"
@@ -64,7 +68,7 @@ function SearchBar() {
 
         {/* Custom Placeholder */}
         {queryValue.length === 0 && (
-          <div className="absolute left-12 top-1/2 -translate-y-1/2 flex items-center text-zinc-400 text-sm pointer-events-none space-x-2">
+          <div className="absolute left-12 top-1/2 -translate-y-1/2 flex items-center text-zinc-400 font-light pointer-events-none space-x-2">
             <span>What do you want to play?</span>
 
             <div className="flex items-center space-x-1 ml-2">

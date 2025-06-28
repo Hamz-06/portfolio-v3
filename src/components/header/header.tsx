@@ -2,78 +2,56 @@
 import React from 'react'
 import { SearchBar } from './searchBar'
 import clsx from 'clsx';
+import { House } from 'lucide-react';
+import { Button } from '../ui/button';
+import { usePathname, useRouter } from 'next/navigation';
+import { Routes } from '@/types/routes';
+import ToolTip from '../tooltip/tooltip';
 
 type HeaderProps = {
   className: string;
 }
 function Header({ className }: HeaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
 
+  const isHomePage = pathname === '/portfolio';
+
+  const redirectToHome = () => {
+    if (isHomePage) return;
+    const homePath: Routes = '/portfolio';
+
+    router.push(homePath);
+  }
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>
-      {/* <div className="w-full flex items-center justify-between"> */}
-      {/* <div className="w-full grid grid-cols-3 items-center"> */}
       {/* Left section */}
       <div className="flex items-center space-x-4">
 
-        <a className='sm:hidden'>Good Morning</a>
-
-        {/* Navigation arrows */}
-        <div className="items-center space-x-2 hidden sm:flex">
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-zinc-400 hover:text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-zinc-400 hover:text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
+        {/* Spotify Logo */}
+        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          <svg width="32" height="32" viewBox="0 0 24 24" className="text-black">
+            <path
+              fill="currentColor"
+              d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.062 14.583c-.168.275-.525.367-.8.2-2.19-1.338-4.947-1.641-8.2-.9-.35.08-.7-.13-.78-.48-.08-.35.13-.7.48-.78 3.566-.813 6.622-.456 9.1 1.04.275.168.367.525.2.8zm1.14-2.54c-.21.34-.66.45-1 .24-2.51-1.54-6.33-1.99-9.3-1.09-.42.13-.86-.09-.99-.51-.13-.42.09-.86.51-.99 3.39-1.03 7.68-.53 10.54 1.25.34.21.45.66.24 1zm.1-2.64C14.94 9.95 9.9 9.73 7.1 10.54c-.49.14-1.01-.14-1.15-.63-.14-.49.14-1.01.63-1.15 3.2-.93 8.74-.67 12.14 1.55.39.25.51.78.26 1.17-.25.39-.78.51-1.17.26z"
+            />
+          </svg>
         </div>
-
-        {/* Home button - visible only on mobile
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-white md:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </button> */}
       </div>
 
 
-      {/* Center section */}
-      <div className="flex-1 mx-4 flex h-full items-center justify-end sm:justify-center">
-        {/* Show full search bar on small+ screens */}
+      {/* Parent flex container */}
+      <div className="flex items-center justify-between sm:justify-center w-full px-4">
+        <ToolTip tooltipContent='Home'>
+          <Button
+            onClick={redirectToHome}
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 mr-2 text-zinc-400 hover:text-white"
+          >
+            <House className={clsx(isHomePage ? 'stroke-white' : 'stroke-zinc-400')}
+              style={{ width: '22px', height: '22px' }} />
+          </Button>
+        </ToolTip>
+
         <SearchBar />
       </div>
 

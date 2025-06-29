@@ -5,3 +5,9 @@
   --desktop-header-height: 64px;
   --desktop-footer-height: 80px;
 }
+
+/* prevent over scrolling on the body element */
+html, body {
+  overscroll-behavior: none;
+  background-color: #000; 
+}

@@ -23,7 +23,6 @@ function ProjectRows({
     }
     dispatch(setSelectedCategory(title))
   }
-  console.log(selectedCategory)
   return (
     <section className="mb-8 w-full overflow-auto pl-7">
 

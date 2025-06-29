@@ -10,11 +10,13 @@ import { motion } from "framer-motion"
 import { Button } from "../ui/button"
 
 
+//todo: split this file into filter and toggle sidebar
 // Threshold for scroll event, animate > 50
 const THRESHOLD_IN_PX = 30;
 
 export function FilterBar() {
   const dispatch = useDispatch()
+
   const selectedCategory = useSelectedCategory()
   const allCategories = useAllCategories()
   const [animateFilterHeader, setAnimateFilterHeader] = useState(false)

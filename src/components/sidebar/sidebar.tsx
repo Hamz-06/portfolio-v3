@@ -1,9 +1,14 @@
-
+'use client'
 
 import Image from "next/image"
 import Link from "next/link"
-import { Search, Plus, Expand, List } from "lucide-react"
+import { Search, } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Button } from "../ui/button"
+import { HideSideBarIcon } from "../icons/customIcons"
+import ToolTip from "../tooltip/tooltip"
+import { useDispatch } from "react-redux"
+import { setToggleSidebar } from "@/redux/slice/layoutSlice"
 
 
 interface PortfolioItem {
@@ -41,29 +46,16 @@ const libraryItems: PortfolioItem[] = [
 
 export default function SideBar({ className }: SideBarProps) {
   return (
-    <div className={cn(className)}>
+    <div className={cn(className, 'group/sidebar')}>
       {/* Library Header */}
-      <div className="flex items-center justify-between p-4">
-        <h2 className="text-xl font-bold">Your Library</h2>
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-full hover:bg-zinc-800">
-            <Plus className="h-5 w-5" />
-          </button>
-          <button className="p-2 rounded-full hover:bg-zinc-800">
-            <Expand className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
+      <Header />
 
       {/* Search and Sort */}
       <div className="flex items-center justify-between px-4 pb-2">
-        <button className="p-2 rounded-full hover:bg-zinc-800">
+        <Button className="p-2 rounded-full hover:bg-zinc-800">
           <Search className="h-5 w-5 text-zinc-400" />
-        </button>
-        <div className="flex items-center gap-1 text-sm text-zinc-400">
-          <span>Recent</span>
-          <List className="h-5 w-5" />
-        </div>
+        </Button>
+
       </div>
 
       {/* Library Items */}
@@ -102,14 +94,34 @@ export default function SideBar({ className }: SideBarProps) {
           </Link>
         ))}
       </div>
+    </div>
+  )
+}
 
-      {/* Create Button (Mobile) */}
-      <div className="p-4 md:hidden">
-        <button className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-zinc-800 rounded-full hover:bg-zinc-700">
-          <Plus className="h-5 w-5" />
-          <span className="font-medium">Create</span>
-        </button>
-      </div>
+
+
+const Header = () => {
+  const dispatch = useDispatch()
+
+  // todo set the cookies for this sidebar collapse
+  const handleCollapse = () => {
+    console.log("Collapse Sidebar")
+    dispatch(setToggleSidebar(false))
+  }
+  return (
+    <div className="flex items-center justify-between pt-4 pb-2 px-3.5">
+      <ToolTip tooltipContent="Collapse Your Library">
+        <div
+          onClick={handleCollapse}
+          className="*:transition-transform *:duration-300 flex fle-col items-center *:cursor-pointer">
+          <div
+            className="w-7 h-7 flex justify-center items-center group-hover/sidebar:translate-x-0 absolute -translate-x-12 
+          hover:text-white text-zinc-400">
+            <HideSideBarIcon />
+          </div>
+          <h2 className="font-medium group-hover/sidebar:translate-x-8">Your Library</h2>
+        </div>
+      </ToolTip>
     </div>
   )
 }

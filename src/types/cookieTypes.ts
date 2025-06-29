@@ -1,1 +1,1 @@
-export type CookieKey = 'current-project-index' 
+export type CookieKey = 'current-project-index' | 'react-resizable-panels:layout'

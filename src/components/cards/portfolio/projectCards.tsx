@@ -44,7 +44,8 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        "group relative flex flex-col gap-2 bg-zinc-800/40 p-4 rounded-md transition-all duration-200 hover:bg-zinc-800",
+        `group relative flex flex-col gap-2 bg-zinc-800/40 p-4 rounded-md transition-all duration-200 hover:bg-zinc-800
+         `,
         className,
       )}
       onMouseEnter={handleMouseEnter}

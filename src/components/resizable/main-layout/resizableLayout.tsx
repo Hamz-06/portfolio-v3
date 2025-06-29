@@ -35,7 +35,7 @@ function ResizableLayout({ className, children }: ResizableLayoutProps) {
         <ResizableHandle />
 
         {/* Main content - Resizable */}
-        <ResizablePanel className="flex-1 overflow-auto mr-2 ml-1 gap-2 rounded-2xl bg-zinc-900">
+        <ResizablePanel className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900">
           {children}
         </ResizablePanel>
 

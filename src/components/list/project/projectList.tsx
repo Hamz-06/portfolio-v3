@@ -1,6 +1,5 @@
 'use client'
 import { ProjectCard } from "@/components/cards/portfolio/projectCards";
-import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectRows } from "@/components/rows/project/projectRows";
 import { useProjectsList } from "@/redux/slice/projectListSlice";
 
@@ -9,10 +8,6 @@ export function ProjectList() {
 
   return (
     <>
-      <div className="mb-6">
-        <FilterBar />
-      </div>
-
       {Object.entries(projects).map(([key, value]) => (
         <ProjectRows
           key={key}

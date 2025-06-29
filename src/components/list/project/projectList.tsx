@@ -7,7 +7,7 @@ export function ProjectList() {
   const projects = useProjectsList()
 
   return (
-    <>
+    <div className="p-2">
       {Object.entries(projects).map(([key, value]) => (
         <ProjectRows
           key={key}
@@ -21,6 +21,19 @@ export function ProjectList() {
           ))}
         </ProjectRows>
       ))}
-    </>
+      {Object.entries(projects).map(([key, value]) => (
+        <ProjectRows
+          key={key}
+          title={key}
+        >
+          {value?.map((item, idx) => (
+            <ProjectCard
+              key={`${idx}:${item.slug}`}
+              cardDetails={item}
+            />
+          ))}
+        </ProjectRows>
+      ))}
+    </div>
   );
 }

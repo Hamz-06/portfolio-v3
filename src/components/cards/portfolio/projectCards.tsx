@@ -44,8 +44,7 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        `group relative flex flex-col gap-2 bg-zinc-800/40 p-4 rounded-md transition-all duration-200 hover:bg-zinc-800
-         `,
+        `group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40`,
         className,
       )}
       onMouseEnter={handleMouseEnter}
@@ -56,7 +55,8 @@ export function ProjectCard({
         <div
           className={cn(
             "relative overflow-hidden",
-            "aspect-square",
+            "aspect-square rounded-2xl",
+
           )}
         >
           <Image
@@ -65,7 +65,6 @@ export function ProjectCard({
             fill
             className={cn(
               "object-cover transition-all duration-300 group-hover:scale-105",
-
             )}
           />
         </div>
@@ -80,13 +79,14 @@ export function ProjectCard({
           )}
           aria-label={`Play ${title}`}
         >
-          <Play className="h-6 w-6 fill-current" />
+          <Play className="h-6 w-6 fill-current shadow-2xl" />
         </Button>
       </div>
 
       <div className="flex flex-col">
-        <Link href={redirectToProject()} className="line-clamp-1 font-medium hover:underline">
+        <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
           {title}
+
         </Link>
         {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
       </div>

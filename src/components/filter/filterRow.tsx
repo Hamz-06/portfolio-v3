@@ -7,6 +7,7 @@ import { ProjectTypes } from "@/types/projects/projects"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { motion } from "framer-motion"
+import { Button } from "../ui/button"
 
 
 // Threshold for scroll event, animate > 50
@@ -59,31 +60,37 @@ export function FilterBar() {
     <>
 
       <motion.div
-        className="flex gap-2 justify-start items-center px-10 w-full h-full bg-blue-700/80"
-        animate={{
-          backgroundColor: animateFilterHeader ? "#1447e6" // green with transparency (acts like a tint)
-            : "rgba(0, 0, 0, 0)",
-        }}
-        transition={{
-          duration: 1,
-          ease: 'easeInOut',
-        }}
+        className="flex gap-2 justify-start items-center px-10 w-full h-full"
+      // animate={{
+      //   backgroundColor: animateFilterHeader ? "oklch(48.8% 0.243 264.376)" // green with transparency (acts like a tint)
+      //     : "rgba(0, 0, 0, 0)",
+      // }}
+      // transition={{
+      //   duration: 1,
+      //   ease: 'easeInOut',
+      // }}
       >
         {/* <div className="w-full h-full absolute bg-black/60"></div> */}
-        {allCategories.map((category, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleSelect(category)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm font-medium transition-colors",
-              selectedCategories?.includes(category)
-                ? "bg-white text-black"
-                : "bg-zinc-800/80 text-white hover:bg-zinc-700",
-            )}
-          >
-            {category}
-          </button>
-        ))}
+        {
+          allCategories.map((category, idx) => {
+            const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1)
+            const isSelected = selectedCategories?.includes(category)
+            return (
+              <Button
+                key={idx}
+                onClick={() => handleSelect(category)}
+                className={cn(
+                  "px-4 py-2 rounded-full text-sm bg-gray-400/30 font-light h-8",
+                  isSelected
+                    ? "bg-white text-gray-900"
+                    : "bg-gray-400/30 text-white",
+                )}
+              >
+                {capitalizedCategory}
+              </Button>
+            )
+          })
+        }
       </motion.div>
     </>
   )

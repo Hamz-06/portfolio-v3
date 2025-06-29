@@ -15,7 +15,7 @@ export default async function Home() {
           <FilterBar />
         </div>
 
-        <div className={clsx("absolute top-0 left-0  w-full h-32",
+        <div className={clsx("absolute top-0 left-0  w-full h-40 pointer-events-none",
           "bg-gradient-to-t from-transparent  to-blue-800"
         )} />
         <ProjectList />

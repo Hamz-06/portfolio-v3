@@ -2,7 +2,7 @@
 
 import { MAIN_CONTENT_ID } from "@/app/(home)/portfolio/page"
 import { cn } from "@/lib/utils"
-import { removeSelectedCategory, setSelectedCategory, useAllCategories, useSelectedCategories } from "@/redux/slice/projectListSlice"
+import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/redux/slice/projectListSlice"
 import { ProjectTypes } from "@/types/projects/projects"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -15,7 +15,7 @@ const THRESHOLD_IN_PX = 30;
 
 export function FilterBar() {
   const dispatch = useDispatch()
-  const selectedCategories = useSelectedCategories()
+  const selectedCategory = useSelectedCategory()
   const allCategories = useAllCategories()
   const [animateFilterHeader, setAnimateFilterHeader] = useState(false)
 
@@ -47,13 +47,12 @@ export function FilterBar() {
 
 
   const handleSelect = (id: ProjectTypes) => {
-    const isAlreadySelected = selectedCategories?.includes(id);
-
-    if (isAlreadySelected) {
-      dispatch(removeSelectedCategory([id]));
-    } else {
-      dispatch(setSelectedCategory([id]));
+    // already selected, ignore 
+    if (selectedCategory === id) {
+      dispatch(setSelectedCategory(null))
+      return
     }
+    dispatch(setSelectedCategory(id))
   }
 
   return (
@@ -74,7 +73,7 @@ export function FilterBar() {
         {
           allCategories.map((category, idx) => {
             const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1)
-            const isSelected = selectedCategories?.includes(category)
+            const isSelected = selectedCategory === category
             return (
               <Button
                 key={idx}

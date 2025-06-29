@@ -1,29 +1,32 @@
 'use client'
 import { ProjectCard } from "@/components/cards/portfolio/projectCards";
 import { ProjectRows } from "@/components/rows/project/projectRows";
-import { useProjectsList } from "@/redux/slice/projectListSlice";
-import { ProjectTypes, SanityProject } from "@/types/projects/projects";
+import { useProjectsMappedByCategory, useSelectedCategory } from "@/redux/slice/projectListSlice";
 
-type ProjectLists = Partial<Record<ProjectTypes, SanityProject[]>>
 
 export function ProjectList() {
-  const projects: ProjectLists = useProjectsList()
-
+  const projects = useProjectsMappedByCategory()
+  const category = useSelectedCategory()
   return (
     <div className="p-2">
-      {Object.entries(projects).map(([key, value]) => (
-        <ProjectRows
-          key={key}
-          title={key}
-        >
-          {value?.map((item, idx) => (
-            <ProjectCard
-              key={`${idx}:${item.slug}`}
-              cardDetails={item}
-            />
-          ))}
-        </ProjectRows>
-      ))}
+      {Object.entries(projects).map(([key, value]) => {
+        if (category && key !== category) {
+          return null;
+        }
+        return (
+          <ProjectRows
+            key={key}
+            title={key}
+          >
+            {value?.map((item, idx) => (
+              <ProjectCard
+                key={`${idx}:${item.slug}`}
+                cardDetails={item}
+              />
+            ))}
+          </ProjectRows>
+        )
+      })}
     </div>
   );
 }

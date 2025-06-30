@@ -8,16 +8,14 @@ import { setCurrentProjectIndexCookie } from '@/actions/server-actions/cookies/c
 
 interface ProjectState {
   originalProjects: SanityHomeQuery;
-  selectedProjects: SanityHomeQuery;
-  selectedCategories: ProjectTypes[] | null;
+  selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
   allProjectsArray: SanityProject[],
   currentProject: SanityProject | null
 }
 const initialState: ProjectState = {
   originalProjects: {},
-  selectedProjects: {},
-  selectedCategories: null,
+  selectedCategory: null,
   allCategories: [],
   allProjectsArray: [],
   currentProject: null
@@ -29,46 +27,22 @@ export const projectsList = createSlice({
   reducers: {
     setProjectsList: (state, action: PayloadAction<SanityHomeQuery>) => {
       state.originalProjects = structuredClone(action.payload);
-      state.selectedProjects = structuredClone(action.payload);
       state.allCategories = Object.keys(action.payload) as ProjectTypes[]
       state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
     },
-    setSelectedCategory: (state, action: PayloadAction<ProjectTypes[]>) => {
-      const _selectedCategories = new Set([...(state.selectedCategories || []), ...action.payload]);
-      const updatedSelectedCategories = Array.from(_selectedCategories);
 
-      const filteredObjects = Object
-        .entries(state.originalProjects)
-        .filter(([key]) => updatedSelectedCategories.includes(key as ProjectTypes));
-
-      const filteredProjects = Object.fromEntries(filteredObjects) as SanityHomeQuery;
-
-      state.selectedCategories = updatedSelectedCategories;
-      state.selectedProjects = filteredProjects;
-    },
-    removeSelectedCategory: (state, action: PayloadAction<ProjectTypes[]>) => {
-      const _selectedCategories = new Set(state.selectedCategories || []);
-
-      // Remove the categories from the Set
-      for (const category of action.payload) {
-        _selectedCategories.delete(category);
+    setSelectedCategory: (state, action: PayloadAction<ProjectTypes | null>) => {
+      const categorySelected = action.payload;
+      if (!categorySelected) {
+        state.selectedCategory = null;
+        return;
       }
-
-      const updatedSelectedCategories = Array.from(_selectedCategories);
-      if (updatedSelectedCategories.length === 0) {
-        state.selectedCategories = state.allCategories;
-        state.selectedProjects = state.originalProjects;
-        return
+      const _selectedCategoryProjects = { ...state.originalProjects }[categorySelected]
+      if (!_selectedCategoryProjects) {
+        return;
       }
+      state.selectedCategory = categorySelected;
 
-      const filteredObjects = Object
-        .entries(state.originalProjects)
-        .filter(([key]) => updatedSelectedCategories.includes(key as ProjectTypes));
-
-      const filteredProjects = Object.fromEntries(filteredObjects) as SanityHomeQuery;
-
-      state.selectedCategories = updatedSelectedCategories;
-      state.selectedProjects = filteredProjects;
     },
     setCurrentProject: (state, action: PayloadAction<number | null>) => {
       state.currentProject = state.allProjectsArray[action.payload ?? 0] || [];
@@ -107,17 +81,13 @@ export const projectsList = createSlice({
 export const {
   setProjectsList,
   setSelectedCategory,
-  removeSelectedCategory,
   setCurrentProject,
   navigateCurrentProject,
   shuffleCurrentProject
 } = projectsList.actions
 
-export const useProjectsList = (): ProjectState['selectedProjects'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedProjects)
-
-export const useSelectedCategories = (): ProjectState['selectedCategories'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedCategories)
+export const useSelectedCategory = (): ProjectState['selectedCategory'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedCategory)
 
 export const useAllCategories = (): ProjectState['allCategories'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.allCategories)
@@ -128,5 +98,7 @@ export const useCurrentProject = (): ProjectState['currentProject'] =>
 export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.allProjectsArray)
 
+export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.originalProjects)
 
 export default projectsList.reducer

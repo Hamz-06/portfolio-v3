@@ -71,8 +71,9 @@ function SearchBar() {
           type="text"
           value={queryValue}
           onChange={handleSearch}
-          className="block w-full rounded-full bg-zinc-800 py-3 pl-12 pr-4 text-sm text-white focus:outline-none 
-        focus:ring-1 focus:ring-white focus:bg-zinc-700 hover:bg-zinc-700 transition-colors h-full border-0 peer"
+          className="block w-full rounded-full bg-zinc-800 py-3 pl-12 pr-4 text-sm text-white 
+         focus:ring-white focus:bg-zinc-700 hover:bg-zinc-700 transition-colors h-full border-0 pee
+        focus-visible:ring-offset-0 focus-visible:ring-2"
         />
 
         <div

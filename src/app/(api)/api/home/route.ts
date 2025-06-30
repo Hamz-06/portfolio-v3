@@ -45,6 +45,7 @@ const createRandomProjects = (type: 'projects' | 'blogs', count: number) =>
   }));
 
 const mockData = {
-  projects: createRandomProjects('projects', 5),
+  projects: createRandomProjects('projects', 10),
   blogs: createRandomProjects('blogs', 5),
+  shoe: createRandomProjects('projects', 5),
 };

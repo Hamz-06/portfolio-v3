@@ -3,44 +3,61 @@
 import SideBar from "@/components/sidebar/sidebar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { useToggleSidebar } from "@/redux/slice/layoutSlice";
+// import { useToggleSidebar } from "@/redux/slice/layoutSlice";
 import clsx from "clsx";
 import React from 'react'
 
 type ResizableLayoutProps = {
   className: string;
   children: React.ReactNode;
+  defaultLayout?: number[];
 }
-function ResizableLayout({ className, children }: ResizableLayoutProps) {
-  const toggleMenu = useToggleSidebar()
+function ResizableLayout({ className, defaultLayout = [20, 80], children }: ResizableLayoutProps) {
+  const toggleSidebar = useToggleSidebar()
+  const SIDE_BAR_MAX_SIZE_IN_PERCENT = 32;
 
+  // todo: Potential refactor
+  const onLayout = (sizes: number[]) => {
+    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`;
+  };
 
+  // console.log("toggleMenu", toggleMenu)
   return (
     <div className={clsx(className)}>
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup direction="horizontal" onLayout={onLayout}>
         {/* Sidebar - Resizable */}
 
         {
-          toggleMenu && <ResizablePanel
-            // onResize={(e) => { console.log(e) }}
-            collapsible={true}
-            defaultSize={20}
-            minSize={20}
-            maxSize={25}
-            className="hidden lg:block">
+          toggleSidebar && <>
+            <ResizablePanel
+              // onResize={(e) => { console.log(e) }}
+              id='sidebar'
+              order={1}
 
-            <SideBar className="flex-col h-full bg-zinc-900 p-3 gap-2 rounded-2xl ml-2 mr-1" />
-          </ResizablePanel>
+              collapsible={true}
+              minSize={20}
+              maxSize={SIDE_BAR_MAX_SIZE_IN_PERCENT}
+              defaultSize={defaultLayout[0]}
+              className="hidden lg:block">
+
+              <SideBar className="flex-col h-full bg-zinc-900 rounded-2xl ml-2 mr-1" />
+            </ResizablePanel>
+            <ResizableHandle />
+          </>
         }
 
-        <ResizableHandle />
 
         {/* Main content - Resizable */}
-        <ResizablePanel className="flex-1 overflow-auto mr-2 ml-1 gap-2 rounded-2xl bg-zinc-900">
+        <ResizablePanel
+          // minSize={75}
+          defaultSize={defaultLayout[1]}
+          order={2}
+          className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900">
           {children}
         </ResizablePanel>
 
       </ResizablePanelGroup>
-    </div>
+    </div >
   )
 }
 

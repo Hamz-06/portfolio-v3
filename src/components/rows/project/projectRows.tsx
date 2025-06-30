@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { setSelectedCategory } from "@/redux/slice/projectListSlice"
+import { capitalizeFirstLetter, cn } from "@/lib/utils"
+import { setSelectedCategory, useSelectedCategory } from "@/redux/slice/projectListSlice"
 import { ProjectTypes } from "@/types/projects/projects"
 import { useDispatch } from "react-redux"
 
@@ -12,23 +13,46 @@ function ProjectRows({
   title,
   children,
 }: ProjectRowsProps) {
+  const selectedCategory = useSelectedCategory()
   const dispatch = useDispatch();
 
   const updateProjects = (title: ProjectTypes) => {
-    dispatch(setSelectedCategory([title]))
+    if (selectedCategory === title) {
+      dispatch(setSelectedCategory(null))
+      return
+    }
+    dispatch(setSelectedCategory(title))
   }
   return (
-    <section className="mb-8">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">{title}</h2>
-        <Button onClick={() => updateProjects(title as ProjectTypes)} className="text-sm font-medium text-zinc-400 hover:underline">
-          See all
+    <section className="mb-8 w-full mt-10 overflow-auto p-0 sm:pl-7">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="pl-3">
+          <h6 className="font-light text-xs text-zinc-400">Made for you</h6>
+          <h2 className="text-2xl font-bold">{capitalizeFirstLetter(title)}</h2>
+        </div>
+        <Button
+          onClick={() => updateProjects(title as ProjectTypes)}
+          className="text-sm text-zinc-400 hover:underline font-bold">
+          Show All
         </Button>
       </div>
-      <div className="grid gap-2 grid-flow-col auto-cols-[21%] overflow-auto">
+
+
+      {/* render the children in a grid layout if category is selected */}
+      <div
+        className={cn(
+          selectedCategory
+            ? "grid gap-4 grid-cols-2 sm:grid-cols-4 xl:grid-cols-6"
+            : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
+
+        )}
+      >
         {children}
       </div>
-    </section >
+
+
+    </section>
+
   )
 }
 export { ProjectRows }

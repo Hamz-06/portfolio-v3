@@ -1,3 +1,4 @@
+//todo: Not used, prob remove this file later
 'use client'
 
 import { GithubIcon, LinkedInIcon } from "@/components/icons/customIcons";

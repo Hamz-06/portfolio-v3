@@ -37,14 +37,16 @@ const SidebarHeader = () => {
       </div>
 
       {/* expand  */}
-      <Button
-        // onClick={onSearchClick}
-        variant="ghost"
-        asChild
-        className="rounded-full p-2 hover:bg-zinc-800"
-      >
-        <Maximize2 onClick={expandSideBar} className="text-zinc-400 w-9 h-9" />
-      </Button>
+      <ToolTip tooltipContent='Expand sidebar'>
+        <Button
+          onClick={() => alert('Expand sidebar not implemented yet')}
+          variant="ghost"
+          asChild
+          className="rounded-full p-2 hover:bg-zinc-800"
+        >
+          <Maximize2 onClick={expandSideBar} className="text-zinc-400 w-9 h-9" />
+        </Button>
+      </ToolTip>
     </div>
   )
 }

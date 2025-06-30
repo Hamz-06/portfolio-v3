@@ -27,7 +27,7 @@ function ProjectControls() {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center w-full sm:w-1/3">
       <div className="flex items-center space-x-4">
         <Button
           variant="ghost"
@@ -61,14 +61,14 @@ function ProjectControls() {
           <Repeat className="h-4 w-4" />
         </Button>
       </div>
-      <div className="w-full flex items-center space-x-2 mt-2">
+      <div className="w-full items-center space-x-2 mt-2 hidden sm:flex">
         <span className="text-xs text-zinc-400">1:23</span>
         <div className="h-1 flex-1 bg-zinc-600 rounded-full">
           <div className="h-1 w-1/3 bg-white rounded-full"></div>
         </div>
         <span className="text-xs text-zinc-400">3:45</span>
       </div>
-    </>
+    </div>
   )
 }
 export { ProjectControls }

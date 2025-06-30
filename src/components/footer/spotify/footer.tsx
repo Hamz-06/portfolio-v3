@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import { Button } from '../../ui/button'
 import { ListMusic, Laptop, Volume2 } from 'lucide-react'
@@ -13,17 +12,16 @@ function Footer({ className }: FooterProps) {
 
   return (
     <div
-      className={clsx(className)}
+      className={clsx(className, 'relative')}
     >
-      <div className="flex items-center w-1/3">
-        <DisplayCurrentProject />
-      </div>
 
-      <div className="flex flex-col items-center w-1/3">
-        <ProjectControls />
-      </div>
+      {/* displays the current project playing  */}
+      <DisplayCurrentProject />
 
-      <div className="flex items-center justify-end w-1/3 space-x-3">
+      {/* controls for the current project */}
+      <ProjectControls />
+
+      <div className="items-center justify-end w-1/3 space-x-3 hidden sm:flex">
         <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
           <ListMusic className="h-4 w-4" />
         </Button>

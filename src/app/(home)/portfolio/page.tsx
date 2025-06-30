@@ -1,9 +1,11 @@
 import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
+import PortfolioColorTint from "@/components/cards/portfolio/portfolioColorTint";
+// import { SpotifyWrappedCard } from "@/components/cards/portfolio/spotifyWrappedCard";
 import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
 import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectList } from "@/components/list/project/projectList";
+import { SocialMediaList } from "@/components/list/project/socialList";
 import { ResizableLayout } from "@/components/resizable/main-layout/resizableLayout";
-import clsx from "clsx";
 
 export const MAIN_CONTENT_ID = 'main-content';
 export default async function Home() {
@@ -19,10 +21,9 @@ export default async function Home() {
         <div className="sticky top-0 z-10 h-16">
           <FilterBar />
         </div>
-
-        <div className={clsx("absolute top-0 left-0  w-full h-40 pointer-events-none",
-          "bg-gradient-to-t from-transparent  to-blue-800"
-        )} />
+        <PortfolioColorTint />
+        <SocialMediaList />
+        {/* <SpotifyWrappedCard /> */}
         <ProjectList />
       </div>
       <ToggleSideBar />

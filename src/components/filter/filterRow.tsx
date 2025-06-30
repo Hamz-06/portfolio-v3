@@ -61,7 +61,7 @@ export function FilterBar() {
     <>
 
       <motion.div
-        className="flex gap-2 justify-start items-center px-10 w-full h-full"
+        className="flex gap-2 justify-start items-center px-2 sm:px-10 w-full h-full"
       // animate={{
       //   backgroundColor: animateFilterHeader ? "oklch(48.8% 0.243 264.376)" // green with transparency (acts like a tint)
       //     : "rgba(0, 0, 0, 0)",
@@ -84,7 +84,7 @@ export function FilterBar() {
                   "px-4 py-2 rounded-full text-sm bg-gray-400/30 font-light h-8",
                   isSelected
                     ? "bg-white text-gray-900"
-                    : "bg-gray-400/30 text-white",
+                    : "hover:bg-gray-700/30 text-white",
                 )}
               >
                 {capitalizedCategory}

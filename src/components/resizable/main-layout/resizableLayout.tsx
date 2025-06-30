@@ -12,8 +12,9 @@ type ResizableLayoutProps = {
   children: React.ReactNode;
   defaultLayout?: number[];
 }
-function ResizableLayout({ className, defaultLayout = [25, 75], children }: ResizableLayoutProps) {
+function ResizableLayout({ className, defaultLayout = [20, 80], children }: ResizableLayoutProps) {
   const toggleSidebar = useToggleSidebar()
+  const SIDE_BAR_MAX_SIZE_IN_PERCENT = 32;
 
   // todo: Potential refactor
   const onLayout = (sizes: number[]) => {
@@ -35,7 +36,7 @@ function ResizableLayout({ className, defaultLayout = [25, 75], children }: Resi
 
               collapsible={true}
               minSize={20}
-              maxSize={25}
+              maxSize={SIDE_BAR_MAX_SIZE_IN_PERCENT}
               defaultSize={defaultLayout[0]}
               className="hidden lg:block">
 
@@ -48,7 +49,7 @@ function ResizableLayout({ className, defaultLayout = [25, 75], children }: Resi
 
         {/* Main content - Resizable */}
         <ResizablePanel
-          minSize={75}
+          // minSize={75}
           defaultSize={defaultLayout[1]}
           order={2}
           className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900">

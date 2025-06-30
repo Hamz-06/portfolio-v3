@@ -1,10 +1,8 @@
 import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
-import PortfolioColorTint from "@/components/cards/portfolio/portfolioColorTint";
 // import { SpotifyWrappedCard } from "@/components/cards/portfolio/spotifyWrappedCard";
 import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
 import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectList } from "@/components/list/project/projectList";
-import { SocialMediaList } from "@/components/list/project/socialList";
 import { ResizableLayout } from "@/components/resizable/main-layout/resizableLayout";
 
 export const MAIN_CONTENT_ID = 'main-content';
@@ -21,8 +19,8 @@ export default async function Home() {
         <div className="sticky top-0 z-10 h-16">
           <FilterBar />
         </div>
-        <PortfolioColorTint />
-        <SocialMediaList />
+        {/* <PortfolioColorTint /> */}
+        {/* <SocialMediaList /> */}
         {/* <SpotifyWrappedCard /> */}
         <ProjectList />
       </div>

@@ -24,14 +24,16 @@ function ProjectRows({
     dispatch(setSelectedCategory(title))
   }
   return (
-    <section className="mb-8 w-full overflow-auto p-0 sm:pl-7">
-
+    <section className="mb-8 w-full mt-10 overflow-auto p-0 sm:pl-7">
       <div className="mb-2 flex items-center justify-between">
-        <h2 className="text-2xl z-10 font-bold pl-3">{capitalizeFirstLetter(title)}</h2>
+        <div className="pl-3">
+          <h6 className="font-light text-xs text-zinc-400">Made for you</h6>
+          <h2 className="text-2xl font-bold">{capitalizeFirstLetter(title)}</h2>
+        </div>
         <Button
           onClick={() => updateProjects(title as ProjectTypes)}
-          className="text-sm font-medium text-zinc-400 hover:underline z-10">
-          See all
+          className="text-sm text-zinc-400 hover:underline font-bold">
+          Show All
         </Button>
       </div>
 
@@ -41,7 +43,8 @@ function ProjectRows({
         className={cn(
           selectedCategory
             ? "grid gap-4 grid-cols-2 sm:grid-cols-4 xl:grid-cols-6"
-            : "grid gap-2 grid-flow-col auto-cols-[50%] sm:auto-cols-[21%] 2xl::auto-cols-[17%] h-full overflow-auto"
+            : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
+
         )}
       >
         {children}

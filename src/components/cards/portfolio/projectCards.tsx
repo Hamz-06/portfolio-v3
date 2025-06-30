@@ -6,7 +6,6 @@ import { SanityProject } from "@/types/projects/projects"
 import { Play } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 
@@ -31,7 +30,6 @@ export function ProjectCard({
     project_type: projectType,
   } = cardDetails;
 
-  const router = useRouter()
   const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseEnter = () => setIsHovered(true)
@@ -42,54 +40,55 @@ export function ProjectCard({
   }
 
   return (
-    <div
-      className={cn(
-        `group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40`,
-        className,
-      )}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-    >
-      <div className="relative">
-        <div
-          className={cn(
-            "relative overflow-hidden",
-            "aspect-square rounded-2xl",
-
-          )}
-        >
-          <Image
-            src={firstImageUrl || "/placeholder.svg"}
-            alt={title}
-            fill
+    <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
+      <div
+        className={cn(
+          `h-[245px] w-[195px] group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
+        cursor-pointer`,
+          className,
+        )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={onClick}
+      >
+        <div className="relative">
+          <div
             className={cn(
-              "object-cover transition-all duration-300 group-hover:scale-105",
+              "relative overflow-hidden",
+              "aspect-square rounded-xl",
+
             )}
-          />
+          >
+            <Image
+              src={firstImageUrl || "/placeholder.svg"}
+              alt={title}
+              fill
+              className={cn(
+                "object-cover transition-all duration-300 group-hover:scale-105",
+              )}
+            />
+          </div>
+
+          {/* Play button that appears on hover */}
+          <Button
+            // onClick={() => router.push(redirectToProject())}
+            className={cn(
+              `absolute bottom-2 right-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-500
+             text-black shadow-lg transition-all duration-200 hover:scale-105 hover:bg-green-400`,
+              isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
+            )}
+            aria-label={`Play ${title}`}
+          >
+            <Play className="h-6 w-6 fill-current shadow-2xl" />
+          </Button>
         </div>
 
-        {/* Play button that appears on hover */}
-        <Button
-          onClick={() => router.push(redirectToProject())}
-          className={cn(
-            `absolute bottom-2 right-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-500
-             text-black shadow-lg transition-all duration-200 hover:scale-105 hover:bg-green-400`,
-            isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
-          )}
-          aria-label={`Play ${title}`}
-        >
-          <Play className="h-6 w-6 fill-current shadow-2xl" />
-        </Button>
-      </div>
-
-      <div className="flex flex-col">
-        <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
+        <div className="flex flex-col">
           {title}
 
-        </Link>
-        {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
+          {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }

@@ -59,19 +59,19 @@ export function FilterBar() {
 
   return (
     <>
-
-      <motion.div
-        className="flex gap-2 justify-start items-center px-2 sm:px-10 w-full h-full"
-      // animate={{
-      //   backgroundColor: animateFilterHeader ? "oklch(48.8% 0.243 264.376)" // green with transparency (acts like a tint)
-      //     : "rgba(0, 0, 0, 0)",
-      // }}
-      // transition={{
-      //   duration: 1,
-      //   ease: 'easeInOut',
-      // }}
-      >
-        {/* <div className="w-full h-full absolute bg-black/60"></div> */}
+      <motion.div className="flex gap-2 justify-start items-center px-2 sm:px-10 w-full h-full bg-green-600 z-20">
+        <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-l from-black/50 via-black/60 to-black/45 absolute pointer-events-none" />
+        <Button
+          onClick={() => dispatch(setSelectedCategory(null))}
+          className={cn(
+            "px-4 py-2 rounded-full text-sm bg-gray-400/30 font-light h-8 z-30",
+            !selectedCategory
+              ? "bg-white text-gray-900"
+              : "hover:bg-gray-700/30 text-white",
+          )}
+        >
+          All
+        </Button>
         {
           allCategories.map((category, idx) => {
             const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1)
@@ -81,7 +81,7 @@ export function FilterBar() {
                 key={idx}
                 onClick={() => handleSelect(category)}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm bg-gray-400/30 font-light h-8",
+                  "px-4 py-2 rounded-full text-sm bg-gray-400/30 font-light h-8 z-30",
                   isSelected
                     ? "bg-white text-gray-900"
                     : "hover:bg-gray-700/30 text-white",

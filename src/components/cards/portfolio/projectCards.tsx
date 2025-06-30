@@ -43,7 +43,7 @@ export function ProjectCard({
     <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
       <div
         className={cn(
-          `h-[245px] w-[195px] group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
+          `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
         cursor-pointer`,
           className,
         )}

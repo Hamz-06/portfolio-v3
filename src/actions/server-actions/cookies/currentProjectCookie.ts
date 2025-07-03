@@ -1,15 +1,20 @@
-import { getCookie, setCookie } from "./cookieHelper"
+// import { setCookie } from "./cookieHelper"
 
-type CookieValue = {
-  value: number
+import { ProjectTypes } from "@/types/projects/projects";
+import { getCookie, setCookie } from "./cookieHelper";
+
+export type CurrentProjectKey = {
+  category: ProjectTypes;
+  project_slug: string;
 }
-export const setCurrentProjectIndexCookie = (index: number): void => {
-  setCookie<CookieValue>('current-project-index', {
-    value: index,
+export const setCurrentProjectKeyCookie = (category:ProjectTypes, projectSlug: string): void => {
+  setCookie<CurrentProjectKey>('current-project', {
+    category,
+    project_slug: projectSlug
   })
 }
 
-export const getCurrentProjectIndexCookie = async (): Promise<number | null> => {
-  const res = await getCookie<CookieValue>('current-project-index');
-  return res ? res.value : null
+export const getCurrentProjectKeyCookie = async (): Promise<CurrentProjectKey | null> => {
+  const res = await getCookie<CurrentProjectKey>('current-project');
+  return res ? res : null
 }

@@ -4,6 +4,7 @@
 :root {
   --desktop-header-height: 64px;
   --desktop-footer-height: 80px;
+  --mobile-secondary-header-height: 60px;
 }
 
 /* prevent over scrolling on the body element */

@@ -1,28 +1,14 @@
-'use client'
 import React from 'react'
 import { SearchBar } from './searchBar'
 import clsx from 'clsx';
-import { House } from 'lucide-react';
-import { Button } from '../ui/button';
-import { usePathname, useRouter } from 'next/navigation';
-import { Routes } from '@/types/routes';
-import ToolTip from '../tooltip/tooltip';
+import { HomeButton } from './homeButton';
 
 type HeaderProps = {
   className: string;
 }
-const HOME_PAGE_ROUTE: Routes = '/portfolio';
 
-function Header({ className }: HeaderProps) {
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const isHomePage = pathname === HOME_PAGE_ROUTE;
-
-  const redirectToHome = () => {
-    if (isHomePage) return;
-    router.push(HOME_PAGE_ROUTE);
-  }
+async function Header({ className }: HeaderProps) {
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>
       {/* Left section */}
@@ -42,15 +28,7 @@ function Header({ className }: HeaderProps) {
 
       {/* Parent flex container */}
       <div className="flex items-center justify-between sm:justify-center w-full px-4">
-        <ToolTip tooltipContent='Home'>
-          <Button
-            onClick={redirectToHome}
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 mr-2 text-zinc-400 hover:text-white"
-          >
-            <House className={clsx(isHomePage ? 'stroke-white' : 'stroke-zinc-400')}
-              style={{ width: '22px', height: '22px' }} />
-          </Button>
-        </ToolTip>
+        <HomeButton />
 
         <SearchBar />
       </div>
@@ -86,4 +64,5 @@ function Header({ className }: HeaderProps) {
   )
 }
 
-export default Header
+
+export { Header }

@@ -5,17 +5,20 @@ import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/resizable/main-layout/resizableLayout";
 
+
 export const MAIN_CONTENT_ID = 'main-content';
 export default async function Home() {
-
+  // const projects = await getAllProjects()
   const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
 
   return (
+
     <ResizableLayout
       className="flex flex-1 overflow-hidden relative bg-black"
       defaultLayout={mainPageLayout || undefined}>
 
-      <div className="w-full h-full relative overflow-auto" id={MAIN_CONTENT_ID}>
+      {/* takes into account the secondary header height on mobile */}
+      <div className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto" id={MAIN_CONTENT_ID}>
         <div className="sticky top-0 z-10 h-16">
           <FilterBar />
         </div>
@@ -26,8 +29,6 @@ export default async function Home() {
       </div>
       <ToggleSideBar />
     </ResizableLayout>
+
   );
 }
-
-
-

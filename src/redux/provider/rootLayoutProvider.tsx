@@ -1,22 +1,25 @@
 'use client'
-import { SanityHomeQuery } from '@/types/projects/projects'
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { MainLayoutStore, mainLayoutStore } from '../store/mainLayoutStore'
-import { setCurrentProject, setProjectsList } from '../slice/projectListSlice'
+import { setCurrentProject, setProjectsList, setShuffle } from '../slice/projectListSlice'
+import { SanityHomeQuery } from '@/types/projects/projects'
+import { CurrentProjectKey } from '@/actions/server-actions/cookies/currentProjectCookie'
 
 
 type ProviderProps = {
   projects: SanityHomeQuery,
-  currentProject: number | null,
+  shuffleActive: boolean,
+  currentProject: CurrentProjectKey | null,
   children: React.ReactNode,
 }
 
-export function MainLayoutProvider({ projects, currentProject, children }: ProviderProps) {
+export function RootLayoutProvider({ children, projects, shuffleActive, currentProject }: ProviderProps) {
   const storeRef = useRef<MainLayoutStore | null>(null)
 
   if (!storeRef.current) {
     storeRef.current = mainLayoutStore()
+    storeRef.current.dispatch(setShuffle(shuffleActive))
     storeRef.current.dispatch(setProjectsList(projects))
     storeRef.current.dispatch(setCurrentProject(currentProject))
   }

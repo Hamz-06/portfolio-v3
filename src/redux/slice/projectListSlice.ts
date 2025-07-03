@@ -3,22 +3,23 @@ import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
 import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
 import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
-import { setCurrentProjectIndexCookie } from '@/actions/server-actions/cookies/currentProjectCookie';
-
+import { CurrentProjectKey, setCurrentProjectKeyCookie } from '@/actions/server-actions/cookies/currentProjectCookie';
 
 interface ProjectState {
   originalProjects: SanityHomeQuery;
   selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
   allProjectsArray: SanityProject[],
-  currentProject: SanityProject | null
+  currentProject: SanityProject | null,
+  isShufflingEnabled: boolean;
 }
 const initialState: ProjectState = {
   originalProjects: {},
   selectedCategory: null,
   allCategories: [],
   allProjectsArray: [],
-  currentProject: null
+  currentProject: null,
+  isShufflingEnabled: false
 }
 
 export const projectsList = createSlice({
@@ -44,19 +45,42 @@ export const projectsList = createSlice({
       state.selectedCategory = categorySelected;
 
     },
-    setCurrentProject: (state, action: PayloadAction<number | null>) => {
-      state.currentProject = state.allProjectsArray[action.payload ?? 0] || [];
+    setCurrentProject: (state, action: PayloadAction<CurrentProjectKey | null>) => {
+      const defaultProject = () => state.allProjectsArray[0];
+
+      if (!action.payload) {
+        const defaultProjectValue = defaultProject()
+        state.currentProject = defaultProjectValue
+        return;
+      }
+      const selectedProject = state.originalProjects[action.payload.category]
+        ?.find(project => project.slug === action.payload?.project_slug);
+
+      if (!selectedProject) {
+        state.currentProject = defaultProject();
+        return;
+      }
+      state.currentProject = selectedProject;
     },
     navigateCurrentProject: (state, action: PayloadAction<NavigationStep>) => {
       if (!state.currentProject) {
         state.currentProject = state.allProjectsArray[0];
         return;
       }
+      if (state.isShufflingEnabled) {
+        const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
+        const randomProject = state.allProjectsArray[randomIndex];
+
+        setCurrentProjectKeyCookie(randomProject.project_type, randomProject.slug)
+        state.currentProject = state.allProjectsArray[randomIndex];
+      }
       const currentIndex = state.allProjectsArray
         .findIndex((project) => project.slug === state.currentProject!.slug);
 
       if (currentIndex === -1) {
-        state.currentProject = state.allProjectsArray[0];
+        const firstProject = state.allProjectsArray[0];
+        setCurrentProjectKeyCookie(firstProject.project_type, firstProject.slug)
+        state.currentProject = firstProject;
         return;
       }
 
@@ -64,15 +88,13 @@ export const projectsList = createSlice({
       if (nextIndex < 0 || nextIndex >= state.allProjectsArray.length) {
         return;
       }
-      setCurrentProjectIndexCookie(nextIndex)
-      state.currentProject = state.allProjectsArray[nextIndex];
+      const navigationProject = state.allProjectsArray[nextIndex];
+      setCurrentProjectKeyCookie(navigationProject.project_type, navigationProject.slug)
+      state.currentProject = navigationProject;
 
     },
-    shuffleCurrentProject: (state) => {
-      const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
-
-      setCurrentProjectIndexCookie(randomIndex)
-      state.currentProject = state.allProjectsArray[randomIndex];
+    setShuffle: (state, action: PayloadAction<boolean>) => {
+      state.isShufflingEnabled = action.payload;
     }
   }
 })
@@ -83,7 +105,7 @@ export const {
   setSelectedCategory,
   setCurrentProject,
   navigateCurrentProject,
-  shuffleCurrentProject
+  setShuffle
 } = projectsList.actions
 
 export const useSelectedCategory = (): ProjectState['selectedCategory'] =>
@@ -100,5 +122,8 @@ export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
 
 export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.originalProjects)
+
+export const useIsShufflingEnabled = (): ProjectState['isShufflingEnabled'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.isShufflingEnabled)
 
 export default projectsList.reducer

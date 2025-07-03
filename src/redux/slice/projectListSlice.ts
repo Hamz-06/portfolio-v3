@@ -11,14 +11,16 @@ interface ProjectState {
   selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
   allProjectsArray: SanityProject[],
-  currentProject: SanityProject | null
+  currentProject: SanityProject | null,
+  isShufflingEnabled: boolean;
 }
 const initialState: ProjectState = {
   originalProjects: {},
   selectedCategory: null,
   allCategories: [],
   allProjectsArray: [],
-  currentProject: null
+  currentProject: null,
+  isShufflingEnabled: false
 }
 
 export const projectsList = createSlice({
@@ -52,6 +54,12 @@ export const projectsList = createSlice({
         state.currentProject = state.allProjectsArray[0];
         return;
       }
+      if (state.isShufflingEnabled) {
+        const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
+
+        setCurrentProjectIndexCookie(randomIndex)
+        state.currentProject = state.allProjectsArray[randomIndex];
+      }
       const currentIndex = state.allProjectsArray
         .findIndex((project) => project.slug === state.currentProject!.slug);
 
@@ -68,11 +76,8 @@ export const projectsList = createSlice({
       state.currentProject = state.allProjectsArray[nextIndex];
 
     },
-    shuffleCurrentProject: (state) => {
-      const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
-
-      setCurrentProjectIndexCookie(randomIndex)
-      state.currentProject = state.allProjectsArray[randomIndex];
+    setShuffle: (state) => {
+      state.isShufflingEnabled = !state.isShufflingEnabled;
     }
   }
 })
@@ -83,7 +88,7 @@ export const {
   setSelectedCategory,
   setCurrentProject,
   navigateCurrentProject,
-  shuffleCurrentProject
+  setShuffle
 } = projectsList.actions
 
 export const useSelectedCategory = (): ProjectState['selectedCategory'] =>
@@ -100,5 +105,8 @@ export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
 
 export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.originalProjects)
+
+export const useIsShufflingEnabled = (): ProjectState['isShufflingEnabled'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.isShufflingEnabled)
 
 export default projectsList.reducer

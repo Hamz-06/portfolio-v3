@@ -9,7 +9,7 @@ export const MAIN_CONTENT_ID = 'main-content';
 export default async function Home() {
 
   const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
-
+  // const isShufflingEnabled = await getCookie<boolean>('is-shuffling-enabled');
   return (
     <ResizableLayout
       className="flex flex-1 overflow-hidden relative bg-black"

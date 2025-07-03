@@ -1,7 +1,10 @@
 'use client'
 
+import { setCookie } from "@/actions/server-actions/cookies/cookieHelper";
+import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
-import { navigateCurrentProject, shuffleCurrentProject, useCurrentProject } from "@/redux/slice/projectListSlice";
+import { cn } from "@/lib/utils";
+import { navigateCurrentProject, setShuffle, useCurrentProject, useIsShufflingEnabled } from "@/redux/slice/projectListSlice";
 import { Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -13,13 +16,15 @@ function ProjectControls() {
   const dispatch = useDispatch()
   const currentProject = useCurrentProject()
   const router = useRouter()
+  const isShufflingEnabled = useIsShufflingEnabled()
 
   const navigateCurrentProjectList = (step: NavigationStep) => {
     dispatch(navigateCurrentProject(step))
   }
 
   const shuffleCurrentProjectList = () => {
-    dispatch(shuffleCurrentProject())
+    dispatch(setShuffle())
+    setCookie('is-shuffling-enabled', !isShufflingEnabled)
   }
 
   const displayInterceptProject = () => {
@@ -30,42 +35,56 @@ function ProjectControls() {
   return (
     <div className="flex flex-col items-center w-full sm:w-1/3">
       <div className="flex items-center space-x-7 sm:space-x-4">
-        <Button
-          variant="ghost"
-          onClick={shuffleCurrentProjectList}
-          size="icon"
-          asChild
-          className="text-zinc-400 hover:text-white">
-          <Shuffle className="h-6 w-6 sm:h-5 sm:w-5" />
-        </Button>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          asChild
-          className="text-zinc-400 hover:text-white"
-          onClick={() => navigateCurrentProjectList('previous')}
-        >
-          <SkipBack className="h-6 w-6 sm:h-5 sm:w-5" />
-        </Button>
+        <ToolTip tooltipContent="Shuffle Projects">
+          <Button
+            variant="ghost"
+            onClick={shuffleCurrentProjectList}
+            size="icon"
+            asChild
+            className={cn(isShufflingEnabled ? "text-[#1ed760]" : "text-zinc-400 hover:text-white")}>
+            {/* <div className="h-6 w-6 sm:h-5 sm:w-5"> */}
 
-        <Button
-          asChild
-          onClick={displayInterceptProject}
-          size="icon"
-          className="bg-white text-black hover:bg-white/90 rounded-full">
-          <Play fill="white" className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1" />
-        </Button>
+            <span className="h-6 w-6 sm:h-5 sm:w-5 flex items-center justify-center">
+              <Shuffle className="h-full w-full" />
+              {isShufflingEnabled && <div className="w-1 h-1 rounded-full bg-[#1ed760] absolute translate-y-4">&nbsp;</div>}
+            </span>
+            {/* </div> */}
+          </Button>
+        </ToolTip>
 
-        <Button
-          asChild
-          onClick={() => navigateCurrentProjectList('next')}
-          variant="ghost"
-          size="icon"
-          className="text-zinc-400 hover:text-white ">
-          <SkipForward className="h-8 w-8 sm:h-5 sm:w-5" />
-        </Button>
+        <ToolTip tooltipContent="Previous">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="text-zinc-400 hover:text-white"
+            onClick={() => navigateCurrentProjectList('previous')}
+          >
+            <SkipBack className="h-6 w-6 sm:h-5 sm:w-5" />
+          </Button>
+        </ToolTip>
 
+        <ToolTip tooltipContent="Play">
+          <Button
+            asChild
+            onClick={displayInterceptProject}
+            size="icon"
+            className="bg-white text-black hover:bg-white/90 rounded-full">
+            <Play fill="white" className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1" />
+          </Button>
+        </ToolTip>
+
+        <ToolTip tooltipContent="Play">
+          <Button
+            asChild
+            onClick={() => navigateCurrentProjectList('next')}
+            variant="ghost"
+            size="icon"
+            className="text-zinc-400 hover:text-white ">
+            <SkipForward className="h-8 w-8 sm:h-5 sm:w-5" />
+          </Button>
+        </ToolTip>
         <Button
           asChild
           variant="ghost"

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 
 export type NavigationStep = 'previous' | 'next';
 
+
 function ProjectControls() {
   const dispatch = useDispatch()
   const currentProject = useCurrentProject()
@@ -28,37 +29,49 @@ function ProjectControls() {
 
   return (
     <div className="flex flex-col items-center w-full sm:w-1/3">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-7 sm:space-x-4">
         <Button
           variant="ghost"
           onClick={shuffleCurrentProjectList}
           size="icon"
+          asChild
           className="text-zinc-400 hover:text-white">
-          <Shuffle className="h-4 w-4" />
+          <Shuffle className="h-6 w-6 sm:h-5 sm:w-5" />
         </Button>
+
         <Button
           variant="ghost"
           size="icon"
+          asChild
           className="text-zinc-400 hover:text-white"
           onClick={() => navigateCurrentProjectList('previous')}
         >
-          <SkipBack className="h-4 w-4" />
+          <SkipBack className="h-6 w-6 sm:h-5 sm:w-5" />
         </Button>
+
         <Button
+          asChild
           onClick={displayInterceptProject}
           size="icon"
           className="bg-white text-black hover:bg-white/90 rounded-full">
-          <Play className="h-4 w-4" />
+          <Play fill="white" className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1" />
         </Button>
+
         <Button
+          asChild
           onClick={() => navigateCurrentProjectList('next')}
           variant="ghost"
           size="icon"
-          className="text-zinc-400 hover:text-white">
-          <SkipForward className="h-4 w-4" />
+          className="text-zinc-400 hover:text-white ">
+          <SkipForward className="h-8 w-8 sm:h-5 sm:w-5" />
         </Button>
-        <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
-          <Repeat className="h-4 w-4" />
+
+        <Button
+          asChild
+          variant="ghost"
+          size="icon"
+          className="text-zinc-400 hover:text-white">
+          <Repeat className="w-6 h-6 sm:h-5 sm:w-5" />
         </Button>
       </div>
       <div className="w-full items-center space-x-2 mt-2 hidden sm:flex">

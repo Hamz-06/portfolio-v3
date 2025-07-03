@@ -15,7 +15,8 @@ export default async function Home() {
       className="flex flex-1 overflow-hidden relative bg-black"
       defaultLayout={mainPageLayout || undefined}>
 
-      <div className="w-full h-full relative overflow-auto" id={MAIN_CONTENT_ID}>
+      {/* takes into account the secondary header height on mobile */}
+      <div className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto" id={MAIN_CONTENT_ID}>
         <div className="sticky top-0 z-10 h-16">
           <FilterBar />
         </div>

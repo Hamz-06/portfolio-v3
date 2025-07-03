@@ -1,1 +1,1 @@
-export type CookieKey = 'current-project-index' | 'react-resizable-panels:layout' | 'is-shuffling-enabled'
+export type CookieKey = 'current-project' | 'react-resizable-panels:layout' | 'is-shuffling-enabled'

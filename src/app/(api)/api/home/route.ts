@@ -35,7 +35,7 @@ const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];
 const randomSlug = (base: string, i: number) => `${base}-${i + 1}`;
 const randomImage = () => images[Math.floor(Math.random() * images.length)];
 
-const createRandomProjects = (type: 'projects' | 'blogs', count: number) =>
+const createRandomProjects = (type: 'projects' | 'blogs' | 'rnd', count: number) =>
   Array.from({ length: count }, (_, i) => ({
     title: `Project ${i + 1}`,
     first_image_url: randomImage(),
@@ -47,5 +47,5 @@ const createRandomProjects = (type: 'projects' | 'blogs', count: number) =>
 const mockData = {
   projects: createRandomProjects('projects', 10),
   blogs: createRandomProjects('blogs', 5),
-  random: createRandomProjects('projects', 5),
+  random: createRandomProjects('rnd', 5),
 };

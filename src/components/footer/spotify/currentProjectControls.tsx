@@ -23,7 +23,7 @@ function ProjectControls() {
   }
 
   const shuffleCurrentProjectList = () => {
-    dispatch(setShuffle())
+    dispatch(setShuffle(!isShufflingEnabled))
     setCookie('is-shuffling-enabled', !isShufflingEnabled)
   }
 

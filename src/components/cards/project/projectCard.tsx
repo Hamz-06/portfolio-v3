@@ -90,17 +90,12 @@ function SliderFrontPage() {
         transition={{ type: 'tween', ease: 'easeInOut' }}
       />
 
-      {/* Center image carousel */}
-      <motion.div
-        animate={{ scale: fullScreen ? 1.3 : 1 }}
-        initial={false}
-        className="z-37 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-clip"
-      >
-        {
-          (fullScreen && gridMode) ? <ProjectImageGrid /> : <ImageCarousel />
-        }
 
-      </motion.div>
+      {/* display image  */}
+
+      {
+        gridMode ? <ProjectImageGrid /> : <ImageCarousel fullScreen={fullScreen} />
+      }
 
       {/* Bottom colored panel */}
       <motion.div
@@ -114,6 +109,7 @@ function SliderFrontPage() {
       {/* Controls */}
       <div className="top-0 right-0 m-5 flex items-center z-35 pointer-events-auto">
         <ProjectControls
+          gridMode={gridMode}
           projectLikeToggle={projectLikeToggle}
           liked={liked}
           fullScreen={fullScreen}
@@ -148,19 +144,19 @@ type Control = {
   animation: TargetAndTransition | boolean
   divider?: boolean;
   name: string;
-  hide?: boolean
 }
 
 // TODO: refactor this by using redux state to manage the controls
 type ProjectControlsProps = {
   liked: boolean
   fullScreen: boolean
+  gridMode: boolean
   fullScreenToggle: () => void
   displayModalToggle: () => void
   projectLikeToggle: () => void;
   setGridModeToggle: () => void
 }
-function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, liked, projectLikeToggle, setGridModeToggle }: ProjectControlsProps): React.ReactNode[] {
+function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, gridMode, liked, projectLikeToggle, setGridModeToggle }: ProjectControlsProps): React.ReactNode[] {
   console.log('ProjectControls rendered,', liked)
   const controlBaseStyles =
     'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 stroke-gray-400/80 hover:drop-shadow-xl/50 cursor-pointer'
@@ -182,10 +178,9 @@ function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, lik
 
     {
       name: 'Grid View',
-      icon: <Grid2x2 className={cn(controlBaseStyles, fullScreen ? 'stroke-white' : '')} />,
+      icon: <Grid2x2 className={cn(controlBaseStyles, gridMode ? 'stroke-white' : '')} />,
       action: () => setGridModeToggle(),
       animation: fullScreen ? { y: 0 } : { y: `${headerHeight}` },
-      hide: !fullScreen
     },
     {
       name: 'Full Screen',
@@ -195,10 +190,8 @@ function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, lik
     }
   ]
   return controls.map((control, index) => {
-    const { icon, action, divider, animation, name, hide } = control;
-    if (hide) {
-      return null
-    }
+    const { icon, action, divider, animation, name, } = control;
+
     return (
       <div className='flex justify-center items-center' key={index}>
         <ToolTip tooltipSide='bottom' tooltipContent={name} >

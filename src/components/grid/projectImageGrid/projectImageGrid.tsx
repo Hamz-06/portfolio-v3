@@ -10,7 +10,7 @@ const images = [
 
 function ProjectImageGrid() {
   return (
-    <div className='w-screen h-screen sticky flex flex-col justify-center items-center gap-6 pointer-events-none ' id="dcd">
+    <div className='w-screen h-screen sticky flex flex-col justify-center items-center gap-6 pointer-events-none z-90 ' id="dcd">
 
       <div className='grid grid-cols-2 grid-rows-2 gap-4 size-[240px] sm:size-[310px] md:size-[440px]'>
         {images.map((image, index) => (

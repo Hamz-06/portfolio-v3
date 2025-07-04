@@ -2,13 +2,17 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion, TargetAndTransition } from 'framer-motion'
-import { Diamond, Heart, Minimize2 } from 'lucide-react'
+import { Diamond, Grid2x2, Heart, Minimize2 } from 'lucide-react'
 import clsx from 'clsx'
 import { ImageCarousel } from '@/components/carousel/imageCarousel'
-import { ProjectDetailsModal } from '@/components/modal/projectDetailsModal'
+import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal'
 import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
 import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-functions/likedProjects'
+import { cn } from '@/lib/utils'
+import ToolTip from '@/components/tooltip/tooltip'
+import { useEscKeyListener } from '@/actions/client-functions/keyStrokes'
+import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
 
 // Layout z-index notes
 // - Main page: z-35
@@ -31,23 +35,29 @@ function SliderFrontPage() {
   const [liked, setLiked] = useState<boolean>(false)
   const [fullScreen, setFullScreen] = useState(false)
   const [isModalOpen, setModalOpen] = useState(false)
+  const [gridMode, setGridMode] = useState(false)
+
+  useEscKeyListener(() => onEscapeKey())
 
   useEffect(() => {
     const projectLiked = isProjectLiked(projectName)
     setLiked(projectLiked)
   }, [])
   // TODO: make this dynamic based on the project
-  const backgroundColor = 'red'
+  const backgroundColor = 'magenta'
 
   const fullScreenToggle = () => {
     setFullScreen(!fullScreen)
+  }
+  const onEscapeKey = () => {
+    setFullScreen(false)
   }
 
   const displayModalToggle = () => {
     setModalOpen(!isModalOpen)
   }
   const projectLikeToggle = () => {
-
+    //todo fix this by using redux type state
     if (!liked) {
       saveLikedProjects(projectName)
     } else {
@@ -56,10 +66,14 @@ function SliderFrontPage() {
     setLiked(!liked)
   }
 
+  const setGridModeToggle = () => {
+    setGridMode(!gridMode)
+  }
+
   return (
     <div
       className={clsx(
-        'w-full h-full absolute pointer-events-none *:absolute z-35'
+        'w-full h-full absolute pointer-events-none *:absolute z-999 bg-black overflow-hidden'
       )}
       style={{ zIndex: fullScreen ? 999 : 35 }}
     >
@@ -69,27 +83,30 @@ function SliderFrontPage() {
 
       {/* Top colored panel */}
       <motion.div
-        className="w-full h-[50%] rounded-t-2xl"
+        className=" h-[50%] rounded-t-2xl inset-x-3"
         style={{ backgroundColor }}
-        animate={{ y: fullScreen ? '0' : `var(--desktop-header-height)` }}
+        animate={{ y: fullScreen ? '14px' : `calc(1 * ${headerHeight} + 6px)` }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
       />
 
       {/* Center image carousel */}
       <motion.div
-        animate={{ scale: fullScreen ? 1.5 : 1 }}
+        animate={{ scale: fullScreen ? 1.3 : 1 }}
         initial={false}
-        className="z-37 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-clip pointer-events-auto"
+        className="z-37 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-clip"
       >
-        <ImageCarousel fullScreen={fullScreen} />
+        {
+          (fullScreen && gridMode) ? <ProjectImageGrid /> : <ImageCarousel />
+        }
+
       </motion.div>
 
       {/* Bottom colored panel */}
       <motion.div
-        className="w-full h-[50%] top-1/2 rounded-b-2xl"
+        className="h-[50%] top-1/2 rounded-b-2xl inset-x-3"
         style={{ backgroundColor }}
-        animate={{ y: fullScreen ? '0' : `calc(-1 * ${footerHeight})` }}
+        animate={{ y: fullScreen ? '-14px' : `calc(-1 * ${footerHeight} - 6px)` }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
       />
@@ -102,18 +119,19 @@ function SliderFrontPage() {
           fullScreen={fullScreen}
           displayModalToggle={displayModalToggle}
           fullScreenToggle={fullScreenToggle}
+          setGridModeToggle={setGridModeToggle}
         />
       </div>
 
       {/* Footer Text */}
       <motion.div
-        className="z-2 pl-10 pb-10 bottom-0 left-0 text-white"
-        animate={{ y: fullScreen ? 0 : `calc(-1 * ${footerHeight})` }}
+        className="z-2 pl-15 pb-10 bottom-0 left-0 text-white"
+        animate={{ y: fullScreen ? 0 : `calc(-1 * ${footerHeight} + 150px)` }}
         initial={false}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       >
-        <p className="text-2xl font-extrabold">Song 123</p>
-        <p className="font-light -translate-y-1 inline-block">marlon craft</p>
+        <p className="text-2xl font-bold">Song 123</p>
+        <p className="font-light -translate-y-1 inline-block text-gray-300">marlon craft</p>
       </motion.div>
 
       {/* Modal */}
@@ -129,51 +147,71 @@ type Control = {
   action: () => void;
   animation: TargetAndTransition | boolean
   divider?: boolean;
+  name: string;
+  hide?: boolean
 }
 
+// TODO: refactor this by using redux state to manage the controls
 type ProjectControlsProps = {
   liked: boolean
   fullScreen: boolean
   fullScreenToggle: () => void
   displayModalToggle: () => void
   projectLikeToggle: () => void;
+  setGridModeToggle: () => void
 }
-function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, liked, projectLikeToggle }: ProjectControlsProps): React.ReactNode[] {
+function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, liked, projectLikeToggle, setGridModeToggle }: ProjectControlsProps): React.ReactNode[] {
   console.log('ProjectControls rendered,', liked)
   const controlBaseStyles =
-    'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-2 rounded-full hover:bg-white/50 hover:drop-shadow-xl/50'
+    'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 stroke-gray-400/80 hover:drop-shadow-xl/50 cursor-pointer'
 
   const controls: Control[] = [
     {
+      name: 'Project Information',
       icon: <Diamond className={controlBaseStyles} />,
       action: () => displayModalToggle(),
       animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` }
     },
     {
-      icon: <Heart className={clsx(controlBaseStyles, liked ? 'fill-red-500' : '')} />,
+      name: 'Like Project',
+      icon: <Heart fill={liked ? 'white' : '#99a1af'} className={cn(controlBaseStyles, liked ? 'stroke-white' : '')} />,
       action: () => projectLikeToggle(),
       animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` },
       divider: true,
     },
+
     {
-      icon: <Minimize2 className={controlBaseStyles} />,
+      name: 'Grid View',
+      icon: <Grid2x2 className={cn(controlBaseStyles, fullScreen ? 'stroke-white' : '')} />,
+      action: () => setGridModeToggle(),
+      animation: fullScreen ? { y: 0 } : { y: `${headerHeight}` },
+      hide: !fullScreen
+    },
+    {
+      name: 'Full Screen',
+      icon: <Minimize2 className={cn(controlBaseStyles, fullScreen ? 'stroke-white' : '')} />,
       action: () => fullScreenToggle(),
       animation: fullScreen ? { y: 0 } : { y: `${headerHeight}` },
-    },
+    }
   ]
   return controls.map((control, index) => {
-    const { icon, action, divider, animation } = control
+    const { icon, action, divider, animation, name, hide } = control;
+    if (hide) {
+      return null
+    }
     return (
       <div className='flex justify-center items-center' key={index}>
-        <motion.div
-          animate={animation}
-          onClick={action}
-        >
-          {icon}
-        </motion.div>
-        {divider && <motion.div animate={animation} className="w-[2px] mx-2 h-7 bg-gray-300" />}
-      </div>
+        <ToolTip tooltipSide='bottom' tooltipContent={name} >
 
+          <motion.div
+            animate={animation}
+            onClick={action}
+          >
+            {icon}
+          </motion.div>
+        </ToolTip>
+        {divider && <motion.div animate={animation} className="w-[2px] mx-2 h-7 bg-gray-400/80" />}
+      </div>
     )
   })
 }

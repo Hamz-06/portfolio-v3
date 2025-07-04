@@ -9,7 +9,8 @@ export const mainLayoutStore = () => {
       projectListProvider: projectListProvider,
       layoutProvider: layoutProvider,
       styleProvider: styleProvider,
-    }
+    },
+    
   })
 }
 

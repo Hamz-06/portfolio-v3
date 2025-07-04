@@ -20,4 +20,51 @@ function useCommandKListener(onCommandK: ()=>void) {
   }, [onCommandK]);
 }
 
-export default useCommandKListener;
+
+type ArrowKeyCallbacks = {
+  ArrowLeft?: () => void
+  ArrowRight?: () => void
+}
+
+function useArrowKeyListener(callbacks: ArrowKeyCallbacks) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "ArrowLeft" && callbacks.ArrowLeft) {
+        event.preventDefault()
+        callbacks.ArrowLeft()
+      }
+
+      if (event.key === "ArrowRight" && callbacks.ArrowRight) {
+        event.preventDefault()
+        callbacks.ArrowRight()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [callbacks])
+}
+
+
+
+
+function useEscKeyListener(onEscKey: () => void) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onEscKey();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onEscKey]);
+}
+
+
+export  {useCommandKListener, useArrowKeyListener,useEscKeyListener};

@@ -1,6 +1,6 @@
 'use client'
 import { ProjectCard } from "@/components/cards/portfolio/projectCards";
-import { ProjectRows } from "@/components/rows/project/projectRows";
+import { ProjectRows } from "@/components/grid/project/projectRows";
 import { useProjectsMappedByCategory, useSelectedCategory } from "@/redux/slice/projectListSlice";
 
 

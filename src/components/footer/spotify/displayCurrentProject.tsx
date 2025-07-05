@@ -1,5 +1,5 @@
 'use client'
-import { useCurrentProject } from "@/redux/slice/projectListSlice"
+import { useCurrentProject } from "@/redux/slice/projectDataSlice"
 import { Routes } from "@/types/routes";
 import Image from "next/image"
 import { usePathname } from "next/navigation"

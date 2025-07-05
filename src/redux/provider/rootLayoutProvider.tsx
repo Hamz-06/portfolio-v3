@@ -2,7 +2,7 @@
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { MainLayoutStore, mainLayoutStore } from '../store/mainLayoutStore'
-import { setCurrentProject, setProjectsList, setShuffle } from '../slice/projectListSlice'
+import { setCurrentProject, setProjectsList, setShuffle } from '../slice/projectDataSlice'
 import { SanityHomeQuery } from '@/types/projects/projects'
 import { CurrentProjectKey } from '@/actions/server-actions/cookies/currentProjectCookie'
 

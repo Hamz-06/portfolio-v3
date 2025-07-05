@@ -4,7 +4,7 @@ import { setCookie } from "@/actions/server-actions/cookies/cookieHelper";
 import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { navigateCurrentProject, setShuffle, useCurrentProject, useIsShufflingEnabled } from "@/redux/slice/projectListSlice";
+import { navigateCurrentProject, setShuffle, useCurrentProject, useIsShufflingEnabled } from "@/redux/slice/projectDataSlice";
 import { Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";

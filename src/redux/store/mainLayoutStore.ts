@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
-import projectListProvider from '../slice/projectListSlice'
+import projectDataProvider from '../slice/projectDataSlice'
 import layoutProvider from '../slice/layoutSlice'
 import styleProvider from '../slice/styleSlice'
+import projectProvider from '../slice/projectSlice'
 
 export const mainLayoutStore = () => {
   return configureStore({
     reducer: {
-      projectListProvider: projectListProvider,
+      projectListProvider: projectDataProvider,
       layoutProvider: layoutProvider,
       styleProvider: styleProvider,
+      projectProvider: projectProvider
     },
     
   })

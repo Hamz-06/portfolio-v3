@@ -2,7 +2,7 @@
 
 import { MAIN_CONTENT_ID } from "@/app/(home)/portfolio/page"
 import { cn } from "@/lib/utils"
-import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/redux/slice/projectListSlice"
+import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/redux/slice/projectDataSlice"
 import { ProjectTypes } from "@/types/projects/projects"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"

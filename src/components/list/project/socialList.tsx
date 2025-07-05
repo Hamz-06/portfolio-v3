@@ -2,7 +2,7 @@
 'use client'
 
 import { GithubIcon, LinkedInIcon } from "@/components/icons/customIcons";
-import { useSelectedCategory } from "@/redux/slice/projectListSlice";
+import { useSelectedCategory } from "@/redux/slice/projectDataSlice";
 import { setPageColorTint } from "@/redux/slice/styleSlice";
 import Link from "next/link";
 import React from "react";

@@ -7,7 +7,7 @@ import { Command, Search, XIcon } from 'lucide-react'
 import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
-import { useAllProjectsArray } from '@/redux/slice/projectListSlice'
+import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
 
 const SEARCHABLE_KEYS: (keyof SanityProject)[] = ['title', 'sub_title']
 

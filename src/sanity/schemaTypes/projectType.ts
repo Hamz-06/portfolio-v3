@@ -10,33 +10,37 @@ export const projectType = defineType({
     defineField({
       name: 'title',
       type: 'string',
+      validation: Rule => Rule.required()
     }),
     defineField({
       title: 'Sub Title',
       name: 'sub_title',
       type: 'string',
+      validation: Rule => Rule.required()
     }),
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
+      validation: Rule => Rule.required()
     }),
     defineField({
       name: 'project_images',
       title: 'Project Images',
       type: 'array',
       of: [{ type: 'image' }],
+      validation: Rule => Rule.required()
     }),
     defineField({
       name: 'project_type',
       title: 'Project Type',
       type: 'string',
+      validation: Rule => Rule.required(),
       options: {
         list: [
           { title: 'Project', value: 'projects' },
-          { title: 'Certificate', value: 'certificates' },
           { title: 'Blog', value: 'blogs' },
-          { title: 'Work Experience', value: 'work-experience' },
+          { title: 'Work Experience', value: 'work_experience' },
         ],
       }
     }),
@@ -47,33 +51,34 @@ export const projectType = defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
-      name: 'title_color',
-      title: 'Title Color',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
-    defineField({
       name: 'secondary_color',
       title: 'Secondary Color',
       type: 'string',
     }),
     defineField({
+      validation: Rule => Rule.required(),
       name: 'primary_color',
       title: 'Primary Color',
       type: 'string',
     }),
     defineField({
-      name: 'features',
-      title: 'Features',
+      name: 'achievements',
+      title: 'Achievements',
       type: 'array',
       of: [{ type: 'string' }],
     }),
     defineField({
-      name: 'url_link',
-      title: 'URL Link',
+      name: 'github_url_link',
+      title: 'Github URL Link',
       type: 'url',
     }),
     defineField({
+      name: 'live_url_link',
+      title: 'Live URL Link',
+      type: 'url',
+    }),
+    defineField({
+      validation: Rule => Rule.required(),
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -83,6 +88,7 @@ export const projectType = defineType({
       },
     }),
     defineField({
+      validation: Rule => Rule.required(),
       name: 'date_created',
       title: 'Date Created',
       type: 'datetime',

@@ -1,13 +1,12 @@
 'use client'
 
-import { MAIN_CONTENT_ID } from "@/app/(home)/portfolio/page"
 import { cn } from "@/lib/utils"
 import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/redux/slice/projectDataSlice"
-import { ProjectTypes } from "@/types/projects/projects"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { motion } from "framer-motion"
 import { Button } from "../ui/button"
+import { ProjectTypes } from "@/schema/schema-types"
 
 
 //todo: split this file into filter and toggle sidebar
@@ -22,7 +21,7 @@ export function FilterBar() {
   const [animateFilterHeader, setAnimateFilterHeader] = useState(false)
 
   useEffect(() => {
-    const el = document.getElementById(MAIN_CONTENT_ID)
+    const el = document.getElementById('main-content')
     if (!el) return
 
     const handleScroll = () => {

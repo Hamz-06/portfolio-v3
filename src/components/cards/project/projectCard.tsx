@@ -9,7 +9,7 @@ import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
 import { useEscKeyListener } from '@/actions/client-functions/keyStrokes'
 import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
-import { closeFullPage, toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal, useFullPage, useGridMode }
+import { closeFullPage, toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal, useFullPage, useGridMode, useProject }
   from '@/redux/slice/projectSlice'
 import { useDispatch } from 'react-redux'
 import { ProjectControls } from './projectControls'
@@ -22,7 +22,8 @@ import { ProjectControls } from './projectControls'
 
 
 function ProjectCard() {
-  const projectName = 'Song 123'
+  const project = useProject()
+
   const dispatch = useDispatch()
 
   const fullScreen = useFullPage()
@@ -32,6 +33,11 @@ function ProjectCard() {
   useEscKeyListener(() => {
     dispatch(closeFullPage())
   })
+
+  // will not happen as the state is passed on first render, just used to satisfy typescript
+  if (!project) {
+    return <></>
+  }
 
   return (
     <div
@@ -50,7 +56,7 @@ function ProjectCard() {
 
       {/* Controls */}
       <div className="top-0 right-0 m-5 flex items-center z-35 pointer-events-auto">
-        <ProjectControls projectName={projectName} />
+        <ProjectControls />
       </div>
 
       {/* Footer Text */}

@@ -1,20 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
-import { ProjectTypes, SanityHomeQuery, SanityProject } from '@/types/projects/projects';
 import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
-import { CurrentProjectKey, setCurrentProjectKeyCookie } from '@/actions/server-actions/cookies/currentProjectCookie';
+import { CurrentProjectKey } from '@/actions/server-actions/cookies/currentProjectCookie';
+import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/schema/schema-types';
+import clientSideCookie from 'js-cookie'
 
 interface ProjectState {
-  originalProjects: SanityHomeQuery;
+  originalProjects: CategorisedProjects;
   selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
-  allProjectsArray: SanityProject[],
-  currentProject: SanityProject | null,
+  allProjectsArray: CategorisedProject[],
+  currentProject: CategorisedProject | null,
   isShufflingEnabled: boolean;
 }
 const initialState: ProjectState = {
-  originalProjects: {},
+  originalProjects: {
+    projects: [],
+    blogs: [],
+    work_experience: []
+  },
   selectedCategory: null,
   allCategories: [],
   allProjectsArray: [],
@@ -26,7 +31,7 @@ export const projectsList = createSlice({
   name: 'projects_list',
   initialState: initialState,
   reducers: {
-    setProjectsList: (state, action: PayloadAction<SanityHomeQuery>) => {
+    setProjectsList: (state, action: PayloadAction<CategorisedProjects>) => {
       state.originalProjects = structuredClone(action.payload);
       state.allCategories = Object.keys(action.payload) as ProjectTypes[]
       state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
@@ -67,11 +72,16 @@ export const projectsList = createSlice({
         state.currentProject = state.allProjectsArray[0];
         return;
       }
+
       if (state.isShufflingEnabled) {
         const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
         const randomProject = state.allProjectsArray[randomIndex];
 
-        setCurrentProjectKeyCookie(randomProject.project_type, randomProject.slug)
+        clientSideCookie.set('current-project', JSON.stringify({
+          category: randomProject.project_type,
+          project_slug: randomProject.slug
+        }))
+
         state.currentProject = state.allProjectsArray[randomIndex];
       }
       const currentIndex = state.allProjectsArray
@@ -79,7 +89,12 @@ export const projectsList = createSlice({
 
       if (currentIndex === -1) {
         const firstProject = state.allProjectsArray[0];
-        setCurrentProjectKeyCookie(firstProject.project_type, firstProject.slug)
+
+        clientSideCookie.set('current-project', JSON.stringify({
+          category: firstProject.project_type,
+          project_slug: firstProject.slug
+        }))
+
         state.currentProject = firstProject;
         return;
       }
@@ -89,11 +104,17 @@ export const projectsList = createSlice({
         return;
       }
       const navigationProject = state.allProjectsArray[nextIndex];
-      setCurrentProjectKeyCookie(navigationProject.project_type, navigationProject.slug)
+
+      clientSideCookie.set('current-project', JSON.stringify({
+        category: navigationProject.project_type,
+        project_slug: navigationProject.slug
+      }))
       state.currentProject = navigationProject;
 
     },
     setShuffle: (state, action: PayloadAction<boolean>) => {
+      //todo and add type safety
+      clientSideCookie.set('is-shuffling-enabled', JSON.stringify(action.payload))
       state.isShufflingEnabled = action.payload;
     }
   }

@@ -1,12 +1,11 @@
-import { HomeRouteResponse } from "@/app/(api)/api/home/route";
+import { HomeRouteResponse } from "@/app/api/portfolio/route";
 import "../../globals.css";
 import Footer from "@/components/footer/spotify/footer";
 import { Header } from "@/components/header/header";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
-import { SanityHomeQuery } from "@/types/projects/projects";
 import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
 import { CurrentProjectKey } from "@/actions/server-actions/cookies/currentProjectCookie";
-// import { getCurrentProjectIndexCookie } from "@/actions/server-actions/cookies/currentProjectCookie";
+import { CategorisedProjects } from "@/schema/schema-types";
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -30,8 +29,8 @@ export default async function RootLayout({
   );
 }
 
-async function getAllProjects(): Promise<SanityHomeQuery> {
-  const res = await fetch(`${process.env.HOST_URL}/api/home`)
+async function getAllProjects(): Promise<CategorisedProjects> {
+  const res = await fetch(`${process.env.HOST_URL}/api/portfolio`) //todo add this route to types
   if (!res.ok) {
     console.error("Failed to fetch project data", res.statusText);
     throw new Error("Failed to fetch project data");

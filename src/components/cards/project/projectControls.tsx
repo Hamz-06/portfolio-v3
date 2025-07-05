@@ -4,7 +4,7 @@ import { motion, TargetAndTransition } from 'framer-motion'
 import { Diamond, Grid2x2, Heart, Minimize2 } from 'lucide-react'
 import ToolTip from '@/components/tooltip/tooltip'
 import { useDispatch } from 'react-redux';
-import { toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useFullPage, useGridMode } from '@/redux/slice/projectSlice';
+import { toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useFullPage, useGridMode, useProject } from '@/redux/slice/projectSlice';
 import { useEffect, useState } from 'react';
 import { handleLikedProjects, isProjectLiked } from '@/actions/client-functions/likedProjects';
 import { headerHeight } from '@/const/dimensions'
@@ -20,24 +20,28 @@ type Control = {
 }
 
 // TODO: refactor this by using redux state to manage the controls
-type ProjectControlsProps = {
-  projectName: string
-}
 
-function ProjectControls({ projectName }: ProjectControlsProps): React.ReactNode[] {
+function ProjectControls(): React.ReactNode[] {
+  const project = useProject()
+
   const dispatch = useDispatch()
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
   const [liked, setLiked] = useState<boolean>(false)
 
+
+
   useEffect(() => {
-    const projectLiked = isProjectLiked(projectName)
+    if (!project) return;
+    const projectLiked = isProjectLiked(project.title)
     setLiked(projectLiked)
   }, [])
 
   useEffect(() => {
-    handleLikedProjects(projectName, liked)
+    if (!project) return;
+    handleLikedProjects(project.title, liked)
   }, [liked])
+
 
 
   const controlBaseStyles =

@@ -1,20 +1,12 @@
 // import { setCookie } from "./cookieHelper"
+// set cookie on the client until this next js issue is resolved
+// https://github.com/vercel/next.js/issues/50163
 
-import { ProjectTypes } from "@/types/projects/projects";
-import { getCookie, setCookie } from "./cookieHelper";
+// TODO: remove this file move  to client side 
+
+import { ProjectTypes } from "@/schema/schema-types";
 
 export type CurrentProjectKey = {
   category: ProjectTypes;
   project_slug: string;
-}
-export const setCurrentProjectKeyCookie = (category:ProjectTypes, projectSlug: string): void => {
-  setCookie<CurrentProjectKey>('current-project', {
-    category,
-    project_slug: projectSlug
-  })
-}
-
-export const getCurrentProjectKeyCookie = async (): Promise<CurrentProjectKey | null> => {
-  const res = await getCookie<CurrentProjectKey>('current-project');
-  return res ? res : null
 }

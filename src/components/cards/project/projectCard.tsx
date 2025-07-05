@@ -1,14 +1,18 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { motion, TargetAndTransition } from 'framer-motion'
-import { Diamond, Heart, Minimize2 } from 'lucide-react'
+import React from 'react'
+import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import { ImageCarousel } from '@/components/carousel/imageCarousel'
-import { ProjectDetailsModal } from '@/components/modal/projectDetailsModal'
+import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal'
 import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
-import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions/client-functions/likedProjects'
+import { useEscKeyListener } from '@/actions/client-functions/keyStrokes'
+import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
+import { closeFullPage, toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal, useFullPage, useGridMode }
+  from '@/redux/slice/projectSlice'
+import { useDispatch } from 'react-redux'
+import { ProjectControls } from './projectControls'
 
 // Layout z-index notes
 // - Main page: z-35
@@ -16,166 +20,94 @@ import { isProjectLiked, removeLikedProject, saveLikedProjects } from '@/actions
 // - Footer: z-36
 // - Second page: z-37
 
+
 function ProjectCard() {
-  return (
-    <>
-      {/* absolute div used to fill the entire screen hack, todo potentially use portal to render outside of the main layout */}
-      <SliderFrontPage />
-      <div className="relative flex-1 bg-black overflow-y-scroll" />
-    </>
-  )
-}
-
-function SliderFrontPage() {
   const projectName = 'Song 123'
-  const [liked, setLiked] = useState<boolean>(false)
-  const [fullScreen, setFullScreen] = useState(false)
-  const [isModalOpen, setModalOpen] = useState(false)
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    const projectLiked = isProjectLiked(projectName)
-    setLiked(projectLiked)
-  }, [])
-  // TODO: make this dynamic based on the project
-  const backgroundColor = 'red'
+  const fullScreen = useFullPage()
+  const gridMode = useGridMode()
+  const isModalOpen = useDisplayProjectDetailsModal()
 
-  const fullScreenToggle = () => {
-    setFullScreen(!fullScreen)
-  }
-
-  const displayModalToggle = () => {
-    setModalOpen(!isModalOpen)
-  }
-  const projectLikeToggle = () => {
-
-    if (!liked) {
-      saveLikedProjects(projectName)
-    } else {
-      removeLikedProject(projectName)
-    }
-    setLiked(!liked)
-  }
+  useEscKeyListener(() => {
+    dispatch(closeFullPage())
+  })
 
   return (
     <div
       className={clsx(
-        'w-full h-full absolute pointer-events-none *:absolute z-35'
+        'w-full h-full absolute pointer-events-none *:absolute z-999 bg-black overflow-hidden'
       )}
       style={{ zIndex: fullScreen ? 999 : 35 }}
     >
-      {/* Background gradients */}
-      <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-l from-black/60 via-black/50 to-black/40" />
-      <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-b from-gray-50/5 via-transparent to-transparent" />
+      <BackgroundSlidersFullScreen />
+      <BackgroundGradient />
 
-      {/* Top colored panel */}
-      <motion.div
-        className="w-full h-[50%] rounded-t-2xl"
-        style={{ backgroundColor }}
-        animate={{ y: fullScreen ? '0' : `var(--desktop-header-height)` }}
-        initial={false}
-        transition={{ type: 'tween', ease: 'easeInOut' }}
-      />
-
-      {/* Center image carousel */}
-      <motion.div
-        animate={{ scale: fullScreen ? 1.5 : 1 }}
-        initial={false}
-        className="z-37 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-clip pointer-events-auto"
-      >
-        <ImageCarousel fullScreen={fullScreen} />
-      </motion.div>
-
-      {/* Bottom colored panel */}
-      <motion.div
-        className="w-full h-[50%] top-1/2 rounded-b-2xl"
-        style={{ backgroundColor }}
-        animate={{ y: fullScreen ? '0' : `calc(-1 * ${footerHeight})` }}
-        initial={false}
-        transition={{ type: 'tween', ease: 'easeInOut' }}
-      />
+      {/* display image  */}
+      {
+        gridMode ? <ProjectImageGrid /> : <ImageCarousel fullScreen={fullScreen} />
+      }
 
       {/* Controls */}
       <div className="top-0 right-0 m-5 flex items-center z-35 pointer-events-auto">
-        <ProjectControls
-          projectLikeToggle={projectLikeToggle}
-          liked={liked}
-          fullScreen={fullScreen}
-          displayModalToggle={displayModalToggle}
-          fullScreenToggle={fullScreenToggle}
-        />
+        <ProjectControls projectName={projectName} />
       </div>
 
       {/* Footer Text */}
       <motion.div
-        className="z-2 pl-10 pb-10 bottom-0 left-0 text-white"
-        animate={{ y: fullScreen ? 0 : `calc(-1 * ${footerHeight})` }}
+        className="z-2 pl-15 pb-10 bottom-0 left-0 text-white"
+        animate={{ y: fullScreen ? 0 : `calc(-1 * ${footerHeight} + 150px)` }}
         initial={false}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       >
-        <p className="text-2xl font-extrabold">Song 123</p>
-        <p className="font-light -translate-y-1 inline-block">marlon craft</p>
+        <p className="text-2xl font-bold">Song 123</p>
+        <p className="font-light -translate-y-1 inline-block text-gray-300">marlon craft</p>
       </motion.div>
 
       {/* Modal */}
-      <ProjectDetailsModal isOpen={isModalOpen} onModal={setModalOpen}>
+      <ProjectDetailsModal isOpen={isModalOpen} onModal={() => dispatch(toggleDisplayProjectDetailsModal())}>
         <ProjectDetails />
       </ProjectDetailsModal>
     </div>
   )
 }
 
-type Control = {
-  icon: React.ReactNode;
-  action: () => void;
-  animation: TargetAndTransition | boolean
-  divider?: boolean;
+
+function BackgroundSlidersFullScreen() {
+  const fullScreen = useFullPage();
+
+  // TODO: make this dynamic based on the project
+  const backgroundColor = 'magenta'
+
+  return (
+    <>
+      {/* Bottom colored panel */}
+      <motion.div
+        className="h-[50%] top-1/2 rounded-b-2xl inset-x-3"
+        style={{ backgroundColor }}
+        animate={{ y: fullScreen ? '-14px' : `calc(-1 * ${footerHeight} - 6px)` }}
+        initial={false}
+        transition={{ type: 'tween', ease: 'easeInOut' }}
+      />
+
+      {/* Top colored panel */}
+      <motion.div
+        className=" h-[50%] rounded-t-2xl inset-x-3"
+        style={{ backgroundColor }}
+        animate={{ y: fullScreen ? '14px' : `calc(1 * ${headerHeight} + 6px)` }}
+        initial={false}
+        transition={{ type: 'tween', ease: 'easeInOut' }}
+      />
+    </>
+  )
 }
-
-type ProjectControlsProps = {
-  liked: boolean
-  fullScreen: boolean
-  fullScreenToggle: () => void
-  displayModalToggle: () => void
-  projectLikeToggle: () => void;
-}
-function ProjectControls({ fullScreen, fullScreenToggle, displayModalToggle, liked, projectLikeToggle }: ProjectControlsProps): React.ReactNode[] {
-  console.log('ProjectControls rendered,', liked)
-  const controlBaseStyles =
-    'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-2 rounded-full hover:bg-white/50 hover:drop-shadow-xl/50'
-
-  const controls: Control[] = [
-    {
-      icon: <Diamond className={controlBaseStyles} />,
-      action: () => displayModalToggle(),
-      animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` }
-    },
-    {
-      icon: <Heart className={clsx(controlBaseStyles, liked ? 'fill-red-500' : '')} />,
-      action: () => projectLikeToggle(),
-      animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` },
-      divider: true,
-    },
-    {
-      icon: <Minimize2 className={controlBaseStyles} />,
-      action: () => fullScreenToggle(),
-      animation: fullScreen ? { y: 0 } : { y: `${headerHeight}` },
-    },
-  ]
-  return controls.map((control, index) => {
-    const { icon, action, divider, animation } = control
-    return (
-      <div className='flex justify-center items-center' key={index}>
-        <motion.div
-          animate={animation}
-          onClick={action}
-        >
-          {icon}
-        </motion.div>
-        {divider && <motion.div animate={animation} className="w-[2px] mx-2 h-7 bg-gray-300" />}
-      </div>
-
-    )
-  })
+function BackgroundGradient() {
+  return (
+    <>
+      <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-l from-black/40 via-black/50 to-black/40" />
+      <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-b from-gray-50/5 via-transparent to-transparent" />
+    </>
+  )
 }
 
 export { ProjectCard }

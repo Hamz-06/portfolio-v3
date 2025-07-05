@@ -1,18 +1,15 @@
 'use client'
-
 import React, { useEffect, useRef } from 'react'
 import { Input } from '../ui/input'
 import { SanityProject } from '@/types/projects/projects'
 import { SearchDropdown } from '../modal/searchModal'
 import { Command, Search, XIcon } from 'lucide-react'
-import useCommandKListener from '@/actions/client-functions/keyStrokes'
+import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
-import { useAllProjectsArray } from '@/redux/slice/projectListSlice'
+import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
 
 const SEARCHABLE_KEYS: (keyof SanityProject)[] = ['title', 'sub_title']
-
-
 
 function SearchBar() {
   const allProjects = useAllProjectsArray()

@@ -1,92 +1,59 @@
 "use client"
 
-
-import React, { useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
-import {
-  Carousel,
-  type CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel"
+import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useArrowKeyListener } from "@/actions/client-functions/keyStrokes"
+import { motion } from "framer-motion"
 
 const images = [
   "/bart-simpson-cartoon.png",
   "/mona-lisa.png",
   "/bart-simpson-cartoon.png",
-  // Add more as needed
 ]
-
 
 type ImageCarouselProps = {
   fullScreen: boolean
 }
 export function ImageCarousel({ fullScreen }: ImageCarouselProps) {
-  const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(1)
-  const [count, setCount] = React.useState(0)
+  const [index, setIndex] = useState(0)
+  const total = images.length
 
-  useEffect(() => {
-    if (!api) return;
+  const prev = () => setIndex((prev) => (prev - 1 + total) % total)
+  const next = () => setIndex((prev) => (prev + 1) % total)
 
-    setCount(api.scrollSnapList().length);
-
-    const onSelect = () => setCurrent(api.selectedScrollSnap() + 1);
-    api.on("select", onSelect);
-
-    // Handle arrow key navigation
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        api.scrollNext();
-      } else if (event.key === "ArrowLeft") {
-        api.scrollPrev();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    let interval: NodeJS.Timeout | null = null;
-
-    if (!fullScreen) {
-      interval = setInterval(() => {
-        api.scrollNext();
-      }, 10000);
-    }
-
-    return () => {
-      api.off("select", onSelect);
-      window.removeEventListener("keydown", handleKeyDown);
-      if (interval) clearInterval(interval);
-    };
-  }, [api, fullScreen]);
-
+  useArrowKeyListener({ ArrowLeft: prev, ArrowRight: next })
 
   return (
-    <>
-      <div className="w-[410px] h-[410px]">
-        <Carousel setApi={setApi} className="w-[410px]">
-          <CarouselContent>
-            {images.map((src, index) => (
-              <CarouselItem key={index}>
-                <div className="w-[410px] h-[410px] p-0 relative overflow-hidden">
+    <motion.div
+      animate={{ scale: fullScreen ? 1.3 : 1 }}
+      initial={false}
+      className="z-37 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-clip pointer-events-auto">
+      <div className="relative size-[250px] md:size-[410px] rounded-lg overflow-hidden">
+        <Image
+          src={images[index]}
+          alt={`Image ${index + 1}`}
+          fill
+          className="object-cover"
+        />
 
-                  <Image
-                    src={src || "/placeholder.svg?height=410&width=410"}
-                    alt={`Image ${index + 1}`}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </div>
-      {
-        fullScreen && <div className="py-2 text-center text-[8px] text-muted-foreground">
-          {current} of {count}
+        {/* Navigation Buttons */}
+        <div className="absolute inset-0 flex items-center justify-between px-2">
+          <Button variant="ghost" size="icon" onClick={prev}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" className="" size="icon" onClick={next}>
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
-      }
-    </>
+
+        {/* Page Indicator */}
+        <div className="absolute bottom-1 right-2 text-[10px] text-white bg-black/50 px-1 rounded">
+          {index + 1} / {total}
+        </div>
+      </div>
+    </motion.div>
   )
 }
+

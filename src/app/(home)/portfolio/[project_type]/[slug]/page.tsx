@@ -9,7 +9,10 @@ async function ProjectPage({ params }: ProjectPageProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { slug: _, project_type: _projectType } = await params;
   return (
-    <ProjectCard />
+    <>
+      <div className="relative flex-1 bg-black overflow-y-scroll " />
+      <ProjectCard />
+    </>
   )
 }
 

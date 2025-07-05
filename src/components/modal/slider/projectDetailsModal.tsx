@@ -1,5 +1,6 @@
 import React from 'react'
-import { Dialog, DialogContent } from '../ui/dialog'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { XIcon } from 'lucide-react'
 
 type ProjectDetailsModalProps = {
   isOpen: boolean
@@ -8,17 +9,20 @@ type ProjectDetailsModalProps = {
 }
 function ProjectDetailsModal({ isOpen, onModal, children }: ProjectDetailsModalProps) {
   return (
-    <Dialog
+    <Sheet
       open={isOpen}
       onOpenChange={onModal}
     >
-      <DialogContent
-        className="!w-[80vw] !max-w-none !sm:max-w-none h-[90%] bg-amber-400 overflow-scroll p-0"
+      <SheetContent
+        closeButton={
+          <XIcon className="w-6 h-6 stroke-zinc-400 cursor-pointer hover:stroke-white" />
+        }
+        className="!w-[100vw] sm:!w-[80vw] !max-w-none !sm:max-w-none h-full  overflow-scroll p-0 z-999"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         {children}
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   )
 }
 

@@ -1,16 +1,25 @@
 'use client'
-import { useCurrentProject } from "@/redux/slice/projectListSlice"
+import { useCurrentProject } from "@/redux/slice/projectDataSlice"
+import { Routes } from "@/types/routes";
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 
 // todo: split the component into two parts, one for mobile and one for desktop
 
+const HOME_PAGE_ROUTE: Routes = '/portfolio';
+
+
 function DisplayCurrentProject() {
   const currentProject = useCurrentProject()
+  const pathname = usePathname();
+
+  const isHomePage = pathname === HOME_PAGE_ROUTE;
+
   if (!currentProject) return <></>
   return (
     <>
       {/* used for mobile view so it sits above the controls -translate-y-[var(--desktop-footer-height)]  */}
-      <div className="absolute w-full h-[var(--mobile-secondary-header-height)] left-0 bottom-0 -translate-y-[var(--desktop-footer-height)] rounded-b-sm flex bg-zinc-900
+      {isHomePage && <div className="absolute w-full h-[var(--mobile-secondary-header-height)] left-0 bottom-0 -translate-y-[var(--desktop-footer-height)] rounded-b-sm flex bg-zinc-900
         sm:hidden">
         {/* TODO: this component is duplicated in the footer, consider refactoring to a shared component */}
         <div className="h-0.5 -translate-y-0.5 flex-1 bg-zinc-600 absolute top-0 left-0 right-0 z-10">
@@ -32,7 +41,7 @@ function DisplayCurrentProject() {
           <a className="block font-light text-xs text-[#1ed760]">{currentProject.title}</a>
           <a className="block font-light text-xs text-zinc-400">Mohammad H Iqbal</a>
         </div>
-      </div>
+      </div>}
 
       {/* used for desktop view */}
       <div className="items-center hidden sm:flex w-1/3">

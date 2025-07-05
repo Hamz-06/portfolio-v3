@@ -3,7 +3,7 @@ const likedProjectsKey = 'liked-projects';
 type LikedProjects = {
   [key: string]: true,
 }
-export const saveLikedProjects = (projectToSave: string): LikedProjects=>{
+const saveLikedProjects = (projectToSave: string): LikedProjects=>{
   try {
     const likedProjects: LikedProjects = JSON.parse(localStorage.getItem('likedProjectsKey') || '{}');
     likedProjects[projectToSave] = true; 
@@ -15,7 +15,7 @@ export const saveLikedProjects = (projectToSave: string): LikedProjects=>{
     return {};
   }
 }
-export const removeLikedProject = (projectToRemove: string): LikedProjects => {
+const removeLikedProject = (projectToRemove: string): LikedProjects => {
   try {
     const likedProjects: LikedProjects = JSON.parse(localStorage.getItem(likedProjectsKey) || '{}');
     delete likedProjects[projectToRemove];
@@ -25,6 +25,12 @@ export const removeLikedProject = (projectToRemove: string): LikedProjects => {
     console.error("Error removing liked project:", error);
     return {};
   }
+}
+export const handleLikedProjects = (projectName: string, liked: boolean): LikedProjects=>{
+  if (liked) {
+    return saveLikedProjects(projectName);
+  }
+  return removeLikedProject(projectName);
 }
 
 export const isProjectLiked = (projectName:string): boolean => {

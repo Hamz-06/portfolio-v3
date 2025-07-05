@@ -1,5 +1,4 @@
 import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
-// import { SpotifyWrappedCard } from "@/components/cards/portfolio/spotifyWrappedCard";
 import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
 import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectList } from "@/components/list/project/projectList";
@@ -8,7 +7,6 @@ import { ResizableLayout } from "@/components/resizable/main-layout/resizableLay
 
 
 export default async function Home() {
-  // const projects = await getAllProjects()
   const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
 
   return (

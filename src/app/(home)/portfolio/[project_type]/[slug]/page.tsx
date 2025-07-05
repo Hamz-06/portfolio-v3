@@ -2,6 +2,7 @@ import { ProjectPageResponse } from '@/app/api/portfolio/[project_type]/[slug]/r
 import { ProjectCard } from '@/components/cards/project/projectCard'
 import { ProjectProvider } from '@/redux/provider/projectProvider';
 import { Project } from '@/schema/schema-types';
+import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
@@ -9,7 +10,7 @@ type ProjectPageProps = {
   params: Promise<{ slug: string, project_type: string }>
 }
 
-const HOME_ROUTE = '/portfolio';
+const HOME_ROUTE: Routes = '/portfolio';
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
 

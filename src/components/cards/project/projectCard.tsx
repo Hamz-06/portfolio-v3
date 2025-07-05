@@ -56,7 +56,7 @@ function ProjectCard() {
 
       {/* Controls */}
       <div className="top-0 right-0 m-5 flex items-center z-35 pointer-events-auto">
-        <ProjectControls projectName={project.title} />
+        <ProjectControls />
       </div>
 
       {/* Footer Text */}

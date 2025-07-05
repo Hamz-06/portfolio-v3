@@ -1,4 +1,4 @@
-// api/home
+// api/portfolio/[project_type]/[slug]
 
 // lists all projects, blogs to display on the home page
 import { PROJECT_PROJECT_PAGE } from "@/sanity/lib/queries";

@@ -1,18 +1,17 @@
 'use client'
-import { useRef } from 'react'
-import { MainLayoutStore } from '../store/mainLayoutStore'
+
+import { Project } from '@/schema/schema-types'
+import { StoreSingleton } from '../store/storeSingleton'
+import { setProject } from '../slice/projectSlice'
 
 type ProviderProps = {
   children: React.ReactNode,
+  project: NonNullable<Project>
 }
 
-export function ProjectProvider({ children }: ProviderProps) {
-  const storeRef = useRef<MainLayoutStore | null>(null)
+export function ProjectProvider({ children, project }: ProviderProps) {
+  StoreSingleton.getInstance().dispatch(setProject(project))
 
-  if (!storeRef.current) {
-
-
-  }
-
+  console.log("ProjectProvider rendered")
   return <>{children}</>
 }

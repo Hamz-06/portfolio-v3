@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { SanityProject } from "@/types/projects/projects"
+import { CategorisedProject } from "@/schema/schema-types"
 import { Play } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -11,7 +11,7 @@ import { useState } from "react"
 
 // TODO: rename this
 interface MusicCardProps {
-  cardDetails: SanityProject,
+  cardDetails: CategorisedProject,
   aspectRatio?: "square" | "portrait" | "landscape" | "round"
   className?: string
   onClick?: () => void

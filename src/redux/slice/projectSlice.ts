@@ -1,17 +1,20 @@
 // project slice page, used to manage the state of the project page
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootMainLayoutStore } from "../store/mainLayoutStore";
 import { useSelector } from "react-redux";
+import { Project } from "@/schema/schema-types";
 
 interface ProjectState {
+  project: Project | null,
   fullPage: boolean,
-  gridMode:boolean,
-  displayProjectDetailsModal:boolean
+  gridMode: boolean,
+  displayProjectDetailsModal: boolean
 }
 
 const initialState: ProjectState = {
-  fullPage: false, 
+  project: null,
+  fullPage: false,
   gridMode: false,
   displayProjectDetailsModal: false
 }
@@ -23,17 +26,22 @@ export const projectSlice = createSlice({
     toggleFullPage: (state) => {
       state.fullPage = !state.fullPage;
     },
-    closeFullPage: (state)=>{ state.fullPage = false},
+    closeFullPage: (state) => { state.fullPage = false },
     toggleGridMode: (state) => {
       state.gridMode = !state.gridMode;
     },
     toggleDisplayProjectDetailsModal: (state) => {
-      state.displayProjectDetailsModal = !state.displayProjectDetailsModal; 
+      state.displayProjectDetailsModal = !state.displayProjectDetailsModal;
+    },
+    setProject: (state, action: PayloadAction<NonNullable<Project>>) => {
+      state.project = action.payload;
     }
   }
 })
 
-export const { toggleFullPage,closeFullPage, toggleGridMode,toggleDisplayProjectDetailsModal} = projectSlice.actions;
+export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal
+  , setProject
+} = projectSlice.actions;
 
 
 export const useFullPage = (): ProjectState['fullPage'] =>
@@ -42,4 +50,7 @@ export const useGridMode = (): ProjectState['gridMode'] =>
   useSelector((state: RootMainLayoutStore) => state.projectProvider.gridMode)
 export const useDisplayProjectDetailsModal = (): ProjectState['displayProjectDetailsModal'] =>
   useSelector((state: RootMainLayoutStore) => state.projectProvider.displayProjectDetailsModal)
+export const useProject = (): ProjectState['project'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectProvider.project)
+
 export default projectSlice.reducer

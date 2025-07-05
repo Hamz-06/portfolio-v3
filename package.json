@@ -1,12 +1,16 @@
 {
-  "name": "portfolioo_v2",
+  "name": "portfolio_v3",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc-build": "npx tsc",
+    "generate-sanity-schema": "npx sanity schema extract --enforce-required-fields --path ./src/schema/schema.json",
+    "generate-sanity-types": "npx sanity typegen generate",
+    "typegen": "npm run generate-sanity-schema && npm run generate-sanity-types"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
@@ -23,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.501.0",
     "motion": "^12.18.1",
     "next": "^15.3.4",
@@ -39,6 +44,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

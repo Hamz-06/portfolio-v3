@@ -1,19 +1,19 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
 import { Input } from '../ui/input'
-import { SanityProject } from '@/types/projects/projects'
 import { SearchDropdown } from '../modal/searchModal'
 import { Command, Search, XIcon } from 'lucide-react'
 import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
 import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
+import { CategorisedProject } from '@/schema/schema-types'
 
-const SEARCHABLE_KEYS: (keyof SanityProject)[] = ['title', 'sub_title']
+const SEARCHABLE_KEYS: (keyof CategorisedProject)[] = ['title', 'sub_title']
 
 function SearchBar() {
   const allProjects = useAllProjectsArray()
-  const [querySearchValue, setQuerySearchValue] = React.useState<SanityProject[]>([])
+  const [querySearchValue, setQuerySearchValue] = React.useState<CategorisedProject[]>([])
   const [queryValue, setQuerySearch] = React.useState<string>('')
   const [isModal, setModal] = React.useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -36,8 +36,13 @@ function SearchBar() {
       return
     }
     const value = allProjects.filter(project =>
-      SEARCHABLE_KEYS.some(key => project[key].toLowerCase().includes(query.toLowerCase()))
-    )
+      SEARCHABLE_KEYS.some(key => {
+        const projectValue = project[key];
+        return (
+          typeof projectValue === 'string' && projectValue.toLowerCase().includes(query.toLowerCase())
+        );
+      })
+    );
     if (value.length > 0) {
       setModal(true)
     } else {

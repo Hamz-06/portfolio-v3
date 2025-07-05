@@ -29,7 +29,7 @@ function DisplayCurrentProject() {
         <div className="h-15 w-15  overflow-hidden p-1">
           <div className="relative w-full h-full">
             <Image
-              src={currentProject.first_image_url}
+              src={currentProject.first_image_url || '/placeholder.svg'}
               alt="Album cover"
               fill
               className="object-cover rounded"
@@ -46,7 +46,7 @@ function DisplayCurrentProject() {
       {/* used for desktop view */}
       <div className="items-center hidden sm:flex w-1/3">
         <Image
-          src={currentProject.first_image_url}
+          src={currentProject.first_image_url || '/placeholder.svg'}
           alt="Album cover"
           width={56}
           height={56}

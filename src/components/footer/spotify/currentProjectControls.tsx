@@ -1,6 +1,5 @@
 'use client'
 
-import { setCookie } from "@/actions/server-actions/cookies/cookieHelper";
 import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,7 +23,6 @@ function ProjectControls() {
 
   const shuffleCurrentProjectList = () => {
     dispatch(setShuffle(!isShufflingEnabled))
-    setCookie('is-shuffling-enabled', !isShufflingEnabled)
   }
 
   const displayInterceptProject = () => {

@@ -49,3 +49,17 @@ export const PROJECT_PROJECT_PAGE = defineQuery(
     }
   `
 )
+
+export const MY_PROFILE = defineQuery(
+  `
+  *[_type == "profile"][0]{
+    email_address,
+    github_link,
+    linkedin_link,
+    project_versions[]{
+      version_number,
+      version_url
+    }
+  }
+`
+)

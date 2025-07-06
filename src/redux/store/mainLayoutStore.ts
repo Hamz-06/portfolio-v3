@@ -3,6 +3,7 @@ import projectDataProvider from '../slice/projectDataSlice'
 import layoutProvider from '../slice/layoutSlice'
 import styleProvider from '../slice/styleSlice'
 import projectProvider from '../slice/projectSlice'
+import profileProvider from '../slice/profileSlice'
 
 export const mainLayoutStore = () => {
   return configureStore({
@@ -10,9 +11,9 @@ export const mainLayoutStore = () => {
       projectListProvider: projectDataProvider,
       layoutProvider: layoutProvider,
       styleProvider: styleProvider,
-      projectProvider: projectProvider
+      projectProvider: projectProvider,
+      profileProvider: profileProvider
     },
-    
   })
 }
 

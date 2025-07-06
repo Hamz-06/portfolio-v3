@@ -68,6 +68,22 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Profile = {
+  _id: string;
+  _type: "profile";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  github_link: string;
+  linkedin_link: string;
+  email_address: string;
+  project_versions: Array<{
+    version_number: string;
+    version_url: string;
+    _key: string;
+  }>;
+};
+
 export type Projects = {
   _id: string;
   _type: "projects";
@@ -164,7 +180,7 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Projects | Slug | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Profile | Projects | Slug | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: CATEGORIZED_PROJECTS_HOME_PAGE
@@ -209,6 +225,17 @@ export type PROJECT_PROJECT_PAGEResult = {
   github_url_link: string | null;
   live_url_link: string | null;
 } | null;
+// Variable: MY_PROFILE
+// Query: *[_type == "profile"][0]{    email_address,    github_link,    linkedin_link,    project_versions[]{      version_number,      version_url    }  }
+export type MY_PROFILEResult = {
+  email_address: string;
+  github_link: string;
+  linkedin_link: string;
+  project_versions: Array<{
+    version_number: string;
+    version_url: string;
+  }>;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -216,5 +243,6 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "{\n    \"projects\": *[project_type == \"projects\"]|order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"blogs\": *[project_type == \"blogs\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"work_experience\": *[project_type == \"work_experience\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n": CATEGORIZED_PROJECTS_HOME_PAGEResult;
     "\n   *[slug.current == \"REPLACE_SLUG\"][0]{\n      title,\n      \"project_images\": project_images[].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n        date_created,\n        description,\n        primary_color,\n        secondary_color,\n        tools_used,\n        achievements,\n        github_url_link,\n        live_url_link\n        \n    }\n  ": PROJECT_PROJECT_PAGEResult;
+    "\n  *[_type == \"profile\"][0]{\n    email_address,\n    github_link,\n    linkedin_link,\n    project_versions[]{\n      version_number,\n      version_url\n    }\n  }\n": MY_PROFILEResult;
   }
 }

@@ -8,7 +8,7 @@ type ToolTipProps = {
   children: React.ReactNode;
 }
 
-type ToolTipSide = 'top' | 'bottom';
+type ToolTipSide = 'top' | 'bottom' | 'left';
 
 function ToolTip({ tooltipContent, tooltipSide, children }: ToolTipProps) {
   return (

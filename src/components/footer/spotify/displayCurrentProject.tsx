@@ -53,7 +53,7 @@ function DisplayCurrentProject() {
           className="w-[56px] h-[56px] object-cover rounded mr-3"
         />
         <div>
-          <div className="text-sm font-medium text-[#1ed760] line-clamp-2">{currentProject.title}</div>
+          <div className="text-sm font-medium text-[#1ed760] line-clamp-2 pr-10">{currentProject.title}</div>
           {/* potentially change subtitle */}
           <div className="text-xs text-zinc-400">{currentProject.project_type}</div>
         </div>

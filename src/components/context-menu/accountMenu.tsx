@@ -14,15 +14,21 @@ import {
 } from "@/components/ui/menubar"
 import { Copy, ExternalLink } from "lucide-react"
 import ToolTip from '../tooltip/tooltip';
+import { useProfile } from '@/redux/slice/profileSlice';
 
 type AccountMenuBarProps = {
   children: React.ReactNode
 }
 export function AccountMenuBar({ children }: AccountMenuBarProps) {
-  const newUrl = 'https://google.com/version2'
-  const email = 'hamzah1010@hotmail.co.uk'
-  const github = 'https://github.com/Hamz-06'
-  const latestVersion = 'https://github.com/Hamz-06/portfoliov3'
+  const profile = useProfile()
+
+  // todo: create new endpoint to get the latest commit version
+  // const latestVersion = 'https://github.com/Hamz-06/portfoliov3/commit/a1b2c3d4e5f67890abcdef1234567890abcdef12' 
+  const email = profile.emailAddress ?? ''
+  const githubLink = profile.githubLink ?? ''
+  const linkedInLink = profile.linkedinLink ?? ''
+  const projectVersions = profile.projectVersions ?? []
+
 
   const copyToClipboard = (text: string) => {
     copy(text);
@@ -34,9 +40,9 @@ export function AccountMenuBar({ children }: AccountMenuBarProps) {
 
         <MenubarContent >
           <ToolTip tooltipContent='Latest Commit' tooltipSide='left'>
-            <MenubarItem className='hover:bg-transparent cursor-default'>
+            <MenubarItem disabled className='hover:bg-transparent cursor-default'>
               <span
-                onClick={() => window.open(latestVersion, '_blank')}
+                // onClick={() => window.open(latestVersion, '_blank')} //todo yet to implement
                 className='hover:underline cursor-pointer italic'>
                 v:{"a1b2c3d4e5f67890abcdef1234567890abcdef12".slice(0, 15)}
               </span>
@@ -45,33 +51,43 @@ export function AccountMenuBar({ children }: AccountMenuBarProps) {
 
           <MenubarSeparator className='border-t border-zinc-700 my-1' />
 
-          <ToolTip tooltipContent={github} tooltipSide='left'>
-            <MenubarItem
-              onClick={() => window.open(newUrl, '_blank')}>
-              Github<MenubarShortcut><ExternalLink className="h-4 w-4 text-white" /></MenubarShortcut>
-            </MenubarItem>
-          </ToolTip>
+          <MenubarItem
+            onClick={() => window.open(githubLink, '_blank')}>
+            My Github
+            <MenubarShortcut><ExternalLink className="h-4 w-4 text-white" /></MenubarShortcut>
+          </MenubarItem>
 
           <ToolTip tooltipContent={email} tooltipSide='left'>
             <MenubarItem
               onClick={() => copyToClipboard(email)}>
-              My Email <MenubarShortcut><Copy className="h-4 w-4 text-white" /></MenubarShortcut>
+              My Email
+              <MenubarShortcut><Copy className="h-4 w-4 text-white" /></MenubarShortcut>
             </MenubarItem>
           </ToolTip>
+
+          <MenubarItem
+            onClick={() => window.open(linkedInLink, '_blank')}>
+            LinkedIn
+            <MenubarShortcut><ExternalLink className="h-4 w-4 text-white" /></MenubarShortcut>
+          </MenubarItem>
 
           <MenubarSub>
             <MenubarSubTrigger >
               Project Versions
             </MenubarSubTrigger>
             <MenubarSubContent className='bg-zinc-800'>
-              <MenubarItem
-                onClick={() => window.open(newUrl, '_blank')}>
-                version 2
-              </MenubarItem>
-              <MenubarItem
-                onClick={() => window.open(newUrl, '_blank')}>
-                version 1
-              </MenubarItem>
+              {
+                projectVersions.map((version, index) => {
+                  const { versionNumber, versionUrl } = version
+                  return (
+                    <MenubarItem
+                      key={index}
+                      onClick={() => window.open(versionUrl, '_blank')}>
+                      {versionNumber}
+                    </MenubarItem>
+                  )
+                })
+              }
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />

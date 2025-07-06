@@ -38,6 +38,6 @@ const randomProject: Project = {
   achievements: ["Achievement 1", "Achievement 2"],
   github_url_link: "https://github.com",
   live_url_link: "https://example.com",
-
 }
+
 export { randomCategorisedProjects, randomProject }

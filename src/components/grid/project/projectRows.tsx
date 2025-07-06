@@ -1,6 +1,6 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { capitalizeFirstLetter, cn } from "@/lib/utils"
+import { capitalizeFirstLetter, cn, underscoreToSpace } from "@/lib/utils"
 import { setSelectedCategory, useSelectedCategory } from "@/redux/slice/projectDataSlice"
 import { ProjectTypes } from "@/schema/schema-types"
 import { useDispatch } from "react-redux"
@@ -28,7 +28,7 @@ function ProjectRows({
       <div className="mb-2 flex items-center justify-between">
         <div className="pl-3">
           <h6 className="font-light text-xs text-zinc-400">Made for you</h6>
-          <h2 className="text-2xl font-bold">{capitalizeFirstLetter(title)}</h2>
+          <h2 className="text-2xl font-bold">{underscoreToSpace(capitalizeFirstLetter(title))}</h2>
         </div>
         <Button
           onClick={() => updateProjects(title as ProjectTypes)}
@@ -42,7 +42,7 @@ function ProjectRows({
       <div
         className={cn(
           selectedCategory
-            ? "grid gap-0.5 sm:gap-4 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]"
+            ? "grid gap-0.5 sm:gap-3 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_max-content))] justify-items-center"
             : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
         )}
       >

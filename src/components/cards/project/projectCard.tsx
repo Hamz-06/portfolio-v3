@@ -9,7 +9,7 @@ import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
 import { useEscKeyListener } from '@/actions/client-functions/keyStrokes'
 import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
-import { closeFullPage, toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal, useFullPage, useGridMode, useProject }
+import { closeFullPage, useFullPage, useGridMode, useProject }
   from '@/redux/slice/projectSlice'
 import { useDispatch } from 'react-redux'
 import { ProjectControls } from './projectControls'
@@ -22,13 +22,11 @@ import { ProjectControls } from './projectControls'
 
 
 function ProjectCard() {
-  const project = useProject()
-
   const dispatch = useDispatch()
 
+  const project = useProject()
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
-  const isModalOpen = useDisplayProjectDetailsModal()
 
   useEscKeyListener(() => {
     dispatch(closeFullPage())
@@ -51,7 +49,7 @@ function ProjectCard() {
 
       {/* display image  */}
       {
-        gridMode ? <ProjectImageGrid /> : <ImageCarousel fullScreen={fullScreen} />
+        gridMode ? <ProjectImageGrid /> : <ImageCarousel />
       }
 
       {/* Controls */}
@@ -66,12 +64,12 @@ function ProjectCard() {
         initial={false}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       >
-        <p className="text-2xl font-bold">Song 123</p>
-        <p className="font-light -translate-y-1 inline-block text-gray-300">marlon craft</p>
+        <p className="text-2xl font-bold">{project.title}</p>
+        <p className="font-light -translate-y-1 inline-block text-gray-300">{project.sub_title}</p>
       </motion.div>
 
       {/* Modal */}
-      <ProjectDetailsModal isOpen={isModalOpen} onModal={() => dispatch(toggleDisplayProjectDetailsModal())}>
+      <ProjectDetailsModal>
         <ProjectDetails />
       </ProjectDetailsModal>
     </div>
@@ -81,16 +79,17 @@ function ProjectCard() {
 
 function BackgroundSlidersFullScreen() {
   const fullScreen = useFullPage();
-
-  // TODO: make this dynamic based on the project
-  const backgroundColor = 'magenta'
+  const project = useProject()
+  if (!project) {
+    return <></>
+  }
 
   return (
     <>
       {/* Bottom colored panel */}
       <motion.div
         className="h-[50%] top-1/2 rounded-b-2xl inset-x-3"
-        style={{ backgroundColor }}
+        style={{ backgroundColor: project.primary_color }}
         animate={{ y: fullScreen ? '-14px' : `calc(-1 * ${footerHeight} - 6px)` }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
@@ -99,7 +98,7 @@ function BackgroundSlidersFullScreen() {
       {/* Top colored panel */}
       <motion.div
         className=" h-[50%] rounded-t-2xl inset-x-3"
-        style={{ backgroundColor }}
+        style={{ backgroundColor: project.primary_color }}
         animate={{ y: fullScreen ? '14px' : `calc(1 * ${headerHeight} + 6px)` }}
         initial={false}
         transition={{ type: 'tween', ease: 'easeInOut' }}
@@ -107,6 +106,7 @@ function BackgroundSlidersFullScreen() {
     </>
   )
 }
+
 function BackgroundGradient() {
   return (
     <>

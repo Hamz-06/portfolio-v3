@@ -76,7 +76,7 @@ export function SearchDropdown({ isOpen, onModal, searchList, querySearch }: Sea
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-white truncate">{item.title}</p>
+                <p className="text-sm font-medium text-white truncate text-wrap line-clamp-2">{item.title}</p>
                 <p className="text-xs text-zinc-400 truncate">
                   {item.project_type.charAt(0).toUpperCase() + item.project_type.slice(1)}
                   {item.sub_title && (

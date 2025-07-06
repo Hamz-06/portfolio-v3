@@ -1,23 +1,24 @@
 
 import { defineQuery, } from 'next-sanity'
 
+//todo: simplify this query
 export const CATEGORIZED_PROJECTS_HOME_PAGE = defineQuery(
   `{
-    "projects": *[project_type == "projects"]{
+    "projects": *[project_type == "projects"]|order(date_created desc){
       title,
       "first_image_url": project_images[0].asset->url,
       "slug": slug.current,
       sub_title,
       project_type
     },
-    "blogs": *[project_type == "blogs"]{
+    "blogs": *[project_type == "blogs"] | order(date_created desc){
       title,
       "first_image_url": project_images[0].asset->url,
       "slug": slug.current,
       sub_title,
       project_type
     },
-    "work_experience": *[project_type == "work_experience"]{
+    "work_experience": *[project_type == "work_experience"] | order(date_created desc){
       title,
       "first_image_url": project_images[0].asset->url,
       "slug": slug.current,
@@ -40,7 +41,10 @@ export const PROJECT_PROJECT_PAGE = defineQuery(
         description,
         primary_color,
         secondary_color,
-        tools_used
+        tools_used,
+        achievements,
+        github_url_link,
+        live_url_link
         
     }
   `

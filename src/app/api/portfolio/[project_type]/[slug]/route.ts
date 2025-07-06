@@ -26,9 +26,10 @@ export async function GET(_request: NextRequest, { params }: Params) {
       'REPLACE_SLUG': slug
     }
     const UPDATED_QUERY = replaceString(replaceStringObjectMap, PROJECT_PROJECT_PAGE)
+    console.log("Updated query:", UPDATED_QUERY)
 
     const projectResult = await client.fetch<Project>(UPDATED_QUERY, {})
-    if (projectResult) {
+    if (!projectResult) {
       return NextResponse.json<ProjectPageResponse>(
         null, { status: 200 }
       )

@@ -38,7 +38,7 @@ function DisplayCurrentProject() {
         </div>
 
         <div className="flex-1 p-2 flex flex-col justify-center ml-3">
-          <a className="block font-light text-xs text-[#1ed760]">{currentProject.title}</a>
+          <p className="block font-light text-xs text-[#1ed760]">{currentProject.title}</p>
           <a className="block font-light text-xs text-zinc-400">Mohammad H Iqbal</a>
         </div>
       </div>}
@@ -53,7 +53,7 @@ function DisplayCurrentProject() {
           className="w-[56px] h-[56px] object-cover rounded mr-3"
         />
         <div>
-          <div className="text-sm font-medium">{currentProject.title}</div>
+          <div className="text-sm font-medium text-[#1ed760] line-clamp-2">{currentProject.title}</div>
           {/* potentially change subtitle */}
           <div className="text-xs text-zinc-400">{currentProject.project_type}</div>
         </div>

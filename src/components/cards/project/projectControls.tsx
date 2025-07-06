@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, TargetAndTransition } from 'framer-motion'
-import { Diamond, Grid2x2, Heart, Minimize2 } from 'lucide-react'
+import { Info, Grid2x2, Heart, Minimize2 } from 'lucide-react'
 import ToolTip from '@/components/tooltip/tooltip'
 import { useDispatch } from 'react-redux';
 import { toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useFullPage, useGridMode, useProject } from '@/redux/slice/projectSlice';
@@ -50,7 +50,7 @@ function ProjectControls(): React.ReactNode[] {
   const controls: Control[] = [
     {
       name: 'Project Information',
-      icon: <Diamond className={controlBaseStyles} />,
+      icon: <Info className={controlBaseStyles} />,
       action: () => dispatch(toggleDisplayProjectDetailsModal()),
       animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` }
     },

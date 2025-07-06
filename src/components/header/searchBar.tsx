@@ -23,6 +23,10 @@ function SearchBar() {
   useCommandKListener(() => {
     if (inputRef.current) {
       inputRef.current.focus();
+      // if query is not empty, open the modal
+      if (queryValue.length > 0) {
+        setModal(true);
+      }
     }
   })
 

@@ -10,18 +10,13 @@ import { useState } from "react"
 
 
 // TODO: rename this
-interface MusicCardProps {
+interface ProjectCardProps {
   cardDetails: CategorisedProject,
-  aspectRatio?: "square" | "portrait" | "landscape" | "round"
-  className?: string
-  onClick?: () => void
 }
 
 export function ProjectCard({
   cardDetails,
-  className,
-  onClick,
-}: MusicCardProps) {
+}: ProjectCardProps) {
   const {
     title,
     slug,
@@ -40,24 +35,19 @@ export function ProjectCard({
   }
 
   return (
-    <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
-      <div
-        className={cn(
-          `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
-        cursor-pointer`,
-          className,
-        )}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={onClick}
-      >
+    <div
+      className={cn(
+        `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col   gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
+        cursor-pointer`
+      )}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Link href={redirectToProject()} className="line-clamp-1 text-sm text-white">
+
         <div className="relative">
           <div
-            className={cn(
-              "relative overflow-hidden",
-              "aspect-square rounded-xl",
-
-            )}
+            className="relative overflow-hidden aspect-square rounded-xl"
           >
             <Image
               src={firstImageUrl || "/placeholder.svg"}
@@ -84,11 +74,11 @@ export function ProjectCard({
         </div>
 
         <div className="flex flex-col">
-          {title}
+          <p className="line-clamp-1">{title}</p>
 
           {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }

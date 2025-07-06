@@ -1,14 +1,14 @@
+import { useProject } from '@/redux/slice/projectSlice'
 import Image from 'next/image'
 import React from 'react'
 
-const images = [
-  "/bart-simpson-cartoon.png",
-  "/mona-lisa.png",
-  "/bart-simpson-cartoon.png",
-  "/mona-lisa.png",
-]
 
 function ProjectImageGrid() {
+  const project = useProject()
+  if (!project) {
+    return <></>
+  }
+  const images = project.project_images || []
   return (
     <div className='w-screen h-screen sticky flex flex-col justify-center items-center gap-6 pointer-events-none z-90 ' id="dcd">
 
@@ -16,7 +16,7 @@ function ProjectImageGrid() {
         {images.map((image, index) => (
           <div key={index} className='relative w-full h-full rounded-xl overflow-hidden'>
             <Image
-              src={image}
+              src={image || '/placeholder.png'}
               alt={`Image ${index + 1}`}
               fill
               className='object-cover'

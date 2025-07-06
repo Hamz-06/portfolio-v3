@@ -1,8 +1,8 @@
 'use client'
 
-import { cn } from "@/lib/utils"
+import { capitalizeFirstLetter, cn, underscoreToSpace } from "@/lib/utils"
 import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/redux/slice/projectDataSlice"
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { motion } from "framer-motion"
 import { Button } from "../ui/button"
@@ -11,40 +11,40 @@ import { ProjectTypes } from "@/schema/schema-types"
 
 //todo: split this file into filter and toggle sidebar
 // Threshold for scroll event, animate > 50
-const THRESHOLD_IN_PX = 30;
+// const THRESHOLD_IN_PX = 30;
 
 export function FilterBar() {
   const dispatch = useDispatch()
 
   const selectedCategory = useSelectedCategory()
   const allCategories = useAllCategories()
-  const [animateFilterHeader, setAnimateFilterHeader] = useState(false)
+  // const [animateFilterHeader, setAnimateFilterHeader] = useState(false)
 
-  useEffect(() => {
-    const el = document.getElementById('main-content')
-    if (!el) return
+  // useEffect(() => {
+  //   const el = document.getElementById('main-content')
+  //   if (!el) return
 
-    const handleScroll = () => {
-      const scrollY = el.scrollTop;
+  //   const handleScroll = () => {
+  //     const scrollY = el.scrollTop;
 
-      if (scrollY > THRESHOLD_IN_PX) {
-        setAnimateFilterHeader(true)
-      } else {
-        setAnimateFilterHeader(false)
-      }
-    }
-    el.addEventListener('scroll', handleScroll, { passive: true })
+  //     if (scrollY > THRESHOLD_IN_PX) {
+  //       setAnimateFilterHeader(true)
+  //     } else {
+  //       setAnimateFilterHeader(false)
+  //     }
+  //   }
+  //   el.addEventListener('scroll', handleScroll, { passive: true })
 
-    handleScroll()
+  //   handleScroll()
 
-    return () => {
-      el.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  //   return () => {
+  //     el.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    console.log(animateFilterHeader)
-  }, [animateFilterHeader])
+  // useEffect(() => {
+  //   console.log(animateFilterHeader)
+  // }, [animateFilterHeader])
 
 
   const handleSelect = (id: ProjectTypes) => {
@@ -73,7 +73,7 @@ export function FilterBar() {
         </Button>
         {
           allCategories.map((category, idx) => {
-            const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1)
+            const capitalizedCategory = underscoreToSpace(capitalizeFirstLetter(category))
             const isSelected = selectedCategory === category
             return (
               <Button

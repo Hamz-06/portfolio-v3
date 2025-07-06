@@ -22,3 +22,15 @@ export const replaceString = (replaceObject: Record<string, string>, input: stri
   });
   return result;
 };
+
+export function formatToMonthYear(isoString: string): string {
+  console.log("formatToMonthYear", isoString);
+  const date = new Date(isoString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  });
+}
+export function underscoreToSpace(str: string): string {
+  return str.replace(/_/g, ' ');
+}

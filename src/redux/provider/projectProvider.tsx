@@ -3,6 +3,7 @@
 import { Project } from '@/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setProject } from '../slice/projectSlice'
+import { useEffect } from 'react'
 
 type ProviderProps = {
   children: React.ReactNode,
@@ -10,8 +11,9 @@ type ProviderProps = {
 }
 
 export function ProjectProvider({ children, project }: ProviderProps) {
-  StoreSingleton.getInstance().dispatch(setProject(project))
+  useEffect(() => {
+    StoreSingleton.getInstance().dispatch(setProject(project))
+  }, [project])
 
-  console.log("ProjectProvider rendered")
   return <>{children}</>
 }

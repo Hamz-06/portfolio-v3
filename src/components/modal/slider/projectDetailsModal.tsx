@@ -1,17 +1,20 @@
 import React from 'react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { XIcon } from 'lucide-react'
+import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/redux/slice/projectSlice'
+import { useDispatch } from 'react-redux'
 
 type ProjectDetailsModalProps = {
-  isOpen: boolean
-  onModal: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode;
 }
-function ProjectDetailsModal({ isOpen, onModal, children }: ProjectDetailsModalProps) {
+
+function ProjectDetailsModal({ children }: ProjectDetailsModalProps) {
+  const dispatch = useDispatch()
+  const isModalOpen = useDisplayProjectDetailsModal()
   return (
     <Sheet
-      open={isOpen}
-      onOpenChange={onModal}
+      open={isModalOpen}
+      onOpenChange={() => dispatch(toggleDisplayProjectDetailsModal())}
     >
       <SheetContent
         closeButton={

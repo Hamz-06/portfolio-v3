@@ -168,7 +168,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: CATEGORIZED_PROJECTS_HOME_PAGE
-// Query: {    "projects": *[project_type == "projects"]{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    },    "blogs": *[project_type == "blogs"]{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    },    "work_experience": *[project_type == "work_experience"]{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    }  }
+// Query: {    "projects": *[project_type == "projects"]|order(date_created desc){      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    },    "blogs": *[project_type == "blogs"] | order(date_created desc){      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    },    "work_experience": *[project_type == "work_experience"] | order(date_created desc){      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    }  }
 export type CATEGORIZED_PROJECTS_HOME_PAGEResult = {
   projects: Array<{
     title: string;
@@ -193,7 +193,7 @@ export type CATEGORIZED_PROJECTS_HOME_PAGEResult = {
   }>;
 };
 // Variable: PROJECT_PROJECT_PAGE
-// Query: *[slug.current == "REPLACE"][0]{      title,      "project_images": project_images[].asset->url,      "slug": slug.current,      sub_title,      project_type,        date_created,        description,        primary_color,        secondary_color,        tools_used            }
+// Query: *[slug.current == "REPLACE_SLUG"][0]{      title,      "project_images": project_images[].asset->url,      "slug": slug.current,      sub_title,      project_type,        date_created,        description,        primary_color,        secondary_color,        tools_used,        achievements,        github_url_link,        live_url_link            }
 export type PROJECT_PROJECT_PAGEResult = {
   title: string;
   project_images: Array<string | null>;
@@ -205,13 +205,16 @@ export type PROJECT_PROJECT_PAGEResult = {
   primary_color: string;
   secondary_color: string | null;
   tools_used: Array<string> | null;
+  achievements: Array<string> | null;
+  github_url_link: string | null;
+  live_url_link: string | null;
 } | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n    \"projects\": *[project_type == \"projects\"]{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"blogs\": *[project_type == \"blogs\"]{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"work_experience\": *[project_type == \"work_experience\"]{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n": CATEGORIZED_PROJECTS_HOME_PAGEResult;
-    "\n   *[slug.current == \"REPLACE\"][0]{\n      title,\n      \"project_images\": project_images[].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n        date_created,\n        description,\n        primary_color,\n        secondary_color,\n        tools_used\n        \n    }\n  ": PROJECT_PROJECT_PAGEResult;
+    "{\n    \"projects\": *[project_type == \"projects\"]|order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"blogs\": *[project_type == \"blogs\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"work_experience\": *[project_type == \"work_experience\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n": CATEGORIZED_PROJECTS_HOME_PAGEResult;
+    "\n   *[slug.current == \"REPLACE_SLUG\"][0]{\n      title,\n      \"project_images\": project_images[].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n        date_created,\n        description,\n        primary_color,\n        secondary_color,\n        tools_used,\n        achievements,\n        github_url_link,\n        live_url_link\n        \n    }\n  ": PROJECT_PROJECT_PAGEResult;
   }
 }

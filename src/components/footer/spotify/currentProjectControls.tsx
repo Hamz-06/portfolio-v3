@@ -1,11 +1,11 @@
 'use client'
 
+import { serverRedirect } from "@/actions/server-actions/redirect";
 import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { navigateCurrentProject, setShuffle, useCurrentProject, useIsShufflingEnabled } from "@/redux/slice/projectDataSlice";
 import { Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 export type NavigationStep = 'previous' | 'next';
@@ -14,7 +14,6 @@ export type NavigationStep = 'previous' | 'next';
 function ProjectControls() {
   const dispatch = useDispatch()
   const currentProject = useCurrentProject()
-  const router = useRouter()
   const isShufflingEnabled = useIsShufflingEnabled()
 
   const navigateCurrentProjectList = (step: NavigationStep) => {
@@ -27,7 +26,7 @@ function ProjectControls() {
 
   const displayInterceptProject = () => {
     if (!currentProject) return
-    router.push(`portfolio/${currentProject.project_type}/${currentProject.slug}`)
+    serverRedirect(`/portfolio/${currentProject.project_type}/${currentProject.slug}`)
   }
 
   return (
@@ -66,7 +65,7 @@ function ProjectControls() {
         <ToolTip tooltipContent="Play">
           <Button
             asChild
-            onClick={displayInterceptProject}
+            onClick={() => displayInterceptProject()}
             size="icon"
             className="bg-white text-black hover:bg-white/90 rounded-full">
             <Play fill="white" className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1" />

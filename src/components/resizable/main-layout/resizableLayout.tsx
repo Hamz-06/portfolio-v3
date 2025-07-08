@@ -1,6 +1,6 @@
 'use client'
 
-import SideBar from "@/components/sidebar/sidebar";
+import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { useToggleSidebar } from "@/redux/slice/layoutSlice";
 // import { useToggleSidebar } from "@/redux/slice/layoutSlice";

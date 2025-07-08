@@ -1,0 +1,20 @@
+'use client'
+
+import { StoreSingleton } from '../store/storeSingleton'
+import { Playlists } from '@/schema/schema-types'
+import { setPlaylists } from '../slice/playlists'
+
+type ProviderProps = {
+  children: React.ReactNode,
+  playlists: Playlists
+}
+
+export function HomeProvider({ children, playlists }: ProviderProps) {
+  // useEffect(() => {
+  // console.log("Setting playlists in HomeProvider", playlists)
+  // StoreSingleton.getInstance().dispatch(setPlaylists(playlists))
+  // }, [playlists])
+
+  StoreSingleton.getInstance().dispatch(setPlaylists(playlists))
+  return <>{children}</>
+}

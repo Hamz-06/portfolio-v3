@@ -26,6 +26,8 @@ const removeLikedProject = (projectToRemove: string): LikedProjects => {
     return {};
   }
 }
+
+//todo use redux type to handle this remove duplicate code
 export const handleLikedProjects = (projectName: string, liked: boolean): LikedProjects=>{
   if (liked) {
     return saveLikedProjects(projectName);

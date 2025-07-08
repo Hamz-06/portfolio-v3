@@ -34,3 +34,5 @@ export function formatToMonthYear(isoString: string): string {
 export function underscoreToSpace(str: string): string {
   return str.replace(/_/g, ' ');
 }
+
+export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

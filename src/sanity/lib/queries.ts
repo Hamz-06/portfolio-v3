@@ -63,3 +63,38 @@ export const MY_PROFILE = defineQuery(
   }
 `
 )
+
+export const PLAYLIST_HOME_PAGE = defineQuery(
+  `
+  *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{
+    playlist_name,
+    "slug":slug.current,
+    playlist[]->{
+      title,
+      "first_image_url": project_images[0].asset->url,
+      "slug": slug.current,
+      sub_title,
+      project_type
+    }
+  }
+  `
+)
+
+export const PLAYLISTS_HOME_PAGE = defineQuery(
+  `
+  *[_type == "playlists"]{
+    playlist_name,
+    "slug":slug.current,
+    "playlist_cover_image":playlist_cover_image.asset->url,
+    description,
+    type,
+    playlist[]->{
+      title,
+      "first_image_url": project_images[0].asset->url,
+      "slug": slug.current,
+      sub_title,
+      project_type,
+    }
+  }
+  `
+)

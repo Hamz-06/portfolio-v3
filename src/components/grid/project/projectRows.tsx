@@ -42,7 +42,7 @@ function ProjectRows({
       <div
         className={cn(
           selectedCategory
-            ? "grid gap-0.5 sm:gap-3 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_max-content))] justify-items-center"
+            ? "grid gap-0.5 sm:gap-4 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]"
             : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
         )}
       >

@@ -23,7 +23,7 @@ export function ProjectDetails() {
           <div className="text-sm font-medium text-purple-300 uppercase tracking-wide">{project.project_type}</div>
           <div>
             <DialogTitle className="text-3xl font-bold text-white">{project.title}</DialogTitle>
-            <div className="text-zinc-300">{formatToMonthYear(project.date_created)} - Present</div>
+            <div className="text-zinc-300">{project.date_created && formatToMonthYear(project.date_created)} - Present</div>
           </div>
         </div>
       </div>

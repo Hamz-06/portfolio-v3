@@ -3,27 +3,12 @@ import { RootMainLayoutStore } from "../store/mainLayoutStore";
 import { useSelector } from "react-redux";
 import { Profile } from "@/schema/schema-types";
 
-type ProfileRedux = {
-  emailAddress: string | null,
-  githubLink: string | null,
-  linkedinLink: string | null,
-  projectVersions: {
-    versionNumber: string;
-    versionUrl: string;
-  }[]
-}
-
 interface ProfileState {
-  profile: ProfileRedux;
+  profile: Profile | null;
 }
 
 const initialState: ProfileState = {
-  profile: {
-    emailAddress: null,
-    githubLink: null,
-    linkedinLink: null,
-    projectVersions: []
-  }
+  profile: null
 }
 
 export const profileSlice = createSlice({
@@ -32,14 +17,15 @@ export const profileSlice = createSlice({
   reducers: {
     setProfile: (state, action: PayloadAction<NonNullable<Profile>>) => {
       const { email_address, github_link, linkedin_link, project_versions } = action.payload;
-
-      state.profile.emailAddress = email_address;
-      state.profile.githubLink = github_link;
-      state.profile.linkedinLink = linkedin_link;
-      state.profile.projectVersions = project_versions.map((version) => ({
-        versionNumber: version.version_number,
-        versionUrl: version.version_url
-      }));
+      state.profile = {
+        email_address: email_address,
+        github_link: github_link,
+        linkedin_link: linkedin_link,
+        project_versions: project_versions.map((version) => ({
+          version_number: version.version_number,
+          version_url: version.version_url
+        }))
+      }
     },
   }
 })

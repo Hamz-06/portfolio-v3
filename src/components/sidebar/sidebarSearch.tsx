@@ -1,19 +1,19 @@
 'use client'
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Search } from 'lucide-react'
-import { PortfolioItem } from './sidebar'
+import { setQueryResults, usePlaylists, useQueryPlaylistsResults } from '@/redux/slice/playlists'
+import { Playlists } from '@/schema/schema-types'
+import { useDispatch } from 'react-redux'
 
 
-const SEARCHABLE_KEYS: (keyof PortfolioItem)[] = ['title']
+const SEARCHABLE_KEYS: (keyof Playlists[0])[] = ['playlist_name']
 
-
-type SidebarSearchProps = {
-  setQueryResultValue: Dispatch<SetStateAction<PortfolioItem[]>>
-  playlists: PortfolioItem[]
-}
-function SidebarSearch({ setQueryResultValue, playlists }: SidebarSearchProps) {
+function SidebarSearch() {
+  const dispatch = useDispatch()
+  const queryPlaylists = useQueryPlaylistsResults()
+  const playlists = usePlaylists()
   const [searchClick, setSearchClick] = useState(false)
   const [query, setQuery] = useState("")
 
@@ -29,17 +29,18 @@ function SidebarSearch({ setQueryResultValue, playlists }: SidebarSearchProps) {
     setQuery(query) // swap
     // Handle the search query here
     if (query.length === 0) {
-      setQueryResultValue(playlists)
+      dispatch(setQueryResults(playlists || []))
       return
     }
-    const value = playlists.filter(playlist =>
+
+    const queriedPlaylists = (queryPlaylists || []).filter(playlist =>
       SEARCHABLE_KEYS.some(key => {
         const value = playlist[key];
         return typeof value === 'string' && value.toLowerCase().includes(query.toLowerCase());
       })
     )
 
-    setQueryResultValue(value)
+    dispatch(setQueryResults(queriedPlaylists))
   }
 
   // has to be done as the state needs to be set before the focus

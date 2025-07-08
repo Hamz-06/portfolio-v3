@@ -24,10 +24,10 @@ export function AccountMenuBar({ children }: AccountMenuBarProps) {
 
   // todo: create new endpoint to get the latest commit version
   // const latestVersion = 'https://github.com/Hamz-06/portfoliov3/commit/a1b2c3d4e5f67890abcdef1234567890abcdef12' 
-  const email = profile.emailAddress ?? ''
-  const githubLink = profile.githubLink ?? ''
-  const linkedInLink = profile.linkedinLink ?? ''
-  const projectVersions = profile.projectVersions ?? []
+  const email = profile?.email_address ?? ''
+  const githubLink = profile?.github_link ?? ''
+  const linkedInLink = profile?.linkedin_link ?? ''
+  const projectVersions = profile?.project_versions ?? []
 
 
   const copyToClipboard = (text: string) => {
@@ -78,12 +78,12 @@ export function AccountMenuBar({ children }: AccountMenuBarProps) {
             <MenubarSubContent className='bg-zinc-800'>
               {
                 projectVersions.map((version, index) => {
-                  const { versionNumber, versionUrl } = version
+                  const { version_number, version_url } = version
                   return (
                     <MenubarItem
                       key={index}
-                      onClick={() => window.open(versionUrl, '_blank')}>
-                      {versionNumber}
+                      onClick={() => window.open(version_url, '_blank')}>
+                      {version_number}
                     </MenubarItem>
                   )
                 })

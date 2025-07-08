@@ -54,6 +54,7 @@ export const projectType = defineType({
       name: 'secondary_color',
       title: 'Secondary Color',
       type: 'string',
+      validation: Rule => Rule.required(),
     }),
     defineField({
       validation: Rule => Rule.required(),

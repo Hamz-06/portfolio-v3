@@ -50,7 +50,7 @@ function DisplayCurrentProject() {
           alt="Album cover"
           width={56}
           height={56}
-          className="w-[56px] h-[56px] object-cover rounded mr-3"
+          className="w-[56px] h-[56px] object-cover rounded mr-3 flex-none"
         />
         <div>
           <div className="text-sm font-medium text-[#1ed760] line-clamp-2 pr-10">{currentProject.title}</div>

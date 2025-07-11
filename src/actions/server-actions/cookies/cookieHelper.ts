@@ -7,13 +7,3 @@ export async function getCookie<T>(name: CookieKey): Promise<T | null> {
   const cookieValue = cookieStore.get(name)?.value;
   return cookieValue ? JSON.parse(cookieValue) : null;
 }
-
-// Be careful with this function, it causes the page to re-render, current next js bug
-export async function setCookie<T>(name: CookieKey, value: T): Promise<T> {
-  const stringValue = JSON.stringify(value)
-
-  const cookieStore = await cookies()
-  cookieStore.set(name, stringValue)
-
-  return value
-}

@@ -42,7 +42,7 @@ function ProjectRows({
       <div
         className={cn(
           selectedCategory
-            ? "grid gap-0.5 sm:gap-4 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]"
+            ? "flex flex-wrap gap-4 px-10 sm:px-0"
             : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
         )}
       >

@@ -19,6 +19,11 @@ export const playlistType = defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
+      name: 'pinned',
+      title: 'Pinned Playlist',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'string',

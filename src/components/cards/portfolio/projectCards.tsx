@@ -37,8 +37,8 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col   gap-2 p-2 rounded-md transition-all duration-200 hover:bg-zinc-800/40
-        cursor-pointer`
+        `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col  gap-2 p-2 rounded-sm transition-all 
+        duration-200 hover:bg-zinc-800/40 cursor-pointer`
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

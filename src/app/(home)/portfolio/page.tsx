@@ -1,5 +1,5 @@
 import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
-import { PlaylistsResponse } from "@/app/api/playlists/route";
+import { PlaylistsResponse } from "@/app/api/playlist/route";
 import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
 import { FilterBar } from "@/components/filter/filterRow";
 import { ProjectList } from "@/components/list/project/projectList";
@@ -37,7 +37,7 @@ export default async function Home() {
 }
 
 const getPlaylists = async () => {
-  const res = await fetch(`${process.env.HOST_URL}/api/playlists`)
+  const res = await fetch(`${process.env.HOST_URL}/api/playlist`)
   if (!res.ok) {
     throw new Error('Failed to fetch playlists');
   }

@@ -3,7 +3,8 @@ import {
   PROJECT_PROJECT_PAGEResult as GeneratedProject,
   MY_PROFILEResult as Profile,
   PLAYLIST_HOME_PAGEResult as Playlist,
-  PLAYLISTS_HOME_PAGEResult as Playlists
+  PLAYLISTS_OVERVIEWResult as Playlists,
+
 } from "../types/sanity.types";
 
 type ProjectTypes = CategorisedProjects['blogs'][number]['project_type']

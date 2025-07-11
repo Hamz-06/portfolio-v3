@@ -87,6 +87,7 @@ export type Playlists = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  pinned?: boolean;
   description?: string;
   type?: string;
   slug: Slug;
@@ -282,25 +283,13 @@ export type MY_PROFILEResult = {
   }>;
 } | null;
 // Variable: PLAYLIST_HOME_PAGE
-// Query: *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{    playlist_name,    "slug":slug.current,    playlist[]->{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    }  }
+// Query: *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{    playlist_name,    "slug":slug.current,    "playlist_cover_image":playlist_cover_image.asset->url,    description,    pinned,    type,    playlist[]->{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type    }  }
 export type PLAYLIST_HOME_PAGEResult = {
-  playlist_name: string;
-  slug: string;
-  playlist: Array<{
-    title: string;
-    first_image_url: string | null;
-    slug: string;
-    sub_title: string;
-    project_type: "blogs" | "projects" | "work_experience";
-  }>;
-} | null;
-// Variable: PLAYLISTS_HOME_PAGE
-// Query: *[_type == "playlists"]{    playlist_name,    "slug":slug.current,    "playlist_cover_image":playlist_cover_image.asset->url,    description,    type,    playlist[]->{      title,      "first_image_url": project_images[0].asset->url,      "slug": slug.current,      sub_title,      project_type,    }  }
-export type PLAYLISTS_HOME_PAGEResult = Array<{
   playlist_name: string;
   slug: string;
   playlist_cover_image: string | null;
   description: string | null;
+  pinned: boolean | null;
   type: string | null;
   playlist: Array<{
     title: string;
@@ -309,6 +298,44 @@ export type PLAYLISTS_HOME_PAGEResult = Array<{
     sub_title: string;
     project_type: "blogs" | "projects" | "work_experience";
   }>;
+} | null;
+// Variable: PLAYLISTS_OVERVIEW
+// Query: *[_type == "playlists"] | order(pinned desc){    playlist_name,    "slug": slug.current,    "playlist_cover_image": playlist_cover_image.asset->url,    description,    pinned,    type,    "playlist_length": count(playlist)  }
+export type PLAYLISTS_OVERVIEWResult = Array<{
+  playlist_name: string;
+  slug: string;
+  playlist_cover_image: string | null;
+  description: string | null;
+  pinned: boolean | null;
+  type: string | null;
+  playlist_length: number;
+}>;
+// Variable: MULTIPLE_PROJECTS_QUERY
+// Query: *[    slug.current in $slugs  ]{    title,    "first_image_url": project_images[0].asset->url,    "slug": slug.current,    sub_title,    project_type  }
+export type MULTIPLE_PROJECTS_QUERYResult = Array<{
+  title: null;
+  first_image_url: null;
+  slug: null;
+  sub_title: null;
+  project_type: null;
+} | {
+  title: string | null;
+  first_image_url: null;
+  slug: null;
+  sub_title: null;
+  project_type: null;
+} | {
+  title: null;
+  first_image_url: null;
+  slug: string;
+  sub_title: null;
+  project_type: null;
+} | {
+  title: string;
+  first_image_url: string | null;
+  slug: string;
+  sub_title: string;
+  project_type: "blogs" | "projects" | "work_experience";
 }>;
 
 // Query TypeMap
@@ -318,7 +345,8 @@ declare module "@sanity/client" {
     "{\n    \"projects\": *[project_type == \"projects\"]|order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"blogs\": *[project_type == \"blogs\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    },\n    \"work_experience\": *[project_type == \"work_experience\"] | order(date_created desc){\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n": CATEGORIZED_PROJECTS_HOME_PAGEResult;
     "\n   *[slug.current == \"REPLACE_SLUG\"][0]{\n      title,\n      \"project_images\": project_images[].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n        date_created,\n        description,\n        primary_color,\n        secondary_color,\n        tools_used,\n        achievements,\n        github_url_link,\n        live_url_link\n        \n    }\n  ": PROJECT_PROJECT_PAGEResult;
     "\n  *[_type == \"profile\"][0]{\n    email_address,\n    github_link,\n    linkedin_link,\n    project_versions[]{\n      version_number,\n      version_url\n    }\n  }\n": MY_PROFILEResult;
-    "\n  *[_type == \"playlists\" && slug.current == \"REPLACE_SLUG\"][0]{\n    playlist_name,\n    \"slug\":slug.current,\n    playlist[]->{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n  ": PLAYLIST_HOME_PAGEResult;
-    "\n  *[_type == \"playlists\"]{\n    playlist_name,\n    \"slug\":slug.current,\n    \"playlist_cover_image\":playlist_cover_image.asset->url,\n    description,\n    type,\n    playlist[]->{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n    }\n  }\n  ": PLAYLISTS_HOME_PAGEResult;
+    "\n  *[_type == \"playlists\" && slug.current == \"REPLACE_SLUG\"][0]{\n    playlist_name,\n    \"slug\":slug.current,\n    \"playlist_cover_image\":playlist_cover_image.asset->url,\n    description,\n    pinned,\n    type,\n    playlist[]->{\n      title,\n      \"first_image_url\": project_images[0].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type\n    }\n  }\n  ": PLAYLIST_HOME_PAGEResult;
+    "\n  *[_type == \"playlists\"] | order(pinned desc){\n    playlist_name,\n    \"slug\": slug.current,\n    \"playlist_cover_image\": playlist_cover_image.asset->url,\n    description,\n    pinned,\n    type,\n    \"playlist_length\": count(playlist)\n  }\n  ": PLAYLISTS_OVERVIEWResult;
+    "\n  *[\n    slug.current in $slugs\n  ]{\n    title,\n    \"first_image_url\": project_images[0].asset->url,\n    \"slug\": slug.current,\n    sub_title,\n    project_type\n  }\n": MULTIPLE_PROJECTS_QUERYResult;
   }
 }

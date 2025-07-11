@@ -69,6 +69,10 @@ export const PLAYLIST_HOME_PAGE = defineQuery(
   *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{
     playlist_name,
     "slug":slug.current,
+    "playlist_cover_image":playlist_cover_image.asset->url,
+    description,
+    pinned,
+    type,
     playlist[]->{
       title,
       "first_image_url": project_images[0].asset->url,
@@ -80,21 +84,31 @@ export const PLAYLIST_HOME_PAGE = defineQuery(
   `
 )
 
-export const PLAYLISTS_HOME_PAGE = defineQuery(
+export const PLAYLISTS_OVERVIEW = defineQuery(
   `
-  *[_type == "playlists"]{
+  *[_type == "playlists"] | order(pinned desc){
     playlist_name,
-    "slug":slug.current,
-    "playlist_cover_image":playlist_cover_image.asset->url,
+    "slug": slug.current,
+    "playlist_cover_image": playlist_cover_image.asset->url,
     description,
+    pinned,
     type,
-    playlist[]->{
-      title,
-      "first_image_url": project_images[0].asset->url,
-      "slug": slug.current,
-      sub_title,
-      project_type,
-    }
+    "playlist_length": count(playlist)
   }
   `
+)
+
+export const MULTIPLE_PROJECTS_QUERY = defineQuery(
+  `
+  *[
+    slug.current in $slugs
+  ]{
+    title,
+    "first_image_url": project_images[0].asset->url,
+    "slug": slug.current,
+    sub_title,
+    project_type
+  }
+`
+  
 )

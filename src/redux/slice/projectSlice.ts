@@ -40,7 +40,7 @@ export const projectSlice = createSlice({
 })
 
 export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal
-  , setProject
+,setProject
 } = projectSlice.actions;
 
 

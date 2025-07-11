@@ -1,4 +1,4 @@
-
+'use client'
 import { cn } from "@/lib/utils"
 import { SidebarHeader } from "./sidebarHeader"
 import { SidebarSearch } from "./sidebarSearch"
@@ -9,6 +9,7 @@ type SideBarProps = {
 }
 
 export function SideBar({ className }: SideBarProps) {
+
   return (
     <div className={cn(className, 'group/sidebar')}>
       {/* Library Header */}

@@ -39,10 +39,11 @@ function ProjectRows({
 
 
       {/* render the children in a grid layout if category is selected */}
+      {/* todo not centred on mobile  */}
       <div
         className={cn(
           selectedCategory
-            ? "flex flex-wrap gap-4 px-10 sm:px-0"
+            ? "flex flex-wrap gap-3 px-4 sm:px-0"
             : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
         )}
       >

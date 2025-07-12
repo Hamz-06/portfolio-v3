@@ -40,13 +40,9 @@ export async function POST(request: NextRequest) {
 
 
 const getLikedPlaylist = async (likedProjects: string[]): Promise<Playlist> => {
-  let playlist: CategorisedProject[] = []
-
-  if (likedProjects.length > 0) {
-    const slugs = likedProjects;
-    playlist = await client.fetch<CategorisedProject[]>(MULTIPLE_PROJECTS_QUERY, { slugs: slugs })
-  }
-  console.log("liked projects", likedProjects, playlist)
+  const slugs = likedProjects;
+  //todo rename this query to something more meaningful
+  const playlist = await client.fetch<CategorisedProject[]>(MULTIPLE_PROJECTS_QUERY, { slugs: slugs })
 
   const likedPlaylists: Playlist = {
     description: "Liked Projects",

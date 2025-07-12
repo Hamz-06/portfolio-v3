@@ -25,6 +25,7 @@ export async function GET(_request: NextRequest, { params }: Params) {
       'REPLACE_SLUG': playlist_slug
     }
 
+    // todo: Replace the placeholder in the query with the actual playlist slug
     const UPDATED_QUERY = replaceString(replaceStringObjectMap, PLAYLIST_HOME_PAGE)
     const playlists = await client.fetch<Playlist>(UPDATED_QUERY, {})
 

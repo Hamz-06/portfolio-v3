@@ -3,8 +3,7 @@
 import { Project } from '@/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setProject } from '../slice/projectSlice'
-import { useEffect } from 'react'
-import { currentProjectLiked, setLikedProjects } from '../slice/projectDataSlice'
+import { currentProjectLiked, initialiseLikedProjects } from '../slice/projectDataSlice'
 
 type ProviderProps = {
   children: React.ReactNode,
@@ -14,11 +13,14 @@ type ProviderProps = {
 }
 
 export function ProjectProvider({ children, project, isProjectLiked, allLikedProjects }: ProviderProps) {
-  useEffect(() => {
-    StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
-    StoreSingleton.getInstance().dispatch(setProject(project))
-    StoreSingleton.getInstance().dispatch(setLikedProjects(allLikedProjects))
-  }, [project])
+  // useEffect(() => {
+  // StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
+  // StoreSingleton.getInstance().dispatch(setProject(project))
+  // StoreSingleton.getInstance().dispatch(setLikedProjects(allLikedProjects))
+  // }, [project])
+  StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
+  StoreSingleton.getInstance().dispatch(setProject(project))
+  StoreSingleton.getInstance().dispatch(initialiseLikedProjects(allLikedProjects))
 
   return <>{children}</>
 }

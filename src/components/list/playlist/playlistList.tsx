@@ -25,6 +25,7 @@ function PlaylistList() {
 }
 
 
+// rendered on the client side
 const LikedItemsPlaylist = () => {
   const [likedPlaylistItem, setLikedPlaylistItem] = useState<Playlists[number] | null>(null)
 

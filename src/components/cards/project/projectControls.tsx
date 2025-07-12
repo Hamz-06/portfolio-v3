@@ -17,11 +17,9 @@ type Control = {
   name: string;
 }
 
-// TODO: refactor this by using redux state to manage the controls
 
 function ProjectControls(): React.ReactNode[] {
   const dispatch = useDispatch()
-  // const [liked, setLiked] = useState<boolean>(false)
 
   const project = useProject()
   const fullScreen = useFullPage()
@@ -31,7 +29,6 @@ function ProjectControls(): React.ReactNode[] {
   if (!project) {
     return []
   }
-
 
   const controlBaseStyles =
     'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 stroke-gray-400/80 hover:drop-shadow-xl/50 cursor-pointer'

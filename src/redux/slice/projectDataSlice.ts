@@ -119,33 +119,29 @@ export const projectsList = createSlice({
     },
     setShuffle: (state, action: PayloadAction<boolean>) => {
       //todo and add type safety
-      //todo: delete this func
       clientSideCookie.set('is-shuffling-enabled', JSON.stringify(action.payload))
       state.isShufflingEnabled = action.payload;
     },
 
     setLikedProject: (state, action: PayloadAction<string>) => {
-      // param1 is the project type, param2 is the project slug
       const projectSlug = action.payload;
       const isExists = state.likedProjects?.includes(projectSlug);
-      console.log('isExists reducer', isExists, projectSlug, JSON.stringify(state.likedProjects))
-      if(isExists) {
-        // we need to remove the project from the liked projects
+
+      if (isExists) {
         const removedProjectArray = state.likedProjects?.filter(slug => slug !== projectSlug);
-        console.log('isExists reducer', removedProjectArray)
         state.likedProjects = removedProjectArray
         clientSideCookie.set('likes', JSON.stringify(state.likedProjects))
         return;
       }
       const existingProjects = state.likedProjects || [];
-       const addedProjectArray = [
+      const addedProjectArray = [
         ...existingProjects,
         projectSlug
       ]
       state.likedProjects = addedProjectArray;
       clientSideCookie.set('likes', JSON.stringify(state.likedProjects))
     },
-    setLikedProjects: (state, action: PayloadAction<string[]>) => {
+    initialiseLikedProjects: (state, action: PayloadAction<string[]>) => {
       state.likedProjects = action.payload;
     },
     currentProjectLiked: (state, action: PayloadAction<boolean>) => {
@@ -154,8 +150,7 @@ export const projectsList = createSlice({
     }
   }
 })
-// WHAT TO DO TOMORROW CHANGE THIS TO A COOKIE TO GET LIKES WORKING SERVER SIDE
-// Action creators are generated for each case reducer function
+
 export const {
   setProjectsList,
   setSelectedCategory,
@@ -163,7 +158,7 @@ export const {
   navigateCurrentProject,
   setShuffle,
   setLikedProject,
-  setLikedProjects,
+  initialiseLikedProjects,
   currentProjectLiked,
 } = projectsList.actions
 
@@ -184,9 +179,6 @@ export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] 
 
 export const useIsShufflingEnabled = (): ProjectState['isShufflingEnabled'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.isShufflingEnabled)
-
-export const useLikedProjects = (): ProjectState['likedProjects'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectListProvider.likedProjects)
 
 export const useCurrentProjectLiked = (): ProjectState['currentProjectLiked'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.currentProjectLiked)

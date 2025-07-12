@@ -2,7 +2,7 @@ import { getCookie } from '@/actions/server-actions/cookies/cookieHelper';
 import { LikedResponse } from '@/app/api/liked/route';
 import { PlaylistResponse } from '@/app/api/playlist/[playlist_slug]/route';
 import { ProjectCard } from '@/components/cards/portfolio/projectCards';
-import { PlaylistHeader } from '@/components/header/playPlaylistHeader';
+import { PlaylistHeader } from '@/components/header/playlistHeader';
 import { Playlist } from '@/schema/schema-types';
 import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
@@ -17,21 +17,18 @@ type PlaylistPageProps = {
 const HOME_ROUTE: Routes = '/portfolio';
 
 async function PlaylistPage({ params }: PlaylistPageProps) {
+  let playlist: Playlist = null;
+
   const { playlist_slug } = await params;
   const isLikedPlaylist = playlist_slug === 'liked-projects';
 
   if (isLikedPlaylist) {
-    // return <LikedPlaylist />
-  }
-
-  let playlist: Playlist = null;
-  if (playlist_slug === 'liked-projects') {
     playlist = await getLikedPlaylist();
   } else {
     playlist = await getPlaylist(playlist_slug);
   }
 
-  if (!playlist) {
+  if (!playlist || playlist.playlist.length === 0) {
     return redirect(HOME_ROUTE);
   }
 

@@ -2,6 +2,7 @@
 import { defineQuery, } from 'next-sanity'
 
 //todo: simplify this query
+//todo: rename all the queries to be more descriptive
 export const CATEGORIZED_PROJECTS_HOME_PAGE = defineQuery(
   `{
     "projects": *[project_type == "projects"]|order(date_created desc){
@@ -110,5 +111,5 @@ export const MULTIPLE_PROJECTS_QUERY = defineQuery(
     project_type
   }
 `
-  
+
 )

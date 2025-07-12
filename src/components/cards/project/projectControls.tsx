@@ -5,11 +5,9 @@ import { Info, Grid2x2, Heart, Minimize2 } from 'lucide-react'
 import ToolTip from '@/components/tooltip/tooltip'
 import { useDispatch } from 'react-redux';
 import { toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useFullPage, useGridMode, useProject } from '@/redux/slice/projectSlice';
-import { useEffect, useState } from 'react';
-import { handleLikedProjects, isProjectLiked } from '@/actions/client-functions/likedProjects';
 import { headerHeight } from '@/const/dimensions'
 import { cn } from '@/lib/utils';
-
+import { currentProjectLiked, setLikedProject, useCurrentProjectLiked } from '@/redux/slice/projectDataSlice';
 
 type Control = {
   icon: React.ReactNode;
@@ -19,30 +17,18 @@ type Control = {
   name: string;
 }
 
-// TODO: refactor this by using redux state to manage the controls
 
 function ProjectControls(): React.ReactNode[] {
-  const project = useProject()
-
   const dispatch = useDispatch()
+
+  const project = useProject()
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
-  const [liked, setLiked] = useState<boolean>(false)
+  const liked = useCurrentProjectLiked()
 
-
-
-  useEffect(() => {
-    if (!project) return;
-    const projectLiked = isProjectLiked(project.title)
-    setLiked(projectLiked)
-  }, [])
-
-  useEffect(() => {
-    if (!project) return;
-    handleLikedProjects(project.title, liked)
-  }, [liked])
-
-
+  if (!project) {
+    return []
+  }
 
   const controlBaseStyles =
     'stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 stroke-gray-400/80 hover:drop-shadow-xl/50 cursor-pointer'
@@ -57,7 +43,10 @@ function ProjectControls(): React.ReactNode[] {
     {
       name: 'Like Project',
       icon: <Heart fill={liked ? 'white' : '#99a1af'} className={cn(controlBaseStyles, liked ? 'stroke-white' : '')} />,
-      action: () => setLiked(!liked),
+      action: () => {
+        dispatch(currentProjectLiked(!liked))
+        dispatch(setLikedProject(project.slug))
+      },
       animation: fullScreen ? { y: -100 } : { y: `${headerHeight}` },
       divider: true,
     },

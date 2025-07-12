@@ -39,10 +39,11 @@ function ProjectRows({
 
 
       {/* render the children in a grid layout if category is selected */}
+      {/* todo not centred on mobile  */}
       <div
         className={cn(
           selectedCategory
-            ? "grid gap-0.5 sm:gap-3 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_max-content))] justify-items-center"
+            ? "flex flex-wrap gap-3 px-4 sm:px-0"
             : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
         )}
       >

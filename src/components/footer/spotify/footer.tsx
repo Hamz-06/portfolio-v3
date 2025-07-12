@@ -8,6 +8,7 @@ type FooterProps = {
   className: string;
 }
 
+// todo: somehow display the playlist section in the footer 
 async function Footer({ className }: FooterProps) {
 
   return (

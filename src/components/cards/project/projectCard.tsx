@@ -46,7 +46,6 @@ function ProjectCard() {
     >
       <BackgroundSlidersFullScreen />
       <BackgroundGradient />
-
       {/* display image  */}
       {
         gridMode ? <ProjectImageGrid /> : <ImageCarousel />
@@ -75,7 +74,6 @@ function ProjectCard() {
     </div>
   )
 }
-
 
 function BackgroundSlidersFullScreen() {
   const fullScreen = useFullPage();

@@ -1,11 +1,11 @@
-import { DocumentTextIcon } from '@sanity/icons'
+import { UserIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
 
 export const profileType = defineType({
   name: 'profile',
   title: 'Profile',
   type: 'document',
-  icon: DocumentTextIcon,
+  icon: UserIcon,
   fields: [
     defineField({
       name: 'github_link',

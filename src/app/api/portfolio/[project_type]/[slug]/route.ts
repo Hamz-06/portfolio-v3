@@ -21,7 +21,7 @@ export async function GET(_request: NextRequest, { params }: Params) {
         randomProject, { status: 200 }
       )
     }
-    // Manually replace slug in query since dynamic query don't support type generation
+    // todo: INSTEAD OF REPLACING THE STRING, WE CAN USE GROQ PARAMS
     const replaceStringObjectMap: Record<string, string> = {
       'REPLACE_SLUG': slug
     }

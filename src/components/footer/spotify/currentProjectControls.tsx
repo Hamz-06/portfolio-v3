@@ -24,7 +24,7 @@ function ProjectControls() {
     dispatch(setShuffle(!isShufflingEnabled))
   }
 
-  const displayInterceptProject = () => {
+  const redirectToProject = () => {
     if (!currentProject) return
     serverRedirect(`/portfolio/${currentProject.project_type}/${currentProject.slug}`)
   }
@@ -65,7 +65,7 @@ function ProjectControls() {
         <ToolTip tooltipContent="Play">
           <Button
             asChild
-            onClick={() => displayInterceptProject()}
+            onClick={() => redirectToProject()}
             size="icon"
             className="bg-white text-black hover:bg-white/90 rounded-full">
             <Play fill="white" className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1" />

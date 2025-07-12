@@ -1,54 +1,54 @@
 'use client'
 
-import { PortfolioItem } from '@/components/sidebar/sidebar'
-import { capitalizeFirstLetter, cn } from '@/lib/utils'
-import { Pin } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
+import { useQueryPlaylistsResults } from '@/redux/slice/playlists'
+import { Playlists } from '@/schema/schema-types'
+import React, { useEffect, useState } from 'react'
+import clientSideCookie from 'js-cookie'
+// todo add playlist cover image
+// add description 
+// add type 
 
-type PlaylistListProps = {
-  playlistList: PortfolioItem[]
-}
-function PlaylistList({ playlistList }: PlaylistListProps) {
+
+function PlaylistList() {
+  const playlists = useQueryPlaylistsResults()
   return (
     <div className="flex-1 overflow-y-auto px-2">
-      {playlistList.map((item) => {
-        const pinnedItems = item.pinned
+      <LikedItemsPlaylist />
+      {playlists?.map((item, index) => {
         return (
-          <Link
-            key={item.id}
-            href={`/${item.type}/${item.id}`}
-            className="flex items-center gap-3 p-2 rounded-md hover:bg-zinc-800"
-          >
-            <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden">
-              <Image
-                src={item.imageUrl || "/bart-simpson-cartoon.png"}
-                alt={item.title}
-                fill
-                className={cn(
-                  "object-cover",
-                  item.type === "artist" && "rounded-full",
-                  item.type !== "artist" && "rounded",
-                )}
-              />
-            </div>
-
-            <div className="min-w-0 flex-1 font-light">
-              <h3 className={cn(`truncate`, pinnedItems ? 'text-[#1ed760]' : 'text-white')}>{item.title}</h3>
-              <p className="flex items-center gap-x-1 text-sm text-zinc-400 truncate">
-                {pinnedItems && <Pin className="shrink-0 w-3 h-3 text-[#1ed760] fill-[#1ed760] rotate-45" />}
-                <span className="truncate">
-                  {capitalizeFirstLetter(item.type)}
-                  {item.description && ` • ${item.description}`}
-                </span>
-              </p>
-            </div>
-          </Link>
+          <PlaylistCard playlist={item} key={index} />
         )
       })}
     </div>
   )
 }
 
+
+// rendered on the client side
+const LikedItemsPlaylist = () => {
+  const [likedPlaylistItem, setLikedPlaylistItem] = useState<Playlists[number] | null>(null)
+
+  useEffect(() => {
+    const likes = JSON.parse(clientSideCookie.get('likes') || '[]')
+    const numOfLikedProjects = likes.length
+    if (numOfLikedProjects === 0) return
+
+    setLikedPlaylistItem({
+      description: `${numOfLikedProjects} liked projects`,
+      playlist_name: 'Liked Projects',
+      slug: 'liked-projects',
+      type: 'liked',
+      pinned: true,
+      playlist_length: numOfLikedProjects,
+      playlist_cover_image: '/playlist-heart.png',
+    })
+  }, [])
+
+  if (!likedPlaylistItem) return null // todo: Load a skeleton
+
+  return (
+    <PlaylistCard key="liked" playlist={likedPlaylistItem} />
+  )
+}
 export { PlaylistList }

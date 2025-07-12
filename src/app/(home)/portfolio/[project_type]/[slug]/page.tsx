@@ -1,3 +1,4 @@
+import { isProjectLiked } from '@/actions/server-actions/cookies/likesCookie';
 import { ProjectPageResponse } from '@/app/api/portfolio/[project_type]/[slug]/route';
 import { ProjectCard } from '@/components/cards/project/projectCard'
 import { ProjectProvider } from '@/redux/provider/projectProvider';
@@ -16,12 +17,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const { slug, project_type: projectType } = await params;
   const project = await getProject(projectType, slug);
-
   if (!project) {
     redirect(HOME_ROUTE);
   }
+
+  const [liked, allLikedProjects] = await isProjectLiked(project.slug)
   return (
-    <ProjectProvider project={project}>
+    <ProjectProvider project={project} isProjectLiked={liked} allLikedProjects={allLikedProjects}>
       <div className="relative flex-1 bg-black overflow-y-scroll " />
       <ProjectCard />
     </ProjectProvider>

@@ -2,6 +2,7 @@
 import { defineQuery, } from 'next-sanity'
 
 //todo: simplify this query
+//todo: rename all the queries to be more descriptive
 export const CATEGORIZED_PROJECTS_HOME_PAGE = defineQuery(
   `{
     "projects": *[project_type == "projects"]|order(date_created desc){
@@ -62,4 +63,53 @@ export const MY_PROFILE = defineQuery(
     }
   }
 `
+)
+
+export const PLAYLIST_HOME_PAGE = defineQuery(
+  `
+  *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{
+    playlist_name,
+    "slug":slug.current,
+    "playlist_cover_image":playlist_cover_image.asset->url,
+    description,
+    pinned,
+    type,
+    playlist[]->{
+      title,
+      "first_image_url": project_images[0].asset->url,
+      "slug": slug.current,
+      sub_title,
+      project_type
+    }
+  }
+  `
+)
+
+export const PLAYLISTS_OVERVIEW = defineQuery(
+  `
+  *[_type == "playlists"] | order(pinned desc){
+    playlist_name,
+    "slug": slug.current,
+    "playlist_cover_image": playlist_cover_image.asset->url,
+    description,
+    pinned,
+    type,
+    "playlist_length": count(playlist)
+  }
+  `
+)
+
+export const MULTIPLE_PROJECTS_QUERY = defineQuery(
+  `
+  *[
+    slug.current in $slugs
+  ]{
+    title,
+    "first_image_url": project_images[0].asset->url,
+    "slug": slug.current,
+    sub_title,
+    project_type
+  }
+`
+
 )

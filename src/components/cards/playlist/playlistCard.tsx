@@ -1,13 +1,13 @@
 'use client'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
-import { Playlists } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { Pin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 type PlaylistCardProps = {
-  playlist: NonNullable<Playlists[number]>,
+  playlist: NonNullable<PlaylistsSummary[number]>,
 }
 function PlaylistCard({ playlist }: PlaylistCardProps) {
   const { type, slug, playlist_name, pinned: isPinned, description } = playlist

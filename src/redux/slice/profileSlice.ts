@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootMainLayoutStore } from "../store/mainLayoutStore";
 import { useSelector } from "react-redux";
-import { Profile } from "@/schema/schema-types";
+import { Profile } from "@/sanity/schema/schema-types";
 
 interface ProfileState {
   profile: Profile | null;

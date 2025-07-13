@@ -1,14 +1,10 @@
 'use client'
 
 import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
-import { useQueryPlaylistsResults } from '@/redux/slice/playlists'
-import { Playlists } from '@/schema/schema-types'
+import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import React, { useEffect, useState } from 'react'
-import clientSideCookie from 'js-cookie'
-// todo add playlist cover image
-// add description 
-// add type 
-
+import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
 
 function PlaylistList() {
   const playlists = useQueryPlaylistsResults()
@@ -24,23 +20,23 @@ function PlaylistList() {
   )
 }
 
-
 // rendered on the client side
 const LikedItemsPlaylist = () => {
-  const [likedPlaylistItem, setLikedPlaylistItem] = useState<Playlists[number] | null>(null)
+  const [likedPlaylistItem, setLikedPlaylistItem] = useState<PlaylistsSummary[number] | null>(null)
 
   useEffect(() => {
-    const likes = JSON.parse(clientSideCookie.get('likes') || '[]')
-    const numOfLikedProjects = likes.length
-    if (numOfLikedProjects === 0) return
+    const likedProjects = getClientCookie<string[] | null>('likes') || []
+
+    const likedProjectsLength = likedProjects.length
+    if (likedProjectsLength === 0) return
 
     setLikedPlaylistItem({
-      description: `${numOfLikedProjects} liked projects`,
+      description: `${likedProjectsLength} liked projects`,
       playlist_name: 'Liked Projects',
       slug: 'liked-projects',
       type: 'liked',
       pinned: true,
-      playlist_length: numOfLikedProjects,
+      playlist_length: likedProjectsLength,
       playlist_cover_image: '/playlist-heart.png',
     })
   }, [])

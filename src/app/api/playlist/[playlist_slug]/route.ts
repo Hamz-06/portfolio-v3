@@ -1,10 +1,9 @@
 // api/playlists
 
-import { randomPlaylist } from "@/lib/playlistsGenerator";
-import { replaceString } from "@/lib/utils";
+import { randomPlaylist } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
-import { PLAYLIST_HOME_PAGE } from "@/sanity/lib/queries";
-import { Playlist } from "@/schema/schema-types";
+import { SINGLE_PLAYLIST_QUERY } from "@/sanity/lib/queries";
+import { Playlist } from "@/sanity/schema/schema-types";
 import { NextRequest, NextResponse } from "next/server";
 
 export type PlaylistResponse = Playlist;
@@ -13,7 +12,7 @@ type Params = { params: Promise<{ playlist_slug: string }> }
 
 export async function GET(_request: NextRequest, { params }: Params) {
   try {
-    const { playlist_slug } = await params;
+    const { playlist_slug: playlistSlug } = await params;
 
     if (process.env.NODE_ENV !== 'production') {
       return NextResponse.json<PlaylistResponse>(
@@ -21,13 +20,9 @@ export async function GET(_request: NextRequest, { params }: Params) {
       )
     }
 
-    const replaceStringObjectMap: Record<string, string> = {
-      'REPLACE_SLUG': playlist_slug
-    }
-
-    // todo: Replace the placeholder in the query with the actual playlist slug
-    const UPDATED_QUERY = replaceString(replaceStringObjectMap, PLAYLIST_HOME_PAGE)
-    const playlists = await client.fetch<Playlist>(UPDATED_QUERY, {})
+    const playlists = await client.fetch<Playlist>(SINGLE_PLAYLIST_QUERY, {
+      slug: playlistSlug
+    })
 
     return NextResponse.json<PlaylistResponse>(
       playlists, { status: 200 })

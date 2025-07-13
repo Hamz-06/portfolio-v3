@@ -1,7 +1,7 @@
 import React from 'react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { XIcon } from 'lucide-react'
-import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/redux/slice/projectSlice'
+import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/redux/slice/projectPageSlice'
 import { useDispatch } from 'react-redux'
 
 type ProjectDetailsModalProps = {

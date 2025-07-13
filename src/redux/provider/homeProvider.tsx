@@ -1,12 +1,12 @@
 'use client'
 
 import { StoreSingleton } from '../store/storeSingleton'
-import { Playlists } from '@/schema/schema-types'
-import { setPlaylists } from '../slice/playlists'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
+import { setPlaylists } from '../slice/playlistSlice'
 
 type ProviderProps = {
   children: React.ReactNode,
-  playlists: Playlists
+  playlists: PlaylistsSummary
 }
 
 export function HomeProvider({ children, playlists }: ProviderProps) {

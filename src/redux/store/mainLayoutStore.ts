@@ -2,9 +2,9 @@ import { configureStore } from '@reduxjs/toolkit'
 import projectDataProvider from '../slice/projectDataSlice'
 import layoutProvider from '../slice/layoutSlice'
 import styleProvider from '../slice/styleSlice'
-import projectProvider from '../slice/projectSlice'
+import projectPageProvider from '../slice/projectPageSlice'
 import profileProvider from '../slice/profileSlice'
-import playlistsProvider from '../slice/playlists'
+import playlistsProvider from '../slice/playlistSlice'
 
 export const mainLayoutStore = () => {
   return configureStore({
@@ -12,7 +12,7 @@ export const mainLayoutStore = () => {
       projectListProvider: projectDataProvider,
       layoutProvider: layoutProvider,
       styleProvider: styleProvider,
-      projectProvider: projectProvider,
+      projectPageProvider: projectPageProvider,
       profileProvider: profileProvider,
       playlistsProvider: playlistsProvider
     },

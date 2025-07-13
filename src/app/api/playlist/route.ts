@@ -2,11 +2,11 @@
 
 import { randomPlaylists } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
-import { PLAYLISTS_OVERVIEW } from "@/sanity/lib/queries";
-import { Playlists } from "@/schema/schema-types";
+import { PLAYLIST_SUMMARY_LIST_QUERY } from "@/sanity/lib/queries";
+import { PlaylistsSummary } from "@/schema/schema-types";
 import { NextResponse } from "next/server";
 
-export type PlaylistsResponse = Playlists;
+export type PlaylistsResponse = PlaylistsSummary;
 
 export async function GET() {
   try {
@@ -15,7 +15,7 @@ export async function GET() {
         randomPlaylists, { status: 200 }
       )
     }
-    const playlists = await client.fetch<Playlists>(PLAYLISTS_OVERVIEW, {})
+    const playlists = await client.fetch<PlaylistsSummary>(PLAYLIST_SUMMARY_LIST_QUERY, {})
 
     return NextResponse.json<PlaylistsResponse>(
       playlists, { status: 200 })

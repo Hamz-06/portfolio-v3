@@ -1,38 +1,26 @@
 
 import { defineQuery, } from 'next-sanity'
 
-//todo: simplify this query
-//todo: rename all the queries to be more descriptive
-export const CATEGORIZED_PROJECTS_HOME_PAGE = defineQuery(
-  `{
-    "projects": *[project_type == "projects"]|order(date_created desc){
-      title,
-      "first_image_url": project_images[0].asset->url,
-      "slug": slug.current,
-      sub_title,
-      project_type
-    },
-    "blogs": *[project_type == "blogs"] | order(date_created desc){
-      title,
-      "first_image_url": project_images[0].asset->url,
-      "slug": slug.current,
-      sub_title,
-      project_type
-    },
-    "work_experience": *[project_type == "work_experience"] | order(date_created desc){
-      title,
-      "first_image_url": project_images[0].asset->url,
-      "slug": slug.current,
-      sub_title,
-      project_type
-    }
-  }
-`
-)
+// todo split this file into multiple files
 
-export const PROJECT_PROJECT_PAGE = defineQuery(
+const COMMON_FIELDS = `{
+  title,
+  "first_image_url": project_images[0].asset->url,
+  "slug": slug.current,
+  sub_title,
+  project_type
+}`
+
+export const PROJECTS_BY_CATEGORY_QUERY = defineQuery(`{
+  "projects": *[project_type == "projects"] | order(date_created desc) ${COMMON_FIELDS},
+  "blogs": *[project_type == "blogs"] | order(date_created desc) ${COMMON_FIELDS},
+  "work_experience": *[project_type == "work_experience"] | order(date_created desc) ${COMMON_FIELDS}
+}`)
+
+
+export const SINGLE_PROJECT_QUERY = defineQuery(
   `
-   *[slug.current == "REPLACE_SLUG"][0]{
+   *[slug.current == $slug][0]{
       title,
       "project_images": project_images[].asset->url,
       "slug": slug.current,
@@ -46,12 +34,11 @@ export const PROJECT_PROJECT_PAGE = defineQuery(
         achievements,
         github_url_link,
         live_url_link
-        
     }
   `
 )
 
-export const MY_PROFILE = defineQuery(
+export const MY_PROFILE_QUERY = defineQuery(
   `
   *[_type == "profile"][0]{
     email_address,
@@ -65,27 +52,22 @@ export const MY_PROFILE = defineQuery(
 `
 )
 
-export const PLAYLIST_HOME_PAGE = defineQuery(
+export const SINGLE_PLAYLIST_QUERY = defineQuery(
   `
-  *[_type == "playlists" && slug.current == "REPLACE_SLUG"][0]{
+  *[_type == "playlists" && slug.current == $slug][0]{
     playlist_name,
     "slug":slug.current,
     "playlist_cover_image":playlist_cover_image.asset->url,
     description,
     pinned,
     type,
-    playlist[]->{
-      title,
-      "first_image_url": project_images[0].asset->url,
-      "slug": slug.current,
-      sub_title,
-      project_type
-    }
+    playlist[]->${COMMON_FIELDS}
   }
   `
 )
 
-export const PLAYLISTS_OVERVIEW = defineQuery(
+// its called summary because it does not include the playlist items
+export const PLAYLIST_SUMMARY_LIST_QUERY = defineQuery(
   `
   *[_type == "playlists"] | order(pinned desc){
     playlist_name,
@@ -99,7 +81,7 @@ export const PLAYLISTS_OVERVIEW = defineQuery(
   `
 )
 
-export const MULTIPLE_PROJECTS_QUERY = defineQuery(
+export const PROJECTS_BY_SLUGS_QUERY = defineQuery(
   `
   *[
     slug.current in $slugs
@@ -109,7 +91,5 @@ export const MULTIPLE_PROJECTS_QUERY = defineQuery(
     "slug": slug.current,
     sub_title,
     project_type
-  }
-`
-
+  }`
 )

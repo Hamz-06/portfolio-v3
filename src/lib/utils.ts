@@ -14,14 +14,14 @@ export const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const replaceString = (replaceObject: Record<string, string>, input: string): string => {
-  let result = input;
-  Object.entries(replaceObject).forEach(([key, value]) => {
-    const regex = new RegExp(key, 'g');
-    result = result.replace(regex, value);
-  });
-  return result;
-};
+// export const replaceString = (replaceObject: Record<string, string>, input: string): string => {
+//   let result = input;
+//   Object.entries(replaceObject).forEach(([key, value]) => {
+//     const regex = new RegExp(key, 'g');
+//     result = result.replace(regex, value);
+//   });
+//   return result;
+// };
 
 export function formatToMonthYear(isoString: string): string {
   console.log("formatToMonthYear", isoString);
@@ -34,8 +34,6 @@ export function formatToMonthYear(isoString: string): string {
 export function underscoreToSpace(str: string): string {
   return str.replace(/_/g, ' ');
 }
-
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const isProjectLiked = async (slug: string, likedProject: string[] | null): Promise<boolean> => {
   if (!likedProject) {

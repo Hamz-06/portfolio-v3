@@ -2,7 +2,7 @@
 
 import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
 import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
-import { Playlists } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/schema/schema-types'
 import React, { useEffect, useState } from 'react'
 import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
 
@@ -22,7 +22,7 @@ function PlaylistList() {
 
 // rendered on the client side
 const LikedItemsPlaylist = () => {
-  const [likedPlaylistItem, setLikedPlaylistItem] = useState<Playlists[number] | null>(null)
+  const [likedPlaylistItem, setLikedPlaylistItem] = useState<PlaylistsSummary[number] | null>(null)
 
   useEffect(() => {
     const likedProjects = getClientCookie<string[] | null>('likes') || []

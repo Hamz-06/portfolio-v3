@@ -1,6 +1,6 @@
-import { Playlist, Playlists } from "@/schema/schema-types";
+import { Playlist, PlaylistsSummary } from "@/schema/schema-types";
 
-export const randomPlaylists: Playlists = [
+export const randomPlaylists: PlaylistsSummary = [
   {
     playlist_length: 10,
     playlist_name: "Sample Playlist",

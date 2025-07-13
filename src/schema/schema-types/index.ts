@@ -1,15 +1,15 @@
 import {
-  CATEGORIZED_PROJECTS_HOME_PAGEResult as CategorisedProjects,
-  PROJECT_PROJECT_PAGEResult as GeneratedProject,
-  MY_PROFILEResult as Profile,
-  PLAYLIST_HOME_PAGEResult as Playlist,
-  PLAYLISTS_OVERVIEWResult as Playlists,
+  PROJECTS_BY_CATEGORY_QUERYResult as CategorisedProjects,
+  SINGLE_PROJECT_QUERYResult as GeneratedProject,
+  MY_PROFILE_QUERYResult as Profile,
+  SINGLE_PLAYLIST_QUERYResult as Playlist,
+  PLAYLIST_SUMMARY_LIST_QUERYResult as PlaylistsSummary,
 
 } from "../types/sanity.types";
 
 type ProjectTypes = CategorisedProjects['blogs'][number]['project_type']
 type CategorisedProject = CategorisedProjects['blogs'][number]
-type Project = Extract<GeneratedProject, {title: string}>
+type Project = Extract<GeneratedProject, { title: string }>
 export type {
   Project,
   CategorisedProjects,
@@ -17,5 +17,5 @@ export type {
   ProjectTypes,
   Profile,
   Playlist,
-  Playlists
+  PlaylistsSummary
 };

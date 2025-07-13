@@ -2,7 +2,7 @@
 
 import { randomPlaylist } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
-import { MULTIPLE_PROJECTS_QUERY } from "@/sanity/lib/queries";
+import { PROJECTS_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProject, Playlist } from "@/schema/schema-types";
 // import { LikedProjects } from "@/types/likes";
 import { NextRequest, NextResponse } from "next/server";
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 const getLikedPlaylist = async (likedProjects: string[]): Promise<Playlist> => {
   const slugs = likedProjects;
   //todo rename this query to something more meaningful
-  const playlist = await client.fetch<CategorisedProject[]>(MULTIPLE_PROJECTS_QUERY, { slugs: slugs })
+  const playlist = await client.fetch<CategorisedProject[]>(PROJECTS_BY_SLUGS_QUERY, { slugs: slugs })
 
   const likedPlaylists: Playlist = {
     description: "Liked Projects",

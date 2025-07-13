@@ -4,11 +4,11 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Search } from 'lucide-react'
 import { setQueryResults, usePlaylists, useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
-import { Playlists } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/schema/schema-types'
 import { useDispatch } from 'react-redux'
 
 
-const SEARCHABLE_KEYS: (keyof Playlists[0])[] = ['playlist_name']
+const SEARCHABLE_KEYS: (keyof PlaylistsSummary[0])[] = ['playlist_name']
 
 function SidebarSearch() {
   const dispatch = useDispatch()

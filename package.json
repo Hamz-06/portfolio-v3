@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "tsc-build": "npx tsc",
-    "generate-sanity-schema": "npx sanity schema extract --enforce-required-fields --path ./src/schema/schema.json",
+    "generate-sanity-schema": "npx sanity schema extract --enforce-required-fields --path ./src/sanity/schema/schema.json",
     "generate-sanity-types": "npx sanity typegen generate",
     "typegen": "npm run generate-sanity-schema && npm run generate-sanity-types"
   },

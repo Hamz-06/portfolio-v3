@@ -3,7 +3,7 @@
 import { randomPlaylist } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PROJECTS_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
-import { CategorisedProject, Playlist } from "@/schema/schema-types";
+import { CategorisedProject, Playlist } from "@/sanity/schema/schema-types";
 // import { LikedProjects } from "@/types/likes";
 import { NextRequest, NextResponse } from "next/server";
 

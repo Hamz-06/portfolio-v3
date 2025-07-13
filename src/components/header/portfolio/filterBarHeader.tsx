@@ -6,7 +6,7 @@ import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/re
 import { useDispatch } from "react-redux"
 import { motion } from "framer-motion"
 import { Button } from "../../ui/button"
-import { ProjectTypes } from "@/schema/schema-types"
+import { ProjectTypes } from "@/sanity/schema/schema-types"
 
 
 //todo: split this file into filter and toggle sidebar

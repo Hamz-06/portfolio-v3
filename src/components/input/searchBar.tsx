@@ -7,7 +7,7 @@ import { Command, Search, XIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
 import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
-import { CategorisedProject } from '@/schema/schema-types'
+import { CategorisedProject } from '@/sanity/schema/schema-types'
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const SEARCHABLE_KEYS: (keyof CategorisedProject)[] = ['title', 'sub_title']

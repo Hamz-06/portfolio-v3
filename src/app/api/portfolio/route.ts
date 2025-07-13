@@ -3,7 +3,7 @@
 import { randomCategorisedProjects } from "@/lib/dev/projectsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PROJECTS_BY_CATEGORY_QUERY } from "@/sanity/lib/queries";
-import { CategorisedProjects } from "@/schema/schema-types";
+import { CategorisedProjects } from "@/sanity/schema/schema-types";
 import { NextResponse } from "next/server";
 
 export type HomeRouteResponse = CategorisedProjects

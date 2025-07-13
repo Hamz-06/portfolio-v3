@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootMainLayoutStore } from "../store/mainLayoutStore";
 import { useSelector } from "react-redux";
-import { PlaylistsSummary } from "@/schema/schema-types";
+import { PlaylistsSummary } from "@/sanity/schema/schema-types";
 
 interface PlaylistsState {
   playlists: PlaylistsSummary | null,

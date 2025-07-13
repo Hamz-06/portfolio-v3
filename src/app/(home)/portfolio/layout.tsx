@@ -3,7 +3,7 @@ import "../../globals.css";
 import { Header } from "@/components/header/header";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
 import { getCookie } from "@/actions/cookies/cookieHelper";
-import { CategorisedProjects, Profile } from "@/schema/schema-types";
+import { CategorisedProjects, Profile } from "@/sanity/schema/schema-types";
 import { ProfileResponse } from "@/app/api/profile/route";
 import { CurrentProjectCookieKey } from "@/types/cookieTypes";
 import { Footer } from "@/components/footer/footer";

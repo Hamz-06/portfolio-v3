@@ -3,7 +3,7 @@
 import { profileGenerator } from "@/lib/dev/profileGenerator";
 import { client } from "@/sanity/lib/client";
 import { MY_PROFILE_QUERY } from "@/sanity/lib/queries";
-import { Profile } from "@/schema/schema-types";
+import { Profile } from "@/sanity/schema/schema-types";
 import { NextResponse } from "next/server";
 
 export type ProfileResponse = Profile

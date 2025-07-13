@@ -8,7 +8,7 @@ import { Dialog, DialogContent } from "../ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useRouter } from "next/navigation"
-import { CategorisedProject } from "@/schema/schema-types"
+import { CategorisedProject } from "@/sanity/schema/schema-types"
 
 
 // TODO: fix onModal function, make it pass the state of the modal

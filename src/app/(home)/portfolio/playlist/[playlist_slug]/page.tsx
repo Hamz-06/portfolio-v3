@@ -3,7 +3,7 @@ import { LikedResponse } from '@/app/api/liked/route';
 import { PlaylistResponse } from '@/app/api/playlist/[playlist_slug]/route';
 import { ProjectCard } from '@/components/cards/projectCard';
 import { PlaylistHeader } from '@/components/header/playlist/playlistHeader';
-import { Playlist } from '@/schema/schema-types';
+import { Playlist } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
 

@@ -1,4 +1,3 @@
-
 import { defineQuery, } from 'next-sanity'
 
 // todo split this file into multiple files

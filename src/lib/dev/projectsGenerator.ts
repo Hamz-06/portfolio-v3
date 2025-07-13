@@ -1,6 +1,6 @@
 // this is used as a mock data generator for projects and blogs for development purposes
 
-import { CategorisedProjects, Project, ProjectTypes } from "@/schema/schema-types";
+import { CategorisedProjects, Project, ProjectTypes } from "@/sanity/schema/schema-types";
 
 
 const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];

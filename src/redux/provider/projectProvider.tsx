@@ -1,6 +1,6 @@
 'use client'
 
-import { Project } from '@/schema/schema-types'
+import { Project } from '@/sanity/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setProject } from '../slice/projectPageSlice'
 import { currentProjectLiked, initialiseLikedProjects } from '../slice/projectDataSlice'

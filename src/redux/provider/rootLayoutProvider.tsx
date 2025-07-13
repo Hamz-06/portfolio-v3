@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { MainLayoutStore } from '../store/mainLayoutStore'
 import { setCurrentProject, setProjectsList, setShuffle } from '../slice/projectDataSlice'
 import { StoreSingleton } from '../store/storeSingleton'
-import { CategorisedProjects, Profile } from '@/schema/schema-types'
+import { CategorisedProjects, Profile } from '@/sanity/schema/schema-types'
 import { setProfile } from '../slice/profileSlice'
 import { CurrentProjectCookieKey } from '@/types/cookieTypes'
 

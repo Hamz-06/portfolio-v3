@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { capitalizeFirstLetter, cn, underscoreToSpace } from "@/lib/utils"
 import { setSelectedCategory, useSelectedCategory } from "@/redux/slice/projectDataSlice"
-import { ProjectTypes } from "@/schema/schema-types"
+import { ProjectTypes } from "@/sanity/schema/schema-types"
 import { useDispatch } from "react-redux"
 
 type ProjectRowsProps = {

@@ -1,7 +1,7 @@
 'use client'
 
 import { StoreSingleton } from '../store/storeSingleton'
-import { PlaylistsSummary } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { setPlaylists } from '../slice/playlistSlice'
 
 type ProviderProps = {

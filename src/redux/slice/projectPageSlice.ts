@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootMainLayoutStore } from "../store/mainLayoutStore";
 import { useSelector } from "react-redux";
-import { Project } from "@/schema/schema-types";
+import { Project } from "@/sanity/schema/schema-types";
 
 interface ProjectState {
   project: Project | null,

@@ -1,4 +1,4 @@
-import { Profile } from "@/schema/schema-types";
+import { Profile } from "@/sanity/schema/schema-types";
 
 export const profileGenerator: Profile = {
   email_address: "test@email.com",

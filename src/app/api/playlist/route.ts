@@ -3,7 +3,7 @@
 import { randomPlaylists } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PLAYLIST_SUMMARY_LIST_QUERY } from "@/sanity/lib/queries";
-import { PlaylistsSummary } from "@/schema/schema-types";
+import { PlaylistsSummary } from "@/sanity/schema/schema-types";
 import { NextResponse } from "next/server";
 
 export type PlaylistsResponse = PlaylistsSummary;

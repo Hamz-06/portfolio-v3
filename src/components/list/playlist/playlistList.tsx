@@ -2,7 +2,7 @@
 
 import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
 import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
-import { PlaylistsSummary } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import React, { useEffect, useState } from 'react'
 import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
 

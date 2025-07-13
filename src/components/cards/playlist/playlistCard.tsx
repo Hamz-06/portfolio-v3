@@ -1,6 +1,6 @@
 'use client'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
-import { PlaylistsSummary } from '@/schema/schema-types'
+import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { Pin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

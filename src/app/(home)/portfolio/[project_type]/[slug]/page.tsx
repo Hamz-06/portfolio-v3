@@ -1,7 +1,7 @@
 import { ProjectPageResponse } from '@/app/api/portfolio/[project_type]/[slug]/route';
 import { ProjectView } from '@/components/layout/project/projectView'
 import { ProjectProvider } from '@/redux/provider/projectProvider';
-import { Project } from '@/schema/schema-types';
+import { Project } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
 import React from 'react'

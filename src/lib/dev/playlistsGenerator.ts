@@ -1,4 +1,4 @@
-import { Playlist, PlaylistsSummary } from "@/schema/schema-types";
+import { Playlist, PlaylistsSummary } from "@/sanity/schema/schema-types";
 
 export const randomPlaylists: PlaylistsSummary = [
   {

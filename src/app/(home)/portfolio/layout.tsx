@@ -1,12 +1,12 @@
 import { HomeRouteResponse } from "@/app/api/portfolio/route";
 import "../../globals.css";
-import Footer from "@/components/footer/spotify/footer";
 import { Header } from "@/components/header/header";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
 import { getCookie } from "@/actions/cookies/cookieHelper";
 import { CategorisedProjects, Profile } from "@/schema/schema-types";
 import { ProfileResponse } from "@/app/api/profile/route";
 import { CurrentProjectCookieKey } from "@/types/cookieTypes";
+import { Footer } from "@/components/footer/footer";
 
 type MainLayoutProps = {
   children: React.ReactNode;

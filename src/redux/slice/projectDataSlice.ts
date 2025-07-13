@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
-import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
+
 import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/schema/schema-types';
 import { CurrentProjectCookieKey } from '@/types/cookieTypes';
 import { setClientCookie } from '@/actions/cookies/cookieHelperClient';
+import { NavigationStep } from '@/components/footer/projectControls';
 
 interface ProjectState {
   originalProjects: CategorisedProjects;

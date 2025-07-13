@@ -1,9 +1,10 @@
 'use client'
 
+import { setClientCookie } from "@/actions/cookies/cookieHelperClient";
+import { SidebarHandle } from "@/components/sidebar/sideBarHandle";
 import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { useToggleSidebar } from "@/redux/slice/layoutSlice";
-// import { useToggleSidebar } from "@/redux/slice/layoutSlice";
 import clsx from "clsx";
 import React from 'react'
 
@@ -14,23 +15,21 @@ type ResizableLayoutProps = {
 }
 function ResizableLayout({ className, defaultLayout = [20, 80], children }: ResizableLayoutProps) {
   const toggleSidebar = useToggleSidebar()
+  // todo: make this to  const file
   const SIDE_BAR_MAX_SIZE_IN_PERCENT = 32;
 
-  // todo: Potential refactor
   const onLayout = (sizes: number[]) => {
-    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`;
+    setClientCookie(`react-resizable-panels:layout`, sizes)
   };
 
-  // console.log("toggleMenu", toggleMenu)
   return (
     <div className={clsx(className)}>
       <ResizablePanelGroup direction="horizontal" onLayout={onLayout}>
         {/* Sidebar - Resizable */}
-
+        <SidebarHandle />
         {
           toggleSidebar && <>
             <ResizablePanel
-              // onResize={(e) => { console.log(e) }}
               id='sidebar'
               order={1}
 

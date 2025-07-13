@@ -5,9 +5,6 @@ import { useQueryPlaylistsResults } from '@/redux/slice/playlists'
 import { Playlists } from '@/schema/schema-types'
 import React, { useEffect, useState } from 'react'
 import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
-// todo add playlist cover image
-// add description 
-// add type 
 
 function PlaylistList() {
   const playlists = useQueryPlaylistsResults()

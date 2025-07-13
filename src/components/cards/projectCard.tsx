@@ -9,7 +9,6 @@ import Link from "next/link"
 import { useState } from "react"
 
 
-// TODO: rename this
 interface ProjectCardProps {
   cardDetails: CategorisedProject,
 }
@@ -36,10 +35,9 @@ export function ProjectCard({
 
   return (
     <div
-      className={cn(
-        `h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col  gap-2 p-2 rounded-sm transition-all 
-        duration-200 hover:bg-zinc-800/40 cursor-pointer`
-      )}
+      className={`h-[245px] w-[170px] sm:w-[195px] group relative flex flex-col  gap-2 p-2 rounded-sm transition-all 
+        duration-200 hover:bg-zinc-800/40 cursor-pointer`}
+
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

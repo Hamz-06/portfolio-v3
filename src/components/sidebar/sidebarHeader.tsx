@@ -1,7 +1,7 @@
 import { setToggleSidebar } from "@/redux/slice/layoutSlice"
 import { useDispatch } from "react-redux"
 import ToolTip from "../tooltip/tooltip"
-import { HideSideBarIcon } from "../icons/customIcons"
+import { HideSideBarIcon } from "../layout/customIcons"
 import { Button } from "../ui/button"
 import { Maximize2 } from "lucide-react"
 

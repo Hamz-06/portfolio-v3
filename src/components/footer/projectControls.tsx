@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 
 export type NavigationStep = 'previous' | 'next';
 
-
 function ProjectControls() {
   const dispatch = useDispatch()
   const currentProject = useCurrentProject()

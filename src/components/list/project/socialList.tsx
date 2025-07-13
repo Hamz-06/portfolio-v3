@@ -1,7 +1,7 @@
 //todo: Not used, prob remove this file later
 'use client'
 
-import { GithubIcon, LinkedInIcon } from "@/components/icons/customIcons";
+import { GithubIcon, LinkedInIcon } from "@/components/layout/customIcons";
 import { useSelectedCategory } from "@/redux/slice/projectDataSlice";
 import { setPageColorTint } from "@/redux/slice/styleSlice";
 import Link from "next/link";

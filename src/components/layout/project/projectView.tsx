@@ -2,52 +2,46 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import clsx from 'clsx'
-import { ImageCarousel } from '@/components/carousel/imageCarousel'
+import { ImageCarousel } from '@/components/carousel/project/imageCarousel'
 import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal'
-import { ProjectDetails } from './projectDetailsCard'
+import { ProjectSummary } from './projectSummary'
 import { footerHeight, headerHeight } from '@/const/dimensions'
-import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
+import { ImageGrid } from '@/components/grid/project/imageGrid'
 import { closeFullPage, useFullPage, useGridMode, useProject }
   from '@/redux/slice/projectSlice'
 import { useDispatch } from 'react-redux'
 import { ProjectControls } from './projectControls'
 import { useHotkeys } from 'react-hotkeys-hook'
 
-// Layout z-index notes
-// - Main page: z-35
-// - header: z-38
-// - Footer: z-36
-// - Second page: z-37
+/**
+ * header: z-38
+ * this page: z-999
+ * footer: z-36
+ */
 
-
-function ProjectCard() {
+function ProjectView() {
   const dispatch = useDispatch()
 
   const project = useProject()
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
 
-  useHotkeys('esc', () => dispatch(closeFullPage())
+  useHotkeys('esc', () => dispatch(closeFullPage()))
 
-  )
-  // will not happen as the state is passed on first render, just used to satisfy typescript
   if (!project) {
     return <></>
   }
 
   return (
     <div
-      className={clsx(
-        'w-full h-full absolute pointer-events-none *:absolute z-999 bg-black overflow-hidden'
-      )}
+      className='w-full h-full absolute pointer-events-none *:absolute z-999 bg-black overflow-hidden'
       style={{ zIndex: fullScreen ? 999 : 35 }}
     >
       <BackgroundSlidersFullScreen />
       <BackgroundGradient />
       {/* display image  */}
       {
-        gridMode ? <ProjectImageGrid /> : <ImageCarousel />
+        gridMode ? <ImageGrid /> : <ImageCarousel />
       }
 
       {/* Controls */}
@@ -68,7 +62,7 @@ function ProjectCard() {
 
       {/* Modal */}
       <ProjectDetailsModal>
-        <ProjectDetails />
+        <ProjectSummary />
       </ProjectDetailsModal>
     </div>
   )
@@ -113,4 +107,4 @@ function BackgroundGradient() {
   )
 }
 
-export { ProjectCard }
+export { ProjectView }

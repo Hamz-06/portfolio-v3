@@ -1,6 +1,6 @@
 import React from 'react'
 import { DisplayCurrentProject } from './displayCurrentProject'
-import { ProjectControls } from './currentProjectControls'
+import { ProjectControls } from './projectControls'
 import clsx from 'clsx'
 import { VolumeControls } from './volumeControls'
 
@@ -27,4 +27,4 @@ async function Footer({ className }: FooterProps) {
   )
 }
 
-export default Footer
+export { Footer }

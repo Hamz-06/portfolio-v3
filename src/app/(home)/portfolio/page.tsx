@@ -1,9 +1,8 @@
 import { getCookie } from "@/actions/cookies/cookieHelper";
 import { PlaylistsResponse } from "@/app/api/playlist/route";
-import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
-import { FilterBar } from "@/components/filter/filterRow";
+import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
-import { ResizableLayout } from "@/components/resizable/main-layout/resizableLayout";
+import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { HomeProvider } from "@/redux/provider/homeProvider";
 
 
@@ -23,14 +22,11 @@ export default async function Home() {
           id='main-content'>
 
           <div className="sticky top-0 z-10 h-16">
-            <FilterBar />
+            <FilterBarHeader />
           </div>
-          {/* <PortfolioColorTint /> */}
-          {/* <SocialMediaList /> */}
-          {/* <SpotifyWrappedCard /> */}
           <ProjectList />
         </div>
-        <ToggleSideBar />
+
       </ResizableLayout>
     </HomeProvider>
   );

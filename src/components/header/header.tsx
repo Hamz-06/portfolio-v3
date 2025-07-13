@@ -1,8 +1,8 @@
 import React from 'react'
-import { SearchBar } from './searchBar'
+import { SearchBar } from '../input/searchBar'
 import clsx from 'clsx';
-import { HomeButton } from './homeButton';
-import { NotificationIcon, SpotifyIcon } from '../icons/customIcons';
+import { HomeButton } from '../button/homeButton';
+import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
 import { Button } from '../ui/button';
 import { AccountMenuBar } from '../context-menu/accountMenu';
 

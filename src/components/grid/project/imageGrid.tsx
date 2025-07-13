@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 
 
-function ProjectImageGrid() {
+function ImageGrid() {
   const project = useProject()
   if (!project) {
     return <></>
@@ -29,4 +29,4 @@ function ProjectImageGrid() {
   )
 }
 
-export { ProjectImageGrid }
+export { ImageGrid }

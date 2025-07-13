@@ -5,7 +5,7 @@ import { setSelectedCategory, useAllCategories, useSelectedCategory } from "@/re
 // import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { motion } from "framer-motion"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import { ProjectTypes } from "@/schema/schema-types"
 
 
@@ -13,7 +13,7 @@ import { ProjectTypes } from "@/schema/schema-types"
 // Threshold for scroll event, animate > 50
 // const THRESHOLD_IN_PX = 30;
 
-export function FilterBar() {
+export function FilterBarHeader() {
   const dispatch = useDispatch()
 
   const selectedCategory = useSelectedCategory()

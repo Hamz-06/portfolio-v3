@@ -19,7 +19,7 @@ interface SearchDropdownProps {
   querySearch: string
 }
 
-export function SearchDropdown({ isOpen, onModal, searchList, querySearch }: SearchDropdownProps) {
+export function SearchModal({ isOpen, onModal, searchList, querySearch }: SearchDropdownProps) {
   const router = useRouter();
 
   function highlightMatch(text: string, query: string): React.JSX.Element {

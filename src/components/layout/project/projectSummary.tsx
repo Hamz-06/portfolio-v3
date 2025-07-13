@@ -7,7 +7,7 @@ import { DialogTitle } from "@/components/ui/dialog"
 import { useProject } from "@/redux/slice/projectSlice"
 import { formatToMonthYear } from "@/lib/utils"
 
-export function ProjectDetails() {
+export function ProjectSummary() {
   const project = useProject()
   if (!project) {
     return <></>

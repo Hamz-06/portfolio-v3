@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
 import { Input } from '../ui/input'
-import { SearchDropdown } from '../modal/searchModal'
+import { SearchModal } from '../modal/searchModal'
 import { Command, Search, XIcon } from 'lucide-react'
 // import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
@@ -119,7 +119,7 @@ function SearchBar() {
         )}
 
 
-        <SearchDropdown
+        <SearchModal
           isOpen={isModal}
           onModal={() => setModal(false)}
           searchList={querySearchValue}

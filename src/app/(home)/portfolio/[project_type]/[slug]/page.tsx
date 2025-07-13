@@ -1,6 +1,6 @@
 import { isProjectLiked } from '@/feature/isProjectLiked';
 import { ProjectPageResponse } from '@/app/api/portfolio/[project_type]/[slug]/route';
-import { ProjectCard } from '@/components/cards/project/projectCard'
+import { ProjectView } from '@/components/layout/project/projectView'
 import { ProjectProvider } from '@/redux/provider/projectProvider';
 import { Project } from '@/schema/schema-types';
 import { Routes } from '@/types/routes';
@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <ProjectProvider project={project} isProjectLiked={isLiked} allLikedProjects={likedProjects}>
       {/* div used as the background, used here to allow the two div elements to slide */}
       <div className="relative flex-1 bg-black overflow-y-scroll " />
-      <ProjectCard />
+      <ProjectView />
     </ProjectProvider>
   )
 }

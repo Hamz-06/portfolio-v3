@@ -4,6 +4,7 @@ import { ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
+// Currently, not used
 function SpotifyWrappedCard() {
   return (
     <div className='mx-0 sm:mx-10 h-32 sm:h-56 relative'>

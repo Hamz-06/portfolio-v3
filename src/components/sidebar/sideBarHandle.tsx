@@ -4,7 +4,7 @@ import { setToggleSidebar, useToggleSidebar } from '@/redux/slice/layoutSlice'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-function ToggleSideBar() {
+function SidebarHandle() {
   const toggleSideBar = useToggleSidebar()
   const dispatch = useDispatch()
 
@@ -22,4 +22,4 @@ function ToggleSideBar() {
   )
 }
 
-export { ToggleSideBar }
+export { SidebarHandle }

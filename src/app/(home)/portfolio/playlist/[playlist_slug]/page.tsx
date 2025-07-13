@@ -1,4 +1,4 @@
-import { getCookie } from '@/actions/server-actions/cookies/cookieHelper';
+import { getCookie } from '@/actions/cookies/cookieHelper';
 import { LikedResponse } from '@/app/api/liked/route';
 import { PlaylistResponse } from '@/app/api/playlist/[playlist_slug]/route';
 import { ProjectCard } from '@/components/cards/portfolio/projectCards';

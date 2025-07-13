@@ -1,6 +1,6 @@
 'use client'
 
-import { serverRedirect } from "@/actions/server-actions/redirect";
+import { serverRedirect } from "@/actions/redirect";
 import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

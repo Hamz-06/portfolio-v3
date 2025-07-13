@@ -3,10 +3,10 @@ import "../../globals.css";
 import Footer from "@/components/footer/spotify/footer";
 import { Header } from "@/components/header/header";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
-import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
-import { CurrentProjectKey } from "@/actions/server-actions/cookies/currentProjectCookie";
+import { getCookie } from "@/actions/cookies/cookieHelper";
 import { CategorisedProjects, Profile } from "@/schema/schema-types";
 import { ProfileResponse } from "@/app/api/profile/route";
+import { CurrentProjectCookieKey } from "@/types/cookieTypes";
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default async function RootLayout({
   children,
 }: MainLayoutProps) {
   const shuffleActive = await getCookie<boolean>('is-shuffling-enabled') || false;
-  const currentProjectKey = await getCookie<CurrentProjectKey>('current-project');
+  const currentProjectKey = await getCookie<CurrentProjectCookieKey>('current-project');
   const projects = await getAllProjects()
   const userProfile = await getUserProfile();
 

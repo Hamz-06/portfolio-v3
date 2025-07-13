@@ -3,16 +3,16 @@ import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { MainLayoutStore } from '../store/mainLayoutStore'
 import { setCurrentProject, setProjectsList, setShuffle } from '../slice/projectDataSlice'
-import { CurrentProjectKey } from '@/actions/server-actions/cookies/currentProjectCookie'
 import { StoreSingleton } from '../store/storeSingleton'
 import { CategorisedProjects, Profile } from '@/schema/schema-types'
 import { setProfile } from '../slice/profileSlice'
+import { CurrentProjectCookieKey } from '@/types/cookieTypes'
 
 
 type ProviderProps = {
   projects: CategorisedProjects,
   shuffleActive: boolean,
-  currentProject: CurrentProjectKey | null,
+  currentProject: CurrentProjectCookieKey | null,
   userProfile: NonNullable<Profile>,
   children: React.ReactNode,
 }

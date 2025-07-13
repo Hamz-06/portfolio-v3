@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
 import { NavigationStep } from '@/components/footer/spotify/currentProjectControls';
-import { CurrentProjectKey } from '@/actions/server-actions/cookies/currentProjectCookie';
 import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/schema/schema-types';
-import clientSideCookie from 'js-cookie'
+import { CurrentProjectCookieKey } from '@/types/cookieTypes';
+import { setClientCookie } from '@/actions/cookies/cookieHelperClient';
 
 interface ProjectState {
   originalProjects: CategorisedProjects;
@@ -55,7 +55,7 @@ export const projectsList = createSlice({
       state.selectedCategory = categorySelected;
 
     },
-    setCurrentProject: (state, action: PayloadAction<CurrentProjectKey | null>) => {
+    setCurrentProject: (state, action: PayloadAction<CurrentProjectCookieKey | null>) => {
       const defaultProject = () => state.allProjectsArray[0];
 
       if (!action.payload) {
@@ -82,11 +82,10 @@ export const projectsList = createSlice({
         const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
         const randomProject = state.allProjectsArray[randomIndex];
 
-        clientSideCookie.set('current-project', JSON.stringify({
+        setClientCookie('current-project', {
           category: randomProject.project_type,
           project_slug: randomProject.slug
-        }))
-
+        })
         state.currentProject = state.allProjectsArray[randomIndex];
       }
       const currentIndex = state.allProjectsArray
@@ -95,10 +94,10 @@ export const projectsList = createSlice({
       if (currentIndex === -1) {
         const firstProject = state.allProjectsArray[0];
 
-        clientSideCookie.set('current-project', JSON.stringify({
+        setClientCookie('current-project', {
           category: firstProject.project_type,
           project_slug: firstProject.slug
-        }))
+        })
 
         state.currentProject = firstProject;
         return;
@@ -109,17 +108,14 @@ export const projectsList = createSlice({
         return;
       }
       const navigationProject = state.allProjectsArray[nextIndex];
-
-      clientSideCookie.set('current-project', JSON.stringify({
+      setClientCookie('current-project', {
         category: navigationProject.project_type,
         project_slug: navigationProject.slug
-      }))
+      })
       state.currentProject = navigationProject;
-
     },
     setShuffle: (state, action: PayloadAction<boolean>) => {
-      //todo and add type safety
-      clientSideCookie.set('is-shuffling-enabled', JSON.stringify(action.payload))
+      setClientCookie('is-shuffling-enabled', action.payload)
       state.isShufflingEnabled = action.payload;
     },
 
@@ -130,7 +126,7 @@ export const projectsList = createSlice({
       if (isExists) {
         const removedProjectArray = state.likedProjects?.filter(slug => slug !== projectSlug);
         state.likedProjects = removedProjectArray
-        clientSideCookie.set('likes', JSON.stringify(state.likedProjects))
+        setClientCookie('likes', state.likedProjects)
         return;
       }
       const existingProjects = state.likedProjects || [];
@@ -139,7 +135,7 @@ export const projectsList = createSlice({
         projectSlug
       ]
       state.likedProjects = addedProjectArray;
-      clientSideCookie.set('likes', JSON.stringify(state.likedProjects))
+      setClientCookie('likes', state.likedProjects)
     },
     initialiseLikedProjects: (state, action: PayloadAction<string[]>) => {
       state.likedProjects = action.payload;

@@ -1,4 +1,4 @@
-import { getCookie } from "@/actions/server-actions/cookies/cookieHelper";
+import { getCookie } from "@/actions/cookies/cookieHelper";
 import { PlaylistsResponse } from "@/app/api/playlist/route";
 import { ToggleSideBar } from "@/components/cards/portfolio/toggleSideBar";
 import { FilterBar } from "@/components/filter/filterRow";

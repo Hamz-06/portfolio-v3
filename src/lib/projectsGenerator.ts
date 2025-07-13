@@ -10,7 +10,7 @@ const randomImage = () => images[Math.floor(Math.random() * images.length)];
 
 const createRandomProjects = (type: ProjectTypes, count: number) =>
   Array.from({ length: count }, (_, i) => ({
-    title: `Project (THIS will be a big title omds hi how are you doing today?)`,
+    title: `Project ${i + 1}`,
     first_image_url: randomImage(),
     slug: randomSlug(type, i),
     sub_title: `This is project number ${i + 1}`,

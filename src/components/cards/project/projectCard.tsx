@@ -7,12 +7,12 @@ import { ImageCarousel } from '@/components/carousel/imageCarousel'
 import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal'
 import { ProjectDetails } from './projectDetailsCard'
 import { footerHeight, headerHeight } from '@/const/dimensions'
-import { useEscKeyListener } from '@/actions/client-functions/keyStrokes'
 import { ProjectImageGrid } from '@/components/grid/projectImageGrid/projectImageGrid'
 import { closeFullPage, useFullPage, useGridMode, useProject }
   from '@/redux/slice/projectSlice'
 import { useDispatch } from 'react-redux'
 import { ProjectControls } from './projectControls'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 // Layout z-index notes
 // - Main page: z-35
@@ -28,10 +28,9 @@ function ProjectCard() {
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
 
-  useEscKeyListener(() => {
-    dispatch(closeFullPage())
-  })
+  useHotkeys('esc', () => dispatch(closeFullPage())
 
+  )
   // will not happen as the state is passed on first render, just used to satisfy typescript
   if (!project) {
     return <></>

@@ -3,11 +3,12 @@ import React, { useEffect, useRef } from 'react'
 import { Input } from '../ui/input'
 import { SearchDropdown } from '../modal/searchModal'
 import { Command, Search, XIcon } from 'lucide-react'
-import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
+// import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
 import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
 import { CategorisedProject } from '@/schema/schema-types'
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const SEARCHABLE_KEYS: (keyof CategorisedProject)[] = ['title', 'sub_title']
 
@@ -20,7 +21,8 @@ function SearchBar() {
   const pathname = usePathname();
 
   // focus input on Command + K
-  useCommandKListener(() => {
+
+  useHotkeys('ctrl+k, meta+k', () => {
     if (inputRef.current) {
       inputRef.current.focus();
       // if query is not empty, open the modal
@@ -29,6 +31,8 @@ function SearchBar() {
       }
     }
   })
+  // useCommandKListener(() => {
+  // })
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value

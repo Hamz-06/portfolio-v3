@@ -4,9 +4,9 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useArrowKeyListener } from "@/actions/client-functions/keyStrokes"
 import { motion } from "framer-motion"
 import { useFullPage, useProject } from "@/redux/slice/projectSlice"
+import { useHotkeys } from "react-hotkeys-hook"
 
 
 export function ImageCarousel() {
@@ -20,7 +20,9 @@ export function ImageCarousel() {
   const prev = () => setIndex((prev) => (prev - 1 + imagesLength) % imagesLength)
   const next = () => setIndex((prev) => (prev + 1) % imagesLength)
 
-  useArrowKeyListener({ ArrowLeft: prev, ArrowRight: next })
+
+  useHotkeys('left', () => prev())
+  useHotkeys('right', () => next())
 
   return (
     <motion.div

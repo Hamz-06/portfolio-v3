@@ -1,6 +1,6 @@
 // api/home
 // lists all projects, blogs to display on the home page
-import { randomCategorisedProjects } from "@/lib/projectsGenerator";
+import { randomCategorisedProjects } from "@/lib/dev/projectsGenerator";
 import { client } from "@/sanity/lib/client";
 import { CATEGORIZED_PROJECTS_HOME_PAGE } from "@/sanity/lib/queries";
 import { CategorisedProjects } from "@/schema/schema-types";

@@ -8,7 +8,7 @@ import { ProjectSummary } from './projectSummary'
 import { footerHeight, headerHeight } from '@/const/dimensions'
 import { ImageGrid } from '@/components/grid/project/imageGrid'
 import { closeFullPage, useFullPage, useGridMode, useProject }
-  from '@/redux/slice/projectSlice'
+  from '@/redux/slice/projectPageSlice'
 import { useDispatch } from 'react-redux'
 import { ProjectControls } from './projectControls'
 import { useHotkeys } from 'react-hotkeys-hook'

@@ -36,3 +36,11 @@ export function underscoreToSpace(str: string): string {
 }
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+export const isProjectLiked = async (slug: string, likedProject: string[] | null): Promise<boolean> => {
+  if (!likedProject) {
+    return false
+  }
+
+  return likedProject.includes(slug);
+}

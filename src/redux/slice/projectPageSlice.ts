@@ -40,17 +40,17 @@ export const projectSlice = createSlice({
 })
 
 export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal
-,setProject
+  , setProject
 } = projectSlice.actions;
 
 
 export const useFullPage = (): ProjectState['fullPage'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectProvider.fullPage)
+  useSelector((state: RootMainLayoutStore) => state.projectPageProvider.fullPage)
 export const useGridMode = (): ProjectState['gridMode'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectProvider.gridMode)
+  useSelector((state: RootMainLayoutStore) => state.projectPageProvider.gridMode)
 export const useDisplayProjectDetailsModal = (): ProjectState['displayProjectDetailsModal'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectProvider.displayProjectDetailsModal)
+  useSelector((state: RootMainLayoutStore) => state.projectPageProvider.displayProjectDetailsModal)
 export const useProject = (): ProjectState['project'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectProvider.project)
+  useSelector((state: RootMainLayoutStore) => state.projectPageProvider.project)
 
 export default projectSlice.reducer

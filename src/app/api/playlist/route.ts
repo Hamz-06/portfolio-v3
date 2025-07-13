@@ -1,6 +1,6 @@
 // api/playlists
 
-import { randomPlaylists } from "@/lib/playlistsGenerator";
+import { randomPlaylists } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PLAYLISTS_OVERVIEW } from "@/sanity/lib/queries";
 import { Playlists } from "@/schema/schema-types";

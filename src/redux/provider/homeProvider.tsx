@@ -2,7 +2,7 @@
 
 import { StoreSingleton } from '../store/storeSingleton'
 import { Playlists } from '@/schema/schema-types'
-import { setPlaylists } from '../slice/playlists'
+import { setPlaylists } from '../slice/playlistSlice'
 
 type ProviderProps = {
   children: React.ReactNode,

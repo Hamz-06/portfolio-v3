@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DialogTitle } from "@/components/ui/dialog"
-import { useProject } from "@/redux/slice/projectSlice"
+import { useProject } from "@/redux/slice/projectPageSlice"
 import { formatToMonthYear } from "@/lib/utils"
 
 export function ProjectSummary() {

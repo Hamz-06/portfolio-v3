@@ -19,7 +19,7 @@ type ProviderProps = {
 
 export function RootLayoutProvider({ children, projects, shuffleActive, currentProject, userProfile }: ProviderProps) {
   const storeRef = useRef<MainLayoutStore | null>(null)
-  console.log("RootLayoutProvider rendered")
+
   if (!storeRef.current) {
     storeRef.current = StoreSingleton.getInstance()
     storeRef.current.dispatch(setShuffle(shuffleActive))

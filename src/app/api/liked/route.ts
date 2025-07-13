@@ -1,6 +1,6 @@
 // api/liked
 
-import { randomPlaylist } from "@/lib/playlistsGenerator";
+import { randomPlaylist } from "@/lib/dev/playlistsGenerator";
 import { client } from "@/sanity/lib/client";
 import { MULTIPLE_PROJECTS_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProject, Playlist } from "@/schema/schema-types";

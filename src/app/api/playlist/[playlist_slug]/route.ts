@@ -1,6 +1,6 @@
 // api/playlists
 
-import { randomPlaylist } from "@/lib/playlistsGenerator";
+import { randomPlaylist } from "@/lib/dev/playlistsGenerator";
 import { replaceString } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
 import { PLAYLIST_HOME_PAGE } from "@/sanity/lib/queries";

@@ -2,7 +2,7 @@
 
 import { Project } from '@/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
-import { setProject } from '../slice/projectSlice'
+import { setProject } from '../slice/projectPageSlice'
 import { currentProjectLiked, initialiseLikedProjects } from '../slice/projectDataSlice'
 
 type ProviderProps = {

@@ -1,4 +1,3 @@
-import { isProjectLiked } from '@/feature/isProjectLiked';
 import { ProjectPageResponse } from '@/app/api/portfolio/[project_type]/[slug]/route';
 import { ProjectView } from '@/components/layout/project/projectView'
 import { ProjectProvider } from '@/redux/provider/projectProvider';
@@ -7,6 +6,7 @@ import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
 import React from 'react'
 import { getCookie } from '@/actions/cookies/cookieHelper';
+import { isProjectLiked } from '@/lib/utils';
 
 type ProjectPageProps = {
   params: Promise<{ slug: string, project_type: string }>

@@ -1,7 +1,7 @@
 'use client'
 
 import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
-import { useQueryPlaylistsResults } from '@/redux/slice/playlists'
+import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
 import { Playlists } from '@/schema/schema-types'
 import React, { useEffect, useState } from 'react'
 import { getClientCookie } from '@/actions/cookies/cookieHelperClient'

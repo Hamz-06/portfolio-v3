@@ -1,6 +1,6 @@
 // api/profile
 
-import { profileGenerator } from "@/lib/profileGenerator";
+import { profileGenerator } from "@/lib/dev/profileGenerator";
 import { client } from "@/sanity/lib/client";
 import { MY_PROFILE } from "@/sanity/lib/queries";
 import { Profile } from "@/schema/schema-types";

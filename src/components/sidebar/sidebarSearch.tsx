@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Search } from 'lucide-react'
-import { setQueryResults, usePlaylists, useQueryPlaylistsResults } from '@/redux/slice/playlists'
+import { setQueryResults, usePlaylists, useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
 import { Playlists } from '@/schema/schema-types'
 import { useDispatch } from 'react-redux'
 

@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { useFullPage, useProject } from "@/redux/slice/projectSlice"
+import { useFullPage, useProject } from "@/redux/slice/projectPageSlice"
 import { useHotkeys } from "react-hotkeys-hook"
 
 

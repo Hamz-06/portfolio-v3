@@ -4,7 +4,7 @@
 import { PROJECT_PROJECT_PAGE } from "@/sanity/lib/queries";
 import { NextResponse } from "next/server";
 import { Project } from "@/schema/schema-types";
-import { randomProject } from "@/lib/projectsGenerator";
+import { randomProject } from "@/lib/dev/projectsGenerator";
 import { client } from "@/sanity/lib/client";
 import type { NextRequest } from 'next/server'
 import { replaceString } from "@/lib/utils";

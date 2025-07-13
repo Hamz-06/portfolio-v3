@@ -1,4 +1,4 @@
-import { useProject } from '@/redux/slice/projectSlice'
+import { useProject } from '@/redux/slice/projectPageSlice'
 import Image from 'next/image'
 import React from 'react'
 

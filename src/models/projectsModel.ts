@@ -1,18 +1,46 @@
+import { DEFAULT_KV_EXPIRATION, PROJECT_KV_CACHE } from "@/const";
 import { randomCategorisedProjects, randomProject } from "@/lib/dev/projectsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PROJECTS_BY_CATEGORY_QUERY, SINGLE_PROJECT_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProjects, Project } from "@/sanity/schema/schema-types";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 class ProjectsModel {
+  private projectKv: KVNamespace<string>;
 
-  async getProject(projectName: string): Promise<Project | null> {
+  constructor() {
+    this.projectKv = getCloudflareContext().env.PROJECT_KV_CACHE;
+  }
+
+  async getProject(projectSlug: string): Promise<Project | null> {
     if (process.env.NODE_ENV !== 'production') {
       return randomProject
     }
+    const PROJECT_CACHE_KEY = `${PROJECT_KV_CACHE.PROJECT}:${projectSlug}`;
+
+    const cachedProject = await this.projectKv.get<Project>(PROJECT_CACHE_KEY, { type: 'json' });
+    if (cachedProject) {
+      console.log("Found project in KV cache.");
+      return cachedProject;
+    }
+
     const projectResult = await client.fetch<Project>(SINGLE_PROJECT_QUERY, {
-      slug: projectName
+      slug: projectSlug
     });
 
+    if (!projectResult) {
+      console.log("No project found for slug:", projectSlug);
+      return null;
+    }
+
+    getCloudflareContext().ctx.waitUntil(
+      this.projectKv.put(
+        PROJECT_CACHE_KEY,
+        JSON.stringify(projectResult),
+        { expirationTtl: DEFAULT_KV_EXPIRATION }
+      )
+    );
+    console.log("Fetched project from Sanity and stored in KV cache", projectSlug);
     return projectResult
   }
 
@@ -20,8 +48,22 @@ class ProjectsModel {
     if (process.env.NODE_ENV !== 'production') {
       return randomCategorisedProjects
     }
+    const cachedSummary = await this.projectKv.get<CategorisedProjects>(PROJECT_KV_CACHE.PROJECT_SUMMARY, { type: 'json' });
+    if (cachedSummary) {
+      console.log("Found project summary in KV cache.");
+      return cachedSummary;
+    }
+    const projectSummary = await client.fetch<CategorisedProjects>(PROJECTS_BY_CATEGORY_QUERY)
 
-    return await client.fetch<CategorisedProjects>(PROJECTS_BY_CATEGORY_QUERY)
+    getCloudflareContext().ctx.waitUntil(
+      this.projectKv.put(
+        PROJECT_KV_CACHE.PROJECT_SUMMARY,
+        JSON.stringify(projectSummary),
+        { expirationTtl: DEFAULT_KV_EXPIRATION }
+      )
+    )
+    console.log("Fetched project summary from Sanity and stored in KV cache.");
+    return projectSummary;
   }
 }
 export { ProjectsModel }

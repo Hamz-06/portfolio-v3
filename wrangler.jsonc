@@ -14,8 +14,16 @@
   },
   "kv_namespaces": [
     {
-      "binding": "PLAYLIST_SUMMARY_CACHE",
-      "id": "54cde49be5a545de942c7aea4b5e72f3"
+      "binding": "PLAYLIST_KV_CACHE",
+      "id": "5a7062a1c9884d1ea07c9815173b23e2"
+    },
+    {
+      "binding": "PROFILE_KV_CACHE",
+      "id": "a0f37e07a2ab4fa587af724458ec6013"
+    },
+    {
+      "binding": "PROJECT_KV_CACHE",
+      "id": "37f228e817ce4709b43e474fa32d69ea"
     }
   ]  
 }

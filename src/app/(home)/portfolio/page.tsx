@@ -4,19 +4,11 @@ import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { HomeProvider } from "@/redux/provider/homeProvider";
 import { PlaylistModel } from "@/models/playlistModel";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-
 
 
 export default async function Home() {
   const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
   const playlists = await new PlaylistModel().getPlaylistsSummary()
-
-  const a = getCloudflareContext()
-
-
-  console.log(a)
-  console.log(a.env.PLAYLIST_SUMMARY_CACHE)
 
   if (!playlists) {
     console.error("Failed to fetch playlists");

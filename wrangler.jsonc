@@ -8,5 +8,14 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
-  }
+  },
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "PLAYLIST_SUMMARY_CACHE",
+      "id": "54cde49be5a545de942c7aea4b5e72f3"
+    }
+  ]  
 }

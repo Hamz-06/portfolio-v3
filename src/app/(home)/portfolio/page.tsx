@@ -1,14 +1,27 @@
 import { getCookie } from "@/actions/cookies/cookieHelper";
-import { PlaylistsResponse } from "@/app/api/playlist/route";
 import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { HomeProvider } from "@/redux/provider/homeProvider";
+import { PlaylistModel } from "@/models/playlistModel";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+
 
 
 export default async function Home() {
   const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
-  const playlists = await getPlaylists()
+  const playlists = await new PlaylistModel().getPlaylistsSummary()
+
+  const a = getCloudflareContext()
+
+
+  console.log(a)
+  console.log(a.env.PLAYLIST_SUMMARY_CACHE)
+
+  if (!playlists) {
+    console.error("Failed to fetch playlists");
+    return <div>Error loading playlists</div>;
+  }
 
   return (
     <HomeProvider playlists={playlists}>
@@ -30,14 +43,5 @@ export default async function Home() {
       </ResizableLayout>
     </HomeProvider>
   );
-}
-
-const getPlaylists = async () => {
-  const res = await fetch(`${process.env.HOST_URL}/api/playlist`)
-  if (!res.ok) {
-    throw new Error('Failed to fetch playlists');
-  }
-  const data = await res.json();
-  return data as PlaylistsResponse;
 }
 

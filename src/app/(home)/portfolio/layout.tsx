@@ -18,7 +18,7 @@ export default async function RootLayout({
   const shuffleActive = await getCookie<boolean>('is-shuffling-enabled') || false;
   const currentProjectKey = await getCookie<CurrentProjectCookieKey>('current-project');
 
-  const projectsSummary = await new ProjectsModel().getProjectSummary()
+  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary()
   const userProfile = await new ProfileModel().getProfile();
 
   if (!userProfile) {

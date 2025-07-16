@@ -4,15 +4,25 @@ import { client } from "@/sanity/lib/client";
 import { PROJECTS_BY_CATEGORY_QUERY, SINGLE_PROJECT_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProjects, Project } from "@/sanity/schema/schema-types";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { cache } from "react";
 
+// one instance of ProjectsModel, with react cache implemented
 class ProjectsModel {
+  private static instance: ProjectsModel | null = null;
   private projectKv: KVNamespace<string>;
 
-  constructor() {
+  private constructor() {
     this.projectKv = getCloudflareContext().env.PROJECT_KV_CACHE;
   }
 
-  async getProject(projectSlug: string): Promise<Project | null> {
+  public static getInstance(): ProjectsModel {
+    if (!ProjectsModel.instance) {
+      ProjectsModel.instance = new ProjectsModel();
+    }
+    return ProjectsModel.instance;
+  }
+
+  getProject = cache(async (projectSlug: string): Promise<Project | null> => {
     if (process.env.NODE_ENV !== 'production') {
       return randomProject
     }
@@ -42,9 +52,10 @@ class ProjectsModel {
     );
     console.log("Fetched project from Sanity and stored in KV cache", projectSlug);
     return projectResult
-  }
+  });
 
-  async getProjectSummary(): Promise<CategorisedProjects> {
+  getProjectSummary = cache(async (): Promise<CategorisedProjects> => {
+    console.log("WTFFFFF")
     if (process.env.NODE_ENV !== 'production') {
       return randomCategorisedProjects
     }
@@ -64,6 +75,9 @@ class ProjectsModel {
     )
     console.log("Fetched project summary from Sanity and stored in KV cache.");
     return projectSummary;
-  }
+  });
 }
-export { ProjectsModel }
+
+// Export singleton instance
+export const projectsModel = ProjectsModel.getInstance();
+export { ProjectsModel };

@@ -20,7 +20,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🛠️ Build the Next.js app
+      - name: 🗣️ Generate cloudflare types
+        run: npm run cf-typegen
+
+      - name: 🛠️ Build the Ngext.js app
         run: npm run build-deploy
 
       - name: Build & Deploy Worker

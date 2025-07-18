@@ -1,4 +1,4 @@
-import { defineQuery, } from 'next-sanity'
+import { defineQuery } from 'next-sanity'
 
 // todo split this file into multiple files
 

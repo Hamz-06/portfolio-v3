@@ -1,8 +1,6 @@
-import { getCookie } from '@/actions/cookies/cookieHelper';
-import { LikedResponse } from '@/app/api/liked/route';
-import { PlaylistResponse } from '@/app/api/playlist/[playlist_slug]/route';
 import { ProjectCard } from '@/components/cards/projectCard';
 import { PlaylistHeader } from '@/components/header/playlist/playlistHeader';
+import { PlaylistModel } from '@/models/playlistModel';
 import { Playlist } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
@@ -21,11 +19,12 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
 
   const { playlist_slug } = await params;
   const isLikedPlaylist = playlist_slug === 'liked-projects';
+  const playlistModel = new PlaylistModel()
 
   if (isLikedPlaylist) {
-    playlist = await getLikedPlaylist();
+    playlist = await playlistModel.getLikedPlaylist();
   } else {
-    playlist = await getPlaylist(playlist_slug);
+    playlist = await playlistModel.getPlaylist(playlist_slug);
   }
 
   if (!playlist || playlist.playlist.length === 0) {
@@ -67,33 +66,6 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
     </div>
 
   )
-}
-
-async function getPlaylist(playlistSlug: string) {
-  const res = await fetch(`${process.env.HOST_URL}/api/playlist/${playlistSlug}`)
-  if (!res.ok) {
-    console.error("Failed to fetch playlist data", res.statusText);
-    throw new Error("Failed to fetch playlist data");
-  }
-  return await res.json() as PlaylistResponse
-}
-
-async function getLikedPlaylist() {
-  const likedProjects = await getCookie<string[]>('likes') || [];
-
-  const res = await fetch(`${process.env.HOST_URL}/api/liked`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(likedProjects),
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch liked playlist data", res.statusText);
-    throw new Error("Failed to fetch liked playlist data");
-  }
-  return await res.json() as LikedResponse;
 }
 
 export default PlaylistPage

@@ -10,8 +10,8 @@ type HeaderProps = {
   className: string;
 }
 
-
 async function Header({ className }: HeaderProps) {
+
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>
       {/* Left section */}

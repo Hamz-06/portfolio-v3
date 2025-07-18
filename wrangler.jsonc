@@ -1,6 +1,6 @@
 {
   "main": ".open-next/worker.js",
-  "name": "my-app",
+  "name": "portfolio-v3",
   "compatibility_date": "2025-03-25",
   "compatibility_flags": [
     "nodejs_compat"
@@ -25,5 +25,11 @@
       "binding": "PROJECT_KV_CACHE",
       "id": "37f228e817ce4709b43e474fa32d69ea"
     }
-  ]  
+  ],
+  "routes": [
+    {
+      "pattern": "3hhh.org",
+      "custom_domain": true
+    }
+  ]
 }

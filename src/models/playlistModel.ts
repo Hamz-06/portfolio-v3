@@ -45,9 +45,10 @@ class PlaylistModel {
     if (process.env.NODE_ENV !== 'production') {
       return randomPlaylist
     }
+    const kv = await this.getKvNamespace(); 
     const PLAYLIST_CACHE_KEY = `${PLAYLIST_KV_CACHE.PLAYLIST}:${playlistSlug}`;
 
-    const cachedPlaylist = await this.playlistKv.get<Playlist>(PLAYLIST_CACHE_KEY, { type: 'json' });
+    const cachedPlaylist = await kv.get<Playlist>(PLAYLIST_CACHE_KEY, { type: 'json' });
     if (cachedPlaylist) {
       console.log("Found playlist in KV cache.");
       return cachedPlaylist;
@@ -63,7 +64,7 @@ class PlaylistModel {
     }
 
     getCloudflareContext().ctx.waitUntil(
-      this.playlistKv.put(
+      kv.put(
         PLAYLIST_CACHE_KEY,
         JSON.stringify(playlists),
         { expirationTtl: DEFAULT_KV_EXPIRATION }
@@ -98,8 +99,11 @@ class PlaylistModel {
       playlist: playlist
     }
     return likedPlaylists;
+  }
 
-
+  private async getKvNamespace(): Promise<KVNamespace<string>> {
+    const context = await getCloudflareContext({async: true});
+    return context.env.PLAYLIST_KV_CACHE;
   }
 }
 

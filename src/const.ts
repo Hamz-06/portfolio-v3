@@ -14,4 +14,4 @@ export enum PROJECT_KV_CACHE {
   PROJECT = 'project_key'
 }
 
-export const DEFAULT_KV_EXPIRATION = 60 * 60 * 24 * 1; // 1 day
+export const DEFAULT_KV_EXPIRATION = 60 * 60 * 24 * 7; // 7 day

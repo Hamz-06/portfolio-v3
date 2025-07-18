@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "tsc-build": "npx tsc",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build-deploy": "opennextjs-cloudflare build",
+    "preview": "npm run build-deploy && opennextjs-cloudflare preview",
+    "deploy": "npm run build-deploy && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "create-kv": "npx wrangler kv namespace create"
 

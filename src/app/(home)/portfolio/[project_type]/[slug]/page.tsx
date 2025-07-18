@@ -15,7 +15,7 @@ const HOME_ROUTE: Routes = '/portfolio';
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = await new ProjectsModel().getProject(slug);
+  const project = await ProjectsModel.getInstance().getProject(slug);
 
   if (!project) {
     redirect(HOME_ROUTE);

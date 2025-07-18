@@ -2,10 +2,10 @@ import "../../globals.css";
 import { Header } from "@/components/header/header";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
 import { getCookie } from "@/actions/cookies/cookieHelper";
-import { CurrentProjectCookieKey } from "@/types/cookieTypes";
 import { Footer } from "@/components/footer/footer";
 import { ProfileModel } from "@/models/profileModel";
 import { ProjectsModel } from "@/models/projectsModel";
+import { CurrentProjectCookieKey } from "@/types/cookieTypes";
 
 type MainLayoutProps = {
   children: React.ReactNode;

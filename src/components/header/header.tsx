@@ -27,7 +27,7 @@ function Header({ className }: HeaderProps) {
       {/* Parent flex container */}
       <div className="flex items-center justify-between sm:justify-center w-full px-4">
         <HomeButton />
-        <Suspense fallback={<Skeleton className='hidden sm:flex items-center justify-center relative w-full max-w-md h-12 bg-zinc-900' />}>
+        <Suspense fallback={<Skeleton className='hidden sm:flex items-center justify-center relative w-full rounded-full max-w-md h-12 bg-zinc-900' />}>
           <SearchBarProvider />
         </Suspense>
       </div>
@@ -44,7 +44,9 @@ function Header({ className }: HeaderProps) {
 
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
           {/* //TODO: ADD A SUSPENSE HERRRRRRRRE  */}
-          <ProfileButtonProvider />
+          <Suspense fallback={<Skeleton className="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 text-black font-bold" />}>
+            <ProfileButtonProvider />
+          </Suspense>
         </div>
       </div>
       {/* </div> */}

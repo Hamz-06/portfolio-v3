@@ -3,11 +3,13 @@ import { ProfileModel } from '@/models/profileModel';
 import React from 'react'
 import { AccountMenuBar } from '../context-menu/accountMenu';
 import { Button } from '../ui/button';
+import { sleep } from '@/lib/utils';
 
 
 async function ProfileButtonProvider() {
   const userProfile = await new ProfileModel().getProfile();
 
+  await sleep(10_000)
   if (!userProfile) {
     return null;
   }

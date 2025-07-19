@@ -8,6 +8,7 @@ import { FooterProvider } from '@/redux/provider/footerProvider'
 import { ProjectsModel } from '@/models/projectsModel'
 import { CurrentProjectCookieKey } from '@/types/cookieTypes'
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
+import { sleep } from '@/lib/utils'
 
 type FooterProps = {
   className: string;
@@ -21,6 +22,7 @@ async function Footer({ className }: FooterProps) {
     ProjectsModel.getInstance().getProjectSummary()
   ]);
 
+  await sleep(5000)
   const shuffleActive = shuffleActiveRaw || false;
   const [projectsArray, currentProject] = await getCurrentProject(projectSummary, currentProjectKey);
 

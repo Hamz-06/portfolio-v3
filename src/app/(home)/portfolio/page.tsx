@@ -2,9 +2,11 @@
 import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { ProjectMainPage } from "@/components/layout/portfolio/projectMainPage";
 import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LoaderCircle } from "lucide-react";
 
 
-export default async function Home() {
+export default function Home() {
 
   return (
 
@@ -15,7 +17,9 @@ export default async function Home() {
         className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
         id='main-content'>
         {/* //TODO: fix this  */}
-        <Suspense fallback={<div>LOOOOL</div>}>
+        <Suspense fallback={<Skeleton className="w-full h-full bg-zinc-900 flex items-center justify-center">
+          <LoaderCircle className="animate-spin" />
+        </Skeleton>}>
           <ProjectMainPage />
         </Suspense>
       </div>

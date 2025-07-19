@@ -1,6 +1,6 @@
 
 import { ResizableLayout } from "@/components/layout/resizableLayout";
-import { ProjectMainPage } from "@/components/layout/portfolio/projectMainPage";
+import { PortfolioMainPage } from "@/components/layout/portfolio/portfolioMainPage";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LoaderCircle } from "lucide-react";
@@ -9,7 +9,6 @@ import { LoaderCircle } from "lucide-react";
 export default function Home() {
 
   return (
-
     <ResizableLayout
       className="flex flex-1 overflow-hidden relative bg-black">
       {/* takes into account the secondary header height on mobile */}
@@ -23,7 +22,7 @@ export default function Home() {
               <LoaderCircle className="animate-spin" />
             </Skeleton>
           }>
-          <ProjectMainPage />
+          <PortfolioMainPage />
         </Suspense>
 
       </div>

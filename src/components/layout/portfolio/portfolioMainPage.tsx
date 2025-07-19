@@ -4,7 +4,7 @@ import React from 'react'
 import { ProjectsModel } from "@/models/projectsModel";
 import { projectCategories } from "@/lib/utils";
 
-async function ProjectMainPage() {
+async function PortfolioMainPage() {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
   const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
 
@@ -21,4 +21,4 @@ async function ProjectMainPage() {
   )
 }
 
-export { ProjectMainPage }
+export { PortfolioMainPage }

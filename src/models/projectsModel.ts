@@ -82,5 +82,4 @@ class ProjectsModel {
 }
 
 // Export singleton instance
-export const projectsModel = ProjectsModel.getInstance();
 export { ProjectsModel };

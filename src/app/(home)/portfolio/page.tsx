@@ -1,14 +1,13 @@
 import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
-// import { HomeProvider } from "@/redux/provider/homeProvider";
 import { ProjectsModel } from "@/models/projectsModel";
-import { CategorisedProjects } from "@/sanity/schema/schema-types";
+import { projectCategories } from "@/lib/utils";
 
 
 export default async function Home() {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
-  const projectCategories = projectCategoriesConverter(projectsSummary); //todo: rename this
+  const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
 
   if (!projectsSummary) {
     console.error("Failed to fetch projects summary");
@@ -23,7 +22,7 @@ export default async function Home() {
         className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
         id='main-content'>
 
-        <FilterBarHeader projectCategories={projectCategories} />
+        <FilterBarHeader projectCategories={projectCategoriesKeys} />
         <ProjectList projectSummary={projectsSummary} />
 
       </div>
@@ -31,8 +30,5 @@ export default async function Home() {
   );
 }
 
-const projectCategoriesConverter = (projectsSummary: CategorisedProjects): Array<keyof CategorisedProjects> => {
-  // todo remove the as type
-  return Object.keys(projectsSummary) as Array<keyof CategorisedProjects>
-}
+
 

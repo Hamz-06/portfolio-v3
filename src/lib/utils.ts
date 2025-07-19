@@ -1,3 +1,4 @@
+import { CategorisedProjects } from "@/sanity/schema/schema-types";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -41,4 +42,8 @@ export const isProjectLiked = async (slug: string, likedProject: string[] | null
   }
 
   return likedProject.includes(slug);
+}
+export const projectCategories = (projectsSummary: CategorisedProjects): Array<keyof CategorisedProjects> => {
+  // todo remove the as type
+  return Object.keys(projectsSummary) as Array<keyof CategorisedProjects>
 }

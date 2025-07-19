@@ -13,7 +13,6 @@ export default async function RootLayout({
   children,
 }: MainLayoutProps) {
 
-
   return (
     <RootLayoutProvider>
       <div id='main' className="flex flex-col h-screen text-white">

@@ -15,9 +15,14 @@ type FooterProps = {
 
 // todo: somehow display the playlist section in the footer 
 async function Footer({ className }: FooterProps) {
-  const shuffleActive = await getCookie<boolean>('is-shuffling-enabled') || false;
-  const projectSummary = await ProjectsModel.getInstance().getProjectSummary();
-  const [projectsArray, currentProject] = await getCurrentProject(projectSummary);
+  const [currentProjectKey, shuffleActiveRaw, projectSummary] = await Promise.all([
+    getCookie<CurrentProjectCookieKey>('current-project'),
+    getCookie<boolean>('is-shuffling-enabled'),
+    ProjectsModel.getInstance().getProjectSummary()
+  ]);
+
+  const shuffleActive = shuffleActiveRaw || false;
+  const [projectsArray, currentProject] = await getCurrentProject(projectSummary, currentProjectKey);
 
   return (
     <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
@@ -37,14 +42,11 @@ async function Footer({ className }: FooterProps) {
   )
 }
 
-
-const getCurrentProject = async (projectSummary: CategorisedProjects): Promise<[CategorisedProject[], CategorisedProject]> => {
-  const currentProjectKey = await getCookie<CurrentProjectCookieKey>('current-project');
+const getCurrentProject = async (projectSummary: CategorisedProjects, currentProjectKey: CurrentProjectCookieKey | null)
+  : Promise<[CategorisedProject[], CategorisedProject]> => {
   const projectsArray = Object.values(projectSummary).flatMap((projects) => projects)
-
   const currentProject = projectsArray.find((project) => project.slug === currentProjectKey?.project_slug) || projectsArray[0];
   return [projectsArray, currentProject]
 }
-
 
 export { Footer }

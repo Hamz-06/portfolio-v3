@@ -5,7 +5,7 @@ import { AccountMenuBar } from '../context-menu/accountMenu';
 import { Button } from '../ui/button';
 
 
-async function ProfileButton() {
+async function ProfileButtonProvider() {
   const userProfile = await new ProfileModel().getProfile();
 
   if (!userProfile) {
@@ -20,4 +20,4 @@ async function ProfileButton() {
   )
 }
 
-export { ProfileButton }
+export { ProfileButtonProvider }

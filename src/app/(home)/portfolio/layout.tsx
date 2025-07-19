@@ -9,7 +9,7 @@ type MainLayoutProps = {
   params: Promise<{ team: string }>;
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: MainLayoutProps) {
 

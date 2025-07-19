@@ -51,6 +51,7 @@ class ProjectsModel {
   });
 
   getProjectSummary = cache(async (): Promise<CategorisedProjects> => {
+    console.log("❤️");
     const kv = await this.getKvNamespace(); 
     if (process.env.NODE_ENV !== 'production') {
       return randomCategorisedProjects

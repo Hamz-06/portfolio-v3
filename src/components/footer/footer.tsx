@@ -3,6 +3,11 @@ import { DisplayCurrentProject } from './displayCurrentProject'
 import { ProjectControls } from './projectControls'
 import clsx from 'clsx'
 import { VolumeControls } from './volumeControls'
+import { getCookie } from '@/actions/cookies/cookieHelper'
+import { FooterProvider } from '@/redux/provider/footerProvider'
+import { ProjectsModel } from '@/models/projectsModel'
+import { CurrentProjectCookieKey } from '@/types/cookieTypes'
+import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
 
 type FooterProps = {
   className: string;
@@ -10,21 +15,36 @@ type FooterProps = {
 
 // todo: somehow display the playlist section in the footer 
 async function Footer({ className }: FooterProps) {
+  const shuffleActive = await getCookie<boolean>('is-shuffling-enabled') || false;
+  const projectSummary = await ProjectsModel.getInstance().getProjectSummary();
+  const [projectsArray, currentProject] = await getCurrentProject(projectSummary);
 
   return (
-    <div className={clsx(className, 'relative')}>
+    <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
+      <div className={clsx(className, 'relative')}>
 
-      {/* displays the current project playing  */}
-      <DisplayCurrentProject />
+        {/* displays the current project playing  */}
+        <DisplayCurrentProject />
 
-      {/* controls for the current project */}
-      <ProjectControls />
+        {/* controls for the current project */}
+        <ProjectControls />
 
-      {/* volume control and other buttons */}
-      <VolumeControls />
+        {/* volume control and other buttons */}
+        <VolumeControls />
 
-    </div>
+      </div>
+    </FooterProvider>
   )
 }
+
+
+const getCurrentProject = async (projectSummary: CategorisedProjects): Promise<[CategorisedProject[], CategorisedProject]> => {
+  const currentProjectKey = await getCookie<CurrentProjectCookieKey>('current-project');
+  const projectsArray = Object.values(projectSummary).flatMap((projects) => projects)
+
+  const currentProject = projectsArray.find((project) => project.slug === currentProjectKey?.project_slug) || projectsArray[0];
+  return [projectsArray, currentProject]
+}
+
 
 export { Footer }

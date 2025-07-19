@@ -4,10 +4,9 @@ import { motion, TargetAndTransition } from 'framer-motion'
 import { Info, Grid2x2, Heart, Minimize2 } from 'lucide-react'
 import ToolTip from '@/components/tooltip/tooltip'
 import { useDispatch } from 'react-redux';
-import { toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useFullPage, useGridMode, useProject } from '@/redux/slice/projectPageSlice';
+import { currentProjectLiked, setLikedProject, toggleDisplayProjectDetailsModal, toggleFullPage, toggleGridMode, useCurrentProjectLiked, useFullPage, useGridMode, useProject } from '@/redux/slice/projectPageSlice';
 import { headerHeight } from '@/const/dimensions'
 import { cn } from '@/lib/utils';
-import { currentProjectLiked, setLikedProject, useCurrentProjectLiked } from '@/redux/slice/projectDataSlice';
 
 type Control = {
   icon: React.ReactNode;

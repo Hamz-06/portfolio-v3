@@ -6,21 +6,22 @@ import { Command, Search, XIcon } from 'lucide-react'
 // import { useCommandKListener } from '@/actions/client-functions/keyStrokes'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
-import { useAllProjectsArray } from '@/redux/slice/projectDataSlice'
 import { CategorisedProject } from '@/sanity/schema/schema-types'
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const SEARCHABLE_KEYS: (keyof CategorisedProject)[] = ['title', 'sub_title']
 
-function SearchBar() {
-  const allProjects = useAllProjectsArray()
+type SearchBarProps = {
+  projectsSummary: CategorisedProject[]
+}
+
+function SearchBar({ projectsSummary }: SearchBarProps) {
+
   const [querySearchValue, setQuerySearchValue] = React.useState<CategorisedProject[]>([])
   const [queryValue, setQuerySearch] = React.useState<string>('')
   const [isModal, setModal] = React.useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null);
   const pathname = usePathname();
-
-  // focus input on Command + K
 
   useHotkeys('ctrl+k, meta+k', () => {
     if (inputRef.current) {
@@ -31,8 +32,6 @@ function SearchBar() {
       }
     }
   })
-  // useCommandKListener(() => {
-  // })
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value
@@ -43,7 +42,10 @@ function SearchBar() {
       setQuerySearchValue([])
       return
     }
-    const value = allProjects.filter(project =>
+    if (!projectsSummary) {
+      return
+    }
+    const value = projectsSummary.filter(project =>
       SEARCHABLE_KEYS.some(key => {
         const projectValue = project[key];
         return (

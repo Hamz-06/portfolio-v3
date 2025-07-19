@@ -3,14 +3,17 @@ import { SearchBar } from '../input/searchBar'
 import clsx from 'clsx';
 import { HomeButton } from '../button/homeButton';
 import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
-import { Button } from '../ui/button';
-import { AccountMenuBar } from '../context-menu/accountMenu';
+
+import { ProfileButton } from '../layout/profileButton';
+import { ProjectsModel } from '@/models/projectsModel';
+import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types';
 
 type HeaderProps = {
   className: string;
 }
 
 async function Header({ className }: HeaderProps) {
+  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
 
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>
@@ -27,7 +30,7 @@ async function Header({ className }: HeaderProps) {
       {/* Parent flex container */}
       <div className="flex items-center justify-between sm:justify-center w-full px-4">
         <HomeButton />
-        <SearchBar />
+        <SearchBar projectsSummary={makeProjectsArray(projectsSummary)} />
       </div>
 
 
@@ -41,16 +44,17 @@ async function Header({ className }: HeaderProps) {
         </div>
 
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
-          <AccountMenuBar>
-            <Button className="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 text-black font-bold">
-              H
-            </Button>
-          </AccountMenuBar>
+
+          <ProfileButton />
         </div>
       </div>
       {/* </div> */}
     </div >
   )
+}
+
+const makeProjectsArray = (projectsSummary: CategorisedProjects): CategorisedProject[] => {
+  return Object.values(projectsSummary).flatMap((projects) => projects)
 }
 
 

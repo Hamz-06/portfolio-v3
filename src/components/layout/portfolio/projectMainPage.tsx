@@ -2,13 +2,11 @@ import { FilterBarHeader } from '@/components/header/portfolio/filterBarHeader'
 import { ProjectList } from '@/components/list/project/projectList'
 import React from 'react'
 import { ProjectsModel } from "@/models/projectsModel";
-import { projectCategories, sleep } from "@/lib/utils";
+import { projectCategories } from "@/lib/utils";
 
 async function ProjectMainPage() {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
   const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
-
-  await sleep(10_000)
 
   if (!projectsSummary) {
     console.error("Failed to fetch projects summary");
@@ -19,7 +17,6 @@ async function ProjectMainPage() {
     <>
       <FilterBarHeader projectCategories={projectCategoriesKeys} />
       <ProjectList projectSummary={projectsSummary} />
-
     </>
   )
 }

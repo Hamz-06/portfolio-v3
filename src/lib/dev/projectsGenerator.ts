@@ -3,7 +3,7 @@
 import { CategorisedProjects, Project, ProjectTypes } from "@/sanity/schema/schema-types";
 import { sleep } from "../utils";
 
-const delay = 3000
+const DELAY_CALL_DEV_TEST = 0
 const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];
 
 const randomSlug = (base: string, i: number) => `${base}-${i + 1}`;
@@ -20,7 +20,7 @@ const createRandomProjects = (type: ProjectTypes, count: number) =>
 
 const randomCategorisedProjects = async (): Promise<CategorisedProjects> => {
   if (process.env.THROTTLE_REQUEST) {
-    await sleep(delay)
+    await sleep(DELAY_CALL_DEV_TEST)
   }
   return {
     projects: createRandomProjects('projects', 3),
@@ -31,7 +31,7 @@ const randomCategorisedProjects = async (): Promise<CategorisedProjects> => {
 
 const randomProject = async (slug: string): Promise<Project> => {
   if (process.env.THROTTLE_REQUEST) {
-    await sleep(delay)
+    await sleep(DELAY_CALL_DEV_TEST)
   }
   return {
     title: `Sample Project ${slug}`,

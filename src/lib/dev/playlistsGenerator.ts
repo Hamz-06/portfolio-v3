@@ -1,11 +1,11 @@
 import { Playlist, PlaylistsSummary } from "@/sanity/schema/schema-types";
 import { sleep } from "../utils";
 
-const delay = 0
+const DELAY_CALL_DEV_TEST = 0
 
 export const randomPlaylistsSummary = async (): Promise<PlaylistsSummary> => {
   if (process.env.THROTTLE_REQUEST) {
-    await sleep(delay)
+    await sleep(DELAY_CALL_DEV_TEST)
   }
   return [
     {
@@ -31,7 +31,7 @@ export const randomPlaylistsSummary = async (): Promise<PlaylistsSummary> => {
 
 export const randomPlaylist = async (): Promise<Playlist> => {
   if (process.env.THROTTLE_REQUEST) {
-    await sleep(delay)
+    await sleep(DELAY_CALL_DEV_TEST)
   }
   return {
     playlist: Array.from({ length: 10 }, (_, i) => ({

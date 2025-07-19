@@ -43,7 +43,6 @@ function Header({ className }: HeaderProps) {
         </div>
 
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
-          {/* //TODO: ADD A SUSPENSE HERRRRRRRRE  */}
           <Suspense fallback={<Skeleton className="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 text-black font-bold" />}>
             <ProfileButtonProvider />
           </Suspense>

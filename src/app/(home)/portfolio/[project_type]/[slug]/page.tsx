@@ -25,7 +25,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const isLiked = await isProjectLiked(project.slug, likedProjects)
 
   return (
-    <ProjectProvider project={project} isProjectLiked={isLiked} allLikedProjects={likedProjects}>
+    <ProjectProvider project={project} isProjectLiked={isLiked} >
       {/* div used as the background, used here to allow the two div elements to slide */}
       <div className="relative flex-1 bg-black overflow-y-scroll " />
       <ProjectView />

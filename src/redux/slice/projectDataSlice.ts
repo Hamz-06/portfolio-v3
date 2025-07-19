@@ -1,23 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
-
 import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/sanity/schema/schema-types';
 import { setClientCookie } from '@/actions/cookies/cookieHelperClient';
 import { NavigationStep } from '@/components/footer/projectControls';
 
 interface ProjectState {
-  originalProjects: CategorisedProjects | null;
+  projects: CategorisedProjects | null;
   selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
-  // allProjectsArray: CategorisedProject[],
   currentProject: CategorisedProject | null,
   isShufflingEnabled: boolean | null;
   projectsArray: CategorisedProject[]
 }
 
 const initialState: ProjectState = {
-  originalProjects: null,
+  projects: null,
   selectedCategory: null,
   allCategories: [],
   // allProjectsArray: [],
@@ -30,9 +28,8 @@ export const projectsList = createSlice({
   name: 'projects_list',
   initialState: initialState,
   reducers: {
-    setProjectsList: (state, action: PayloadAction<CategorisedProjects>) => {
-      state.originalProjects = action.payload;
-      // state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
+    setProjects: (state, action: PayloadAction<CategorisedProjects>) => {
+      state.projects = action.payload;
     },
 
     setSelectedCategory: (state, action: PayloadAction<ProjectTypes | null>) => {
@@ -41,7 +38,7 @@ export const projectsList = createSlice({
         state.selectedCategory = null;
         return;
       }
-      const _selectedCategoryProjects = { ...state.originalProjects }[categorySelected]
+      const _selectedCategoryProjects = { ...state.projects }[categorySelected]
       if (!_selectedCategoryProjects) {
         return;
       }
@@ -102,7 +99,7 @@ export const projectsList = createSlice({
 })
 
 export const {
-  setProjectsList,
+  setProjects,
   setSelectedCategory,
   setCurrentProject,
   navigateCurrentProject,
@@ -119,8 +116,8 @@ export const useAllCategories = (): ProjectState['allCategories'] =>
 export const useCurrentProject = (): ProjectState['currentProject'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.currentProject)
 
-export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectListProvider.originalProjects)
+export const useProjects = (): ProjectState['projects'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.projects)
 
 export const useIsShufflingEnabled = (): ProjectState['isShufflingEnabled'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.isShufflingEnabled)

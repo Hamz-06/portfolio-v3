@@ -1,55 +1,42 @@
-'use client'
 
-import { setClientCookie } from "@/actions/cookies/cookieHelperClient";
+import { getCookie } from "@/actions/cookies/cookieHelper";
 import { SidebarHandle } from "@/components/sidebar/sideBarHandle";
 import { SideBar } from "@/components/sidebar/sidebar";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { useToggleSidebar } from "@/redux/slice/layoutSlice";
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { PlaylistModel } from "@/models/playlistModel";
+import { SidebarProvider } from "@/redux/provider/sidebarProvider";
 import clsx from "clsx";
 import React from 'react'
 
 type ResizableLayoutProps = {
   className: string;
   children: React.ReactNode;
-  defaultLayout?: number[];
 }
-function ResizableLayout({ className, defaultLayout = [20, 80], children }: ResizableLayoutProps) {
-  const toggleSidebar = useToggleSidebar()
-  // todo: make this to  const file
-  const SIDE_BAR_MAX_SIZE_IN_PERCENT = 32;
+async function ResizableLayout({ className, children }: ResizableLayoutProps) {
+  const DEFAULT_LAYOUT = [20, 80];
 
-  const onLayout = (sizes: number[]) => {
-    setClientCookie(`react-resizable-panels:layout`, sizes)
-  };
+  //todo: use promise.all
+  const layoutPanes = await getCookie<number[] | null>('react-resizable-panels:layout') || DEFAULT_LAYOUT;
+  const playlists = await new PlaylistModel().getPlaylistsSummary() || [];
 
   return (
     <div className={clsx(className)}>
-      <ResizablePanelGroup direction="horizontal" onLayout={onLayout}>
+      <ResizablePanelGroup direction="horizontal">
         {/* Sidebar - Resizable */}
         <SidebarHandle />
-        {
-          toggleSidebar && <>
-            <ResizablePanel
-              id='sidebar'
-              order={1}
 
-              collapsible={true}
-              minSize={20}
-              maxSize={SIDE_BAR_MAX_SIZE_IN_PERCENT}
-              defaultSize={defaultLayout[0]}
-              className="hidden lg:block">
 
-              <SideBar className="flex-col h-full bg-zinc-900 rounded-2xl ml-2 mr-1" />
-            </ResizablePanel>
-            <ResizableHandle />
-          </>
-        }
+        <SidebarProvider playlists={playlists}>
+
+          <SideBar defaultLayout={layoutPanes} className="flex-col h-full bg-zinc-900 rounded-2xl ml-2 mr-1" />
+
+        </SidebarProvider>
 
 
         {/* Main content - Resizable */}
         <ResizablePanel
           // minSize={75}
-          defaultSize={defaultLayout[1]}
+          defaultSize={layoutPanes[1]}
           order={2}
           className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900">
           {children}

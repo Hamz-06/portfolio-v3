@@ -7,6 +7,11 @@ import { cookies } from 'next/headers'
 
 export async function getCookie<T>(name: CookieKey): Promise<T | null> {
   const cookieStore = await cookies()
-  const cookieValue = cookieStore.get(name)?.value;
-  return cookieValue ? JSON.parse(cookieValue) : null;
+  try {
+    const cookieValue = cookieStore.get(name)?.value;
+    return cookieValue ? JSON.parse(cookieValue) : null;
+  } catch {
+    // cookieStore.delete(name);
+    return null;
+  }
 }

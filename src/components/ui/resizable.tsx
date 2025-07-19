@@ -5,6 +5,12 @@ import { GripVerticalIcon } from "lucide-react"
 import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
+import { setClientCookie } from "@/actions/cookies/cookieHelperClient"
+
+
+const onLayout = (sizes: number[]) => {
+  setClientCookie(`react-resizable-panels:layout`, sizes)
+};
 
 function ResizablePanelGroup({
   className,
@@ -18,6 +24,7 @@ function ResizablePanelGroup({
         className
       )}
       {...props}
+      onLayout={onLayout}
     />
   )
 }

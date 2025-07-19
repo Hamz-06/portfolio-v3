@@ -15,7 +15,6 @@ class PlaylistModel {
     this.playlistKv = getCloudflareContext().env.PLAYLIST_KV_CACHE;
   }
   async getPlaylistsSummary(): Promise<PlaylistsSummary | null> {
-    console.log("Fetching playlists summary from Sanity...");
     if (process.env.NODE_ENV !== 'production') {
       return randomPlaylists;
     }
@@ -27,7 +26,7 @@ class PlaylistModel {
       console.log("Found playlists summary in KV cache.");
       return playlistSummary;
     }
-
+    console.log("Fetching playlists summary from Sanity...");
     const playlistSummarySanity = await client.fetch<PlaylistsSummary>(PLAYLIST_SUMMARY_LIST_QUERY, {})
 
     getCloudflareContext().ctx.waitUntil(

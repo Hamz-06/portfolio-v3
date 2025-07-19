@@ -1,19 +1,16 @@
-import React from 'react'
-import { SearchBar } from '../input/searchBar'
+import React, { Suspense } from 'react'
 import clsx from 'clsx';
 import { HomeButton } from '../button/homeButton';
 import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
-
-import { ProfileButton } from '../layout/profileButton';
-import { ProjectsModel } from '@/models/projectsModel';
-import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types';
+import { ProfileButtonProvider } from '../layout/profileButtonProvider';
+import { SearchBarProvider } from '../layout/searchBarProvider';
+import { Skeleton } from '../ui/skeleton';
 
 type HeaderProps = {
   className: string;
 }
 
-async function Header({ className }: HeaderProps) {
-  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
+function Header({ className }: HeaderProps) {
 
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>
@@ -30,7 +27,9 @@ async function Header({ className }: HeaderProps) {
       {/* Parent flex container */}
       <div className="flex items-center justify-between sm:justify-center w-full px-4">
         <HomeButton />
-        <SearchBar projectsSummary={makeProjectsArray(projectsSummary)} />
+        <Suspense fallback={<Skeleton className='hidden sm:flex items-center justify-center relative w-full rounded-full max-w-md h-12 bg-zinc-900' />}>
+          <SearchBarProvider />
+        </Suspense>
       </div>
 
 
@@ -44,18 +43,14 @@ async function Header({ className }: HeaderProps) {
         </div>
 
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
-
-          <ProfileButton />
+          <Suspense fallback={<Skeleton className="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 text-black font-bold" />}>
+            <ProfileButtonProvider />
+          </Suspense>
         </div>
       </div>
       {/* </div> */}
     </div >
   )
 }
-
-const makeProjectsArray = (projectsSummary: CategorisedProjects): CategorisedProject[] => {
-  return Object.values(projectsSummary).flatMap((projects) => projects)
-}
-
 
 export { Header }

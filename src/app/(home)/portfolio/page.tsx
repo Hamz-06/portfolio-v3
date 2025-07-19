@@ -1,18 +1,12 @@
-import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
-import { ProjectList } from "@/components/list/project/projectList";
+
 import { ResizableLayout } from "@/components/layout/resizableLayout";
-import { ProjectsModel } from "@/models/projectsModel";
-import { projectCategories } from "@/lib/utils";
+import { PortfolioMainPage } from "@/components/layout/portfolio/portfolioMainPage";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LoaderCircle } from "lucide-react";
 
 
-export default async function Home() {
-  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
-  const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
-
-  if (!projectsSummary) {
-    console.error("Failed to fetch projects summary");
-    return <div>Error loading projects</div>;
-  }
+export default function Home() {
 
   return (
     <ResizableLayout
@@ -21,12 +15,19 @@ export default async function Home() {
       <div
         className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
         id='main-content'>
-
-        <FilterBarHeader projectCategories={projectCategoriesKeys} />
-        <ProjectList projectSummary={projectsSummary} />
+        {/* move the skeleton loading to another file */}
+        <Suspense
+          fallback={
+            <Skeleton className="w-full h-full bg-zinc-900 flex items-center justify-center">
+              <LoaderCircle className="animate-spin" />
+            </Skeleton>
+          }>
+          <PortfolioMainPage />
+        </Suspense>
 
       </div>
     </ResizableLayout>
+
   );
 }
 

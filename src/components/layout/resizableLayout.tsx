@@ -17,7 +17,7 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
 
   //todo: use promise.all
   const layoutPanes = await getCookie<number[] | null>('react-resizable-panels:layout') || DEFAULT_LAYOUT;
-  const playlists = await new PlaylistModel().getPlaylistsSummary() || [];
+  const playlists = await PlaylistModel.getInstance().getPlaylistsSummary() || [];
 
   return (
     <div className={clsx(className)}>

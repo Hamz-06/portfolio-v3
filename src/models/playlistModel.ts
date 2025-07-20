@@ -28,7 +28,7 @@ class PlaylistModel {
       .get<PlaylistsSummary>(PLAYLIST_KV_CACHE.PLAYLIST_SUMMARY, { type: 'json' })
 
     if (playlistSummary) {
-      console.log("Found playlists summary in KV cache.");
+      console.log("Found playlists summary in KV cache.", JSON.stringify(playlistSummary));
       return playlistSummary;
     }
     console.log("Fetching playlists summary from Sanity...");

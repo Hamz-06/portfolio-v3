@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description: 'A summary of blogs, projects and work experience',
 }
 
+
 export default async function Home() {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
   const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this

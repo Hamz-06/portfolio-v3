@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 
 
 async function ProfileButton() {
-  const userProfile = await new ProfileModel().getProfile();
+  const userProfile = await ProfileModel.getInstance().getProfile();
 
   if (!userProfile) {
     return null;

@@ -7,19 +7,24 @@ import { client } from "@/sanity/lib/client";
 import { PLAYLIST_SUMMARY_LIST_QUERY, PROJECTS_BY_SLUGS_QUERY, SINGLE_PLAYLIST_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProject, Playlist, PlaylistsSummary } from "@/sanity/schema/schema-types"
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { cache } from "react";
 
 class PlaylistModel {
-  private playlistKv: KVNamespace<string>
+  private static instance: PlaylistModel | null = null;
 
-  constructor() {
-    this.playlistKv = getCloudflareContext().env.PLAYLIST_KV_CACHE;
+  public static getInstance(): PlaylistModel {
+    if (!PlaylistModel.instance) {
+      PlaylistModel.instance = new PlaylistModel();
+    }
+    return PlaylistModel.instance;
   }
-  async getPlaylistsSummary(): Promise<PlaylistsSummary | null> {
+
+  getPlaylistsSummary = cache(async (): Promise<PlaylistsSummary | null> => {
     if (process.env.NODE_ENV !== 'production') {
       return randomPlaylists;
     }
-
-    const playlistSummary = await this.playlistKv
+    const kv = await this.getKvNamespace();
+    const playlistSummary = kv
       .get<PlaylistsSummary>(PLAYLIST_KV_CACHE.PLAYLIST_SUMMARY, { type: 'json' })
 
     if (playlistSummary) {
@@ -30,7 +35,7 @@ class PlaylistModel {
     const playlistSummarySanity = await client.fetch<PlaylistsSummary>(PLAYLIST_SUMMARY_LIST_QUERY, {})
 
     getCloudflareContext().ctx.waitUntil(
-      this.playlistKv.put(
+      kv.put(
         PLAYLIST_KV_CACHE.PLAYLIST_SUMMARY,
         JSON.stringify(playlistSummarySanity),
         { expirationTtl: DEFAULT_KV_EXPIRATION }
@@ -38,13 +43,16 @@ class PlaylistModel {
     );
     console.log("Fetched playlists summary from Sanity and stored in KV cache.");
     return playlistSummarySanity;
-  }
+  })
 
-  async getPlaylist(playlistSlug: string): Promise<Playlist | null> {
+  getPlaylist = cache(async (playlistSlug: string): Promise<Playlist | null> => {
+    console.log('💕')
+
     if (process.env.NODE_ENV !== 'production') {
       return randomPlaylist
     }
-    const kv = await this.getKvNamespace(); 
+
+    const kv = await this.getKvNamespace();
     const PLAYLIST_CACHE_KEY = `${PLAYLIST_KV_CACHE.PLAYLIST}:${playlistSlug}`;
 
     const cachedPlaylist = await kv.get<Playlist>(PLAYLIST_CACHE_KEY, { type: 'json' });
@@ -71,11 +79,11 @@ class PlaylistModel {
     );
     console.log("Stored playlist in KV cache:", playlistSlug);
     return playlists
-  }
+  })
 
-
-  // unique to the user, caching wont work here
-  async getLikedPlaylist(): Promise<Playlist | null> {
+  // Note: getLikedPlaylist is user-specific and shouldn't be cached across users
+  // But we can still use cache for the request lifecycle
+  getLikedPlaylist = cache(async (): Promise<Playlist | null> => {
     const likedProjects = await getCookie<string[]>('likes') || [];
 
     if (likedProjects.length === 0) {
@@ -98,10 +106,10 @@ class PlaylistModel {
       playlist: playlist
     }
     return likedPlaylists;
-  }
+  })
 
   private async getKvNamespace(): Promise<KVNamespace<string>> {
-    const context = await getCloudflareContext({async: true});
+    const context = await getCloudflareContext({ async: true });
     return context.env.PLAYLIST_KV_CACHE;
   }
 }

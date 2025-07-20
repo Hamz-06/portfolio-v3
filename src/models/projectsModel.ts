@@ -18,6 +18,7 @@ class ProjectsModel {
   }
 
   getProject = cache(async (projectSlug: string): Promise<Project | null> => {
+    console.log('💚')
     if (process.env.NODE_ENV !== 'production') {
       return randomProject(projectSlug);
     }

@@ -21,7 +21,7 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
 
   return (
     <div className={clsx(className)}>
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup className={clsx(className)} direction="horizontal">
         {/* Sidebar - Resizable */}
         <SidebarHandle />
 

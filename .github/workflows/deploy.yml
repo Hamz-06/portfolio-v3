@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: 🌴 Checkout code
         uses: actions/checkout@v4
@@ -15,37 +16,34 @@ jobs:
       - name: 🧰 Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-
+          node-version: 20 
 
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🧩 Install missing native binaries
-        run: |
-          npm install @parcel/css-linux-x64-gnu
-          npm install @ast-grep/napi-linux-x64-gnu
-        
-      - name: 🗣️ Generate cloudflare types
+      - name: 🔧 Rebuild lightningcss native binary
+        run: npm rebuild lightningcss
+
+      - name: 🗣️ Generate Cloudflare types
         run: npm run cf-typegen
 
-      - name: 🛠️ Build the Ngext.js app
+      - name: 🛠️ Build the Next.js app
         run: npm run build-deploy
         env:
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
-          NEXT_TELEMETRY_DISABLED: ${{secrets.NEXT_TELEMETRY_DISABLED}}
-      - name: Build & Deploy Worker
+          NEXT_TELEMETRY_DISABLED: ${{ secrets.NEXT_TELEMETRY_DISABLED }}
+
+      - name: 🚀 Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
-        
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         env:
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
-          NEXT_TELEMETRY_DISABLED: ${{secrets.NEXT_TELEMETRY_DISABLED}}
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NEXT_TELEMETRY_DISABLED: ${{ secrets.NEXT_TELEMETRY_DISABLED }}

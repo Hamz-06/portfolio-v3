@@ -25,6 +25,11 @@ jobs:
 
       - name: 🛠️ Build the Ngext.js app
         run: npm run build-deploy
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
 
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3

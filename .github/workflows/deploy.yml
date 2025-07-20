@@ -36,7 +36,7 @@ jobs:
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
-          
+          NEXT_TELEMETRY_DISABLED: ${{secrets.NEXT_TELEMETRY_DISABLED}}
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         
@@ -45,6 +45,7 @@ jobs:
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+          NEXT_TELEMETRY_DISABLED: ${{secrets.NEXT_TELEMETRY_DISABLED}}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

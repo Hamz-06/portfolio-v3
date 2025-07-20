@@ -3,12 +3,42 @@ import { PlaylistHeader } from '@/components/header/playlist/playlistHeader';
 import { PlaylistModel } from '@/models/playlistModel';
 import { Playlist } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 // TODO: add the side bar to all the pages
 
 type PlaylistPageProps = {
   params: Promise<{ playlist_slug: string }>
+}
+
+export async function generateMetadata(
+  { params }: PlaylistPageProps,
+): Promise<Metadata> {
+  const { playlist_slug: playlistSlug } = await params;
+  const playlist = await PlaylistModel.getInstance().getPlaylist(playlistSlug);
+
+  if (!playlist) {
+    return {
+      title: 'playlist Not Found',
+    };
+  }
+  //improve keywords
+  return {
+    title: playlist.playlist_name,
+    description: `Explore the playlist: ${playlist.playlist_name}.`,
+    keywords: [playlist.type ? `Playlist ${playlist.type}` : 'playlist'],
+    openGraph: {
+      title: `${playlist.playlist_name} Playlist display`,
+      description: playlist.playlist_name || 'No playlist available.',
+      images: [
+        {
+          url: playlist.playlist_cover_image || '',
+        }
+      ],
+    },
+  };
+
 }
 
 //todo: move this to a constants file
@@ -19,12 +49,12 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
 
   const { playlist_slug } = await params;
   const isLikedPlaylist = playlist_slug === 'liked-projects';
-  const playlistModel = new PlaylistModel()
+
 
   if (isLikedPlaylist) {
-    playlist = await playlistModel.getLikedPlaylist();
+    playlist = await PlaylistModel.getInstance().getLikedPlaylist();
   } else {
-    playlist = await playlistModel.getPlaylist(playlist_slug);
+    playlist = await PlaylistModel.getInstance().getPlaylist(playlist_slug);
   }
 
   if (!playlist || playlist.playlist.length === 0) {

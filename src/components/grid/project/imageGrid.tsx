@@ -16,8 +16,10 @@ function ImageGrid() {
         {images.map((image, index) => (
           <div key={index} className='relative w-full h-full rounded-xl overflow-hidden'>
             <Image
+              placeholder='blur'
+              priority={true}
               src={image || '/placeholder.png'}
-              alt={`Image ${index + 1}`}
+              alt={`Project description: ${project.description}`}
               fill
               className='object-cover'
               sizes="(max-width: 768px) 50vw, 25vw"

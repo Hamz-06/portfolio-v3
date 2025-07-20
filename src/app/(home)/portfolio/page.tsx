@@ -3,6 +3,12 @@ import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { ProjectsModel } from "@/models/projectsModel";
 import { projectCategories } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Projects Summary',
+  description: 'A summary of blogs, projects and work experience',
+}
 
 
 export default async function Home() {

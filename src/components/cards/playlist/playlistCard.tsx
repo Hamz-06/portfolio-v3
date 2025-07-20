@@ -14,7 +14,7 @@ function PlaylistCard({ playlist }: PlaylistCardProps) {
   return (
     <Link
       href={`/portfolio/playlist/${slug}`}
-      className="flex items-center gap-3 p-2 rounded-md hover:bg-zinc-800"
+      className="flex items-center gap-3 p-2 rounded-md h-16 hover:bg-zinc-800"
     >
       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden">
         <Image

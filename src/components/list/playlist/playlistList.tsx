@@ -5,6 +5,7 @@ import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import React, { useEffect, useState } from 'react'
 import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
+import { Skeleton } from '@/components/ui/skeleton'
 
 function PlaylistList() {
   const playlists = useQueryPlaylistsResults()
@@ -41,7 +42,7 @@ const LikedItemsPlaylist = () => {
     })
   }, [])
 
-  if (!likedPlaylistItem) return null // todo: Load a skeleton
+  if (!likedPlaylistItem) return <Skeleton className='h-16 w-full bg-zinc-800'></Skeleton>
 
   return (
     <PlaylistCard key="liked" playlist={likedPlaylistItem} />

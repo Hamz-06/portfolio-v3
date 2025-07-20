@@ -30,7 +30,7 @@ export default function EnterPage() {
 
   return (
     <div className='bg-blue-400 flex items-center justify-center w-screen h-screen'>
-      <form onSubmit={submit} className="p-6 max-w-md mx-auto mt-20">
+      <form onSubmit={submit} className="p-6 max-w-md mx-auto mt-20 flex flex-col items-center">
         <h1 className="text-xl font-bold mb-4">Enter Password</h1>
         <Input
           type="password"

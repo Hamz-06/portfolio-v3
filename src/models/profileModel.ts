@@ -4,14 +4,23 @@ import { client } from "@/sanity/lib/client"
 import { MY_PROFILE_QUERY } from "@/sanity/lib/queries"
 import { Profile } from "@/sanity/schema/schema-types"
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { cache } from "react";
 
 class ProfileModel {
+  private static instance: ProfileModel | null = null;
 
-  async getProfile(): Promise<Profile> {
+  public static getInstance(): ProfileModel {
+    if (!ProfileModel.instance) {
+      ProfileModel.instance = new ProfileModel();
+    }
+    return ProfileModel.instance;
+  }
+
+  getProfile = cache(async (): Promise<Profile> => {
     if (process.env.NODE_ENV !== 'production') {
       return profileGenerator
     }
-    const kv = await this.getKvNamespace(); 
+    const kv = await this.getKvNamespace();
     const cachedProfile = await kv.get<Profile>('PROFILE_KV_CACHE', { type: 'json' });
     if (cachedProfile) {
       console.log("Found profile in KV cache.");
@@ -29,10 +38,10 @@ class ProfileModel {
     );
     console.log("Fetched profile from Sanity and stored in KV cache.");
     return myProfile;
-  }
+  })
 
   private async getKvNamespace(): Promise<KVNamespace<string>> {
-    const context = await getCloudflareContext({async: true});
+    const context = await getCloudflareContext({ async: true });
     return context.env.PROFILE_KV_CACHE;
   }
 }

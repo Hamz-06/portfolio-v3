@@ -13,7 +13,12 @@ body {
   overscroll-behavior: none;
   background-color: #000;
 }
-
+@media (max-width: 768px) {
+  html,
+  body {
+    overscroll-behavior: auto;
+  }
+}
 
 .project-details-card-background {
 /* From https://css.glass */

@@ -2,7 +2,7 @@
 
 import { getCookie } from "@/actions/cookies/cookieHelper";
 import { DEFAULT_KV_EXPIRATION, PLAYLIST_KV_CACHE } from "@/const";
-import { randomPlaylist, randomPlaylistsSummary, } from "@/lib/dev/playlistsGenerator"
+import { randomPlaylist, randomPlaylists } from "@/lib/dev/playlistsGenerator"
 import { client } from "@/sanity/lib/client";
 import { PLAYLIST_SUMMARY_LIST_QUERY, PROJECTS_BY_SLUGS_QUERY, SINGLE_PLAYLIST_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProject, Playlist, PlaylistsSummary } from "@/sanity/schema/schema-types"
@@ -16,7 +16,7 @@ class PlaylistModel {
   }
   async getPlaylistsSummary(): Promise<PlaylistsSummary | null> {
     if (process.env.NODE_ENV !== 'production') {
-      return await randomPlaylistsSummary();
+      return randomPlaylists;
     }
 
     const playlistSummary = await this.playlistKv
@@ -42,9 +42,9 @@ class PlaylistModel {
 
   async getPlaylist(playlistSlug: string): Promise<Playlist | null> {
     if (process.env.NODE_ENV !== 'production') {
-      return await randomPlaylist()
+      return randomPlaylist
     }
-    const kv = await this.getKvNamespace();
+    const kv = await this.getKvNamespace(); 
     const PLAYLIST_CACHE_KEY = `${PLAYLIST_KV_CACHE.PLAYLIST}:${playlistSlug}`;
 
     const cachedPlaylist = await kv.get<Playlist>(PLAYLIST_CACHE_KEY, { type: 'json' });
@@ -83,7 +83,7 @@ class PlaylistModel {
     }
 
     if (process.env.NODE_ENV !== 'production') {
-      return await randomPlaylist()
+      return randomPlaylist
     }
 
     const playlist = await client.fetch<CategorisedProject[]>(PROJECTS_BY_SLUGS_QUERY, { slugs: likedProjects })
@@ -101,7 +101,7 @@ class PlaylistModel {
   }
 
   private async getKvNamespace(): Promise<KVNamespace<string>> {
-    const context = await getCloudflareContext({ async: true });
+    const context = await getCloudflareContext({async: true});
     return context.env.PLAYLIST_KV_CACHE;
   }
 }

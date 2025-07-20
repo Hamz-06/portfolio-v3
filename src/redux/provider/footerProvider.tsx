@@ -15,7 +15,6 @@ function FooterProvider({ children, projectsArray, currentProject, shuffleEnable
   StoreSingleton.getInstance().dispatch(setProjectsArray(projectsArray))
   StoreSingleton.getInstance().dispatch(setShuffle(shuffleEnabled))
 
-
   return (
     <>{children}</>
   )

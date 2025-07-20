@@ -1,9 +1,8 @@
 // this is used as a mock data generator for projects and blogs for development purposes
 
 import { CategorisedProjects, Project, ProjectTypes } from "@/sanity/schema/schema-types";
-import { sleep } from "../utils";
 
-const DELAY_CALL_DEV_TEST = 0
+
 const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];
 
 const randomSlug = (base: string, i: number) => `${base}-${i + 1}`;
@@ -18,21 +17,13 @@ const createRandomProjects = (type: ProjectTypes, count: number) =>
     project_type: type,
   }));
 
-const randomCategorisedProjects = async (): Promise<CategorisedProjects> => {
-  if (process.env.THROTTLE_REQUEST) {
-    await sleep(DELAY_CALL_DEV_TEST)
-  }
-  return {
-    projects: createRandomProjects('projects', 3),
-    blogs: createRandomProjects('blogs', 6),
-    work_experience: createRandomProjects('work_experience', 2)
-  }
+const randomCategorisedProjects: CategorisedProjects = {
+  projects: createRandomProjects('projects', 3),
+  blogs: createRandomProjects('blogs', 6),
+  work_experience: createRandomProjects('work_experience', 2)
 };
 
-const randomProject = async (slug: string): Promise<Project> => {
-  if (process.env.THROTTLE_REQUEST) {
-    await sleep(DELAY_CALL_DEV_TEST)
-  }
+const randomProject = (slug: string): Project => {
   return {
     title: `Sample Project ${slug}`,
     project_images: ["/bart-simpson-cartoon.png", "/mona-lisa.png"],

@@ -3,6 +3,7 @@ import projectDataProvider from '../slice/projectDataSlice'
 import layoutProvider from '../slice/layoutSlice'
 import styleProvider from '../slice/styleSlice'
 import projectPageProvider from '../slice/projectPageSlice'
+import profileProvider from '../slice/profileSlice'
 import playlistsProvider from '../slice/playlistSlice'
 
 export const mainLayoutStore = () => {
@@ -12,6 +13,7 @@ export const mainLayoutStore = () => {
       layoutProvider: layoutProvider,
       styleProvider: styleProvider,
       projectPageProvider: projectPageProvider,
+      profileProvider: profileProvider,
       playlistsProvider: playlistsProvider
     },
   })

@@ -14,22 +14,24 @@ import {
 } from "@/components/ui/menubar"
 import { Copy, ExternalLink } from "lucide-react"
 import ToolTip from '../tooltip/tooltip';
-import { Profile } from '@/sanity/schema/schema-types';
+import { useProfile } from '@/redux/slice/profileSlice';
 
 type AccountMenuBarProps = {
-  children: React.ReactNode,
-  userProfile: NonNullable<Profile>
+  children: React.ReactNode
 }
-export function AccountMenuBar({ children, userProfile }: AccountMenuBarProps) {
+export function AccountMenuBar({ children }: AccountMenuBarProps) {
+  const profile = useProfile()
 
-
+  if (!profile) {
+    return null; // or some fallback UI
+  }
   // todo: create new endpoint to get the latest commit version
 
   const {
     email_address: emailAddress,
     github_link: githubLink,
     linkedin_link: linkedinLink,
-    project_versions: projectVersions } = userProfile;
+    project_versions: projectVersions } = profile
 
   const copyToClipboard = (text: string) => {
     copy(text);

@@ -1,8 +1,11 @@
 import "../../globals.css";
 import { Header } from "@/components/header/header";
-
-import { Footer } from "@/components/footer/footer";
 import { RootLayoutProvider } from "@/redux/provider/rootLayoutProvider";
+import { getCookie } from "@/actions/cookies/cookieHelper";
+import { Footer } from "@/components/footer/footer";
+import { ProfileModel } from "@/models/profileModel";
+import { ProjectsModel } from "@/models/projectsModel";
+import { CurrentProjectCookieKey } from "@/types/cookieTypes";
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -12,9 +15,22 @@ type MainLayoutProps = {
 export default async function RootLayout({
   children,
 }: MainLayoutProps) {
+  const shuffleActive = await getCookie<boolean>('is-shuffling-enabled') || false;
+  const currentProjectKey = await getCookie<CurrentProjectCookieKey>('current-project');
 
+  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary()
+  const userProfile = await new ProfileModel().getProfile();
+
+  if (!userProfile) {
+    console.error("Failed to fetch user profile");
+    return <div>Error loading user profile</div>;
+  }
   return (
-    <RootLayoutProvider>
+    <RootLayoutProvider
+      userProfile={userProfile}
+      projects={projectsSummary}
+      shuffleActive={shuffleActive}
+      currentProject={currentProjectKey}>
       <div id='main' className="flex flex-col h-screen text-white">
         <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-38" />
         {children}

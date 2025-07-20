@@ -6,7 +6,7 @@ initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactStrictMode: false,
+  reactStrictMode: true,
   logging: {
     fetches: {
       fullUrl: true,

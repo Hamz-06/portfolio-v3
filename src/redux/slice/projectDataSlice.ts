@@ -1,35 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
+
 import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/sanity/schema/schema-types';
+import { CurrentProjectCookieKey } from '@/types/cookieTypes';
 import { setClientCookie } from '@/actions/cookies/cookieHelperClient';
 import { NavigationStep } from '@/components/footer/projectControls';
 
 interface ProjectState {
-  projects: CategorisedProjects | null;
+  originalProjects: CategorisedProjects;
   selectedCategory: ProjectTypes | null;
   allCategories: ProjectTypes[],
+  allProjectsArray: CategorisedProject[],
   currentProject: CategorisedProject | null,
-  isShufflingEnabled: boolean | null;
-  projectsArray: CategorisedProject[]
+  isShufflingEnabled: boolean;
+  likedProjects: string[], // { 'blog': ['blog 1': 'blog 2']}
+  currentProjectLiked: boolean
 }
 
 const initialState: ProjectState = {
-  projects: null,
+  originalProjects: {
+    projects: [],
+    blogs: [],
+    work_experience: []
+  },
   selectedCategory: null,
   allCategories: [],
-  // allProjectsArray: [],
-  projectsArray: [],
+  allProjectsArray: [],
   currentProject: null,
-  isShufflingEnabled: null,
+  isShufflingEnabled: false,
+  likedProjects: [],
+  currentProjectLiked: false
 }
 
 export const projectsList = createSlice({
   name: 'projects_list',
   initialState: initialState,
   reducers: {
-    setProjects: (state, action: PayloadAction<CategorisedProjects>) => {
-      state.projects = action.payload;
+    setProjectsList: (state, action: PayloadAction<CategorisedProjects>) => {
+      state.originalProjects = structuredClone(action.payload);
+      state.allCategories = Object.keys(action.payload) as ProjectTypes[]
+      state.allProjectsArray = Object.values(action.payload).flatMap((projects) => projects)
     },
 
     setSelectedCategory: (state, action: PayloadAction<ProjectTypes | null>) => {
@@ -38,73 +49,114 @@ export const projectsList = createSlice({
         state.selectedCategory = null;
         return;
       }
-      const _selectedCategoryProjects = { ...state.projects }[categorySelected]
+      const _selectedCategoryProjects = { ...state.originalProjects }[categorySelected]
       if (!_selectedCategoryProjects) {
         return;
       }
       state.selectedCategory = categorySelected;
 
     },
-    setCurrentProject: (state, action: PayloadAction<CategorisedProject>) => {
-      state.currentProject = { ...action.payload }
-    },
-    setProjectsArray: (state, action: PayloadAction<CategorisedProject[]>) => {
-      state.projectsArray = [...action.payload];
+    setCurrentProject: (state, action: PayloadAction<CurrentProjectCookieKey | null>) => {
+      const defaultProject = () => state.allProjectsArray[0];
+
+      if (!action.payload) {
+        const defaultProjectValue = defaultProject()
+        state.currentProject = defaultProjectValue
+        return;
+      }
+      const selectedProject = state.originalProjects[action.payload.category]
+        ?.find(project => project.slug === action.payload?.project_slug);
+
+      if (!selectedProject) {
+        state.currentProject = defaultProject();
+        return;
+      }
+      state.currentProject = selectedProject;
     },
     navigateCurrentProject: (state, action: PayloadAction<NavigationStep>) => {
-      const projectsArray = state.projectsArray;
+      if (!state.currentProject) {
+        state.currentProject = state.allProjectsArray[0];
+        return;
+      }
 
       if (state.isShufflingEnabled) {
-        const randomIndex = Math.floor(Math.random() * projectsArray.length);
-        const randomProject = projectsArray[randomIndex];
+        const randomIndex = Math.floor(Math.random() * state.allProjectsArray.length);
+        const randomProject = state.allProjectsArray[randomIndex];
+
         setClientCookie('current-project', {
           category: randomProject.project_type,
           project_slug: randomProject.slug
         })
-        state.currentProject = randomProject;
-        return;
+        state.currentProject = state.allProjectsArray[randomIndex];
       }
-      // Ensure we have a current project
-      const currentSlug = state.currentProject?.slug;
-      const currentIndex = projectsArray.findIndex((project) => project.slug === currentSlug);
+      const currentIndex = state.allProjectsArray
+        .findIndex((project) => project.slug === state.currentProject!.slug);
 
-      // If not found, fall back to first project
       if (currentIndex === -1) {
-        const firstProject = projectsArray[0];
+        const firstProject = state.allProjectsArray[0];
+
         setClientCookie('current-project', {
           category: firstProject.project_type,
-          project_slug: firstProject.slug,
-        });
+          project_slug: firstProject.slug
+        })
+
         state.currentProject = firstProject;
         return;
       }
 
       const nextIndex = action.payload === 'next' ? currentIndex + 1 : currentIndex - 1;
-      if (nextIndex < 0 || nextIndex >= projectsArray.length) {
-        return; // No-op if out of range
+      if (nextIndex < 0 || nextIndex >= state.allProjectsArray.length) {
+        return;
       }
-      const navigationProject = projectsArray[nextIndex];
+      const navigationProject = state.allProjectsArray[nextIndex];
       setClientCookie('current-project', {
         category: navigationProject.project_type,
-        project_slug: navigationProject.slug,
-      });
+        project_slug: navigationProject.slug
+      })
       state.currentProject = navigationProject;
     },
-
     setShuffle: (state, action: PayloadAction<boolean>) => {
       setClientCookie('is-shuffling-enabled', action.payload)
       state.isShufflingEnabled = action.payload;
+    },
+
+    setLikedProject: (state, action: PayloadAction<string>) => {
+      const projectSlug = action.payload;
+      const isExists = state.likedProjects?.includes(projectSlug);
+
+      if (isExists) {
+        const removedProjectArray = state.likedProjects?.filter(slug => slug !== projectSlug);
+        state.likedProjects = removedProjectArray
+        setClientCookie('likes', state.likedProjects)
+        return;
+      }
+      const existingProjects = state.likedProjects || [];
+      const addedProjectArray = [
+        ...existingProjects,
+        projectSlug
+      ]
+      state.likedProjects = addedProjectArray;
+      setClientCookie('likes', state.likedProjects)
+    },
+    initialiseLikedProjects: (state, action: PayloadAction<string[]>) => {
+      state.likedProjects = action.payload;
+    },
+    currentProjectLiked: (state, action: PayloadAction<boolean>) => {
+      const isProjectLiked = action.payload;
+      state.currentProjectLiked = isProjectLiked;
     }
   }
 })
 
 export const {
-  setProjects,
+  setProjectsList,
   setSelectedCategory,
   setCurrentProject,
   navigateCurrentProject,
   setShuffle,
-  setProjectsArray,
+  setLikedProject,
+  initialiseLikedProjects,
+  currentProjectLiked,
 } = projectsList.actions
 
 export const useSelectedCategory = (): ProjectState['selectedCategory'] =>
@@ -116,12 +168,16 @@ export const useAllCategories = (): ProjectState['allCategories'] =>
 export const useCurrentProject = (): ProjectState['currentProject'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.currentProject)
 
-export const useProjects = (): ProjectState['projects'] =>
-  useSelector((state: RootMainLayoutStore) => state.projectListProvider.projects)
+export const useAllProjectsArray = (): ProjectState['allProjectsArray'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.allProjectsArray)
+
+export const useProjectsMappedByCategory = (): ProjectState['originalProjects'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.originalProjects)
 
 export const useIsShufflingEnabled = (): ProjectState['isShufflingEnabled'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.isShufflingEnabled)
 
-
+export const useCurrentProjectLiked = (): ProjectState['currentProjectLiked'] =>
+  useSelector((state: RootMainLayoutStore) => state.projectListProvider.currentProjectLiked)
 
 export default projectsList.reducer

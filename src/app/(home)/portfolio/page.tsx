@@ -1,34 +1,39 @@
+import { getCookie } from "@/actions/cookies/cookieHelper";
 import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
-import { ProjectsModel } from "@/models/projectsModel";
-import { projectCategories } from "@/lib/utils";
+import { HomeProvider } from "@/redux/provider/homeProvider";
+import { PlaylistModel } from "@/models/playlistModel";
 
 
 export default async function Home() {
-  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
-  const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
+  const mainPageLayout = await getCookie<number[] | null>('react-resizable-panels:layout')
+  const playlists = await new PlaylistModel().getPlaylistsSummary()
 
-  if (!projectsSummary) {
-    console.error("Failed to fetch projects summary");
-    return <div>Error loading projects</div>;
+  if (!playlists) {
+    console.error("Failed to fetch playlists");
+    return <div>Error loading playlists</div>;
   }
 
   return (
-    <ResizableLayout
-      className="flex flex-1 overflow-hidden relative bg-black">
-      {/* takes into account the secondary header height on mobile */}
-      <div
-        className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
-        id='main-content'>
+    <HomeProvider playlists={playlists}>
+      <ResizableLayout
+        className="flex flex-1 overflow-hidden relative bg-black"
+        defaultLayout={mainPageLayout || undefined}>
 
-        <FilterBarHeader projectCategories={projectCategoriesKeys} />
-        <ProjectList projectSummary={projectsSummary} />
+        {/* takes into account the secondary header height on mobile */}
+        <div
+          className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
+          id='main-content'>
 
-      </div>
-    </ResizableLayout>
+          <div className="sticky top-0 z-10 h-16">
+            <FilterBarHeader />
+          </div>
+          <ProjectList />
+        </div>
+
+      </ResizableLayout>
+    </HomeProvider>
   );
 }
-
-
 

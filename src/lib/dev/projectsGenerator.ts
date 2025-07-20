@@ -20,27 +20,24 @@ const createRandomProjects = (type: ProjectTypes, count: number) =>
 const randomCategorisedProjects: CategorisedProjects = {
   projects: createRandomProjects('projects', 3),
   blogs: createRandomProjects('blogs', 6),
+
   work_experience: createRandomProjects('work_experience', 2)
 };
 
-const randomProject = (slug: string): Project => {
-  return {
-    title: `Sample Project ${slug}`,
-    project_images: ["/bart-simpson-cartoon.png", "/mona-lisa.png"],
-    slug: slug,
-    sub_title: "This is a sample project",
-    project_type: 'blogs',
-    date_created: new Date().toISOString(),
-    description: "This is a detailed description of the sample project.",
-    primary_color: '#0000FF',
-    secondary_color: "#33FF57",
-    tools_used: ["Tool1", "Tool2", "Tool3"],
-    achievements: ["Achievement 1", "Achievement 2"],
-    github_url_link: "https://github.com",
-    live_url_link: "https://example.com",
-  };
+const randomProject: Project = {
+  title: "Sample Project",
+  project_images: ["/mona-lisa.png", "/spotify-wrapped.png"],
+  slug: "sample-project",
+  sub_title: "This is a sample project",
+  project_type: "projects",
+  date_created: new Date().toISOString(),
+  description: "This is a detailed description of the sample project.",
+  primary_color: "#FF5733",
+  secondary_color: "#33FF57",
+  tools_used: ["Tool1", "Tool2", "Tool3"],
+  achievements: ["Achievement 1", "Achievement 2"],
+  github_url_link: "https://github.com",
+  live_url_link: "https://example.com",
 }
-
-
 
 export { randomCategorisedProjects, randomProject }

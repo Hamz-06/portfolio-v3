@@ -15,6 +15,15 @@ export const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// export const replaceString = (replaceObject: Record<string, string>, input: string): string => {
+//   let result = input;
+//   Object.entries(replaceObject).forEach(([key, value]) => {
+//     const regex = new RegExp(key, 'g');
+//     result = result.replace(regex, value);
+//   });
+//   return result;
+// };
+
 export function formatToMonthYear(isoString: string): string {
   console.log("formatToMonthYear", isoString);
   const date = new Date(isoString);
@@ -37,8 +46,4 @@ export const isProjectLiked = async (slug: string, likedProject: string[] | null
 export const projectCategories = (projectsSummary: CategorisedProjects): Array<keyof CategorisedProjects> => {
   // todo remove the as type
   return Object.keys(projectsSummary) as Array<keyof CategorisedProjects>
-}
-
-export const sleep = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }

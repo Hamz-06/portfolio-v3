@@ -19,7 +19,7 @@ class ProjectsModel {
 
   getProject = cache(async (projectSlug: string): Promise<Project | null> => {
     if (process.env.NODE_ENV !== 'production') {
-      return await randomProject(projectSlug);
+      return randomProject(projectSlug);
     }
     const kv = await this.getKvNamespace(); // ✅ async-safe
     const PROJECT_CACHE_KEY = `${PROJECT_KV_CACHE.PROJECT}:${projectSlug}`;
@@ -54,7 +54,7 @@ class ProjectsModel {
     console.log("❤️");
     const kv = await this.getKvNamespace();
     if (process.env.NODE_ENV !== 'production') {
-      return randomCategorisedProjects()
+      return randomCategorisedProjects
     }
     const cachedSummary = await kv.get<CategorisedProjects>(PROJECT_KV_CACHE.PROJECT_SUMMARY, { type: 'json' });
     if (cachedSummary) {

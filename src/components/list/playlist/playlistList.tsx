@@ -24,9 +24,11 @@ function PlaylistList() {
 // rendered on the client side
 const LikedItemsPlaylist = () => {
   const [likedPlaylistItem, setLikedPlaylistItem] = useState<PlaylistsSummary[number] | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const likedProjects = getClientCookie<string[] | null>('likes') || []
+    setLoading(false)
 
     const likedProjectsLength = likedProjects.length
     if (likedProjectsLength === 0) return
@@ -42,7 +44,8 @@ const LikedItemsPlaylist = () => {
     })
   }, [])
 
-  if (!likedPlaylistItem) return <Skeleton className='h-16 w-full bg-zinc-800'></Skeleton>
+  if (!loading) return <Skeleton className='h-16 w-full bg-zinc-800'></Skeleton>
+  if (!likedPlaylistItem) return null
 
   return (
     <PlaylistCard key="liked" playlist={likedPlaylistItem} />

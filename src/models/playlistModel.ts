@@ -24,7 +24,7 @@ class PlaylistModel {
       return randomPlaylists;
     }
     const kv = await this.getKvNamespace();
-    const playlistSummary = kv
+    const playlistSummary = await kv
       .get<PlaylistsSummary>(PLAYLIST_KV_CACHE.PLAYLIST_SUMMARY, { type: 'json' })
 
     if (playlistSummary) {

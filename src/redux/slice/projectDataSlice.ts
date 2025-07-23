@@ -88,6 +88,7 @@ export const projectsList = createSlice({
         category: navigationProject.project_type,
         project_slug: navigationProject.slug,
       });
+
       state.currentProject = navigationProject;
     },
 

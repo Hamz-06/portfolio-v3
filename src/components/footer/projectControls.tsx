@@ -11,6 +11,7 @@ import {
 } from "@/redux/slice/projectDataSlice";
 import { Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export type NavigationStep = "previous" | "next";
@@ -20,20 +21,24 @@ function ProjectControls() {
   const currentProject = useCurrentProject();
   const isShufflingEnabled = useIsShufflingEnabled();
   const router = useRouter();
+  const [redirect, setRedirect] = useState(false);
+
   const navigateCurrentProjectList = (step: NavigationStep) => {
     dispatch(navigateCurrentProject(step));
+    setRedirect(true);
   };
 
   const shuffleCurrentProjectList = () => {
     dispatch(setShuffle(!isShufflingEnabled));
   };
-
-  const redirectToProject = () => {
-    if (!currentProject) return;
+  useEffect(() => {
+    if (!redirect || !currentProject) return;
     router.push(
-      `/portfolio/${currentProject.project_type}/${currentProject.slug}`
-    );
-  };
+      `/portfolio/${currentProject.project_type}/${currentProject.slug}`)
+
+    setRedirect(false);
+  }, [redirect])
+
 
   return (
     <div className="flex flex-col items-center w-full sm:w-1/3">
@@ -73,19 +78,16 @@ function ProjectControls() {
           </Button>
         </ToolTip>
 
-        <ToolTip tooltipContent="Play">
-          <Button
-            asChild
-            onClick={() => redirectToProject()}
-            size="icon"
-            className="bg-white text-black hover:bg-white/90 rounded-full"
-          >
-            <Play
-              fill="white"
-              className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1"
-            />
-          </Button>
-        </ToolTip>
+        <Button
+          asChild
+          size="icon"
+          className="bg-white text-black hover:bg-white/90 rounded-full"
+        >
+          <Play
+            fill="white"
+            className="h-10 w-10 p-1.5 sm:h-8 sm:w-8 sm:p-1"
+          />
+        </Button>
 
         <ToolTip tooltipContent="Next">
           <Button

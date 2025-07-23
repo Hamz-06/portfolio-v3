@@ -25,7 +25,7 @@ export default async function Home() {
       className="flex flex-1 overflow-hidden relative bg-black">
       {/* takes into account the secondary header height on mobile */}
       <div
-        className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
+        className="w-full h-full sm:h-full relative overflow-auto"
         id='main-content'>
 
         <FilterBarHeader projectCategories={projectCategoriesKeys} />

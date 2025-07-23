@@ -1,12 +1,14 @@
 
 import { getCookie } from "@/actions/cookies/cookieHelper";
-import { SidebarHandle } from "@/components/sidebar/sideBarHandle";
 import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { isSmallScreen } from "@/lib/utils";
 import { PlaylistModel } from "@/models/playlistModel";
 import { SidebarProvider } from "@/redux/provider/sidebarProvider";
+import { UserDeviceCookie, UserDeviceValue } from "@/types/cookieTypes";
 import clsx from "clsx";
 import React from 'react'
+import { SidebarHandle } from "../sidebar/sideBarHandle";
 
 type ResizableLayoutProps = {
   className: string;
@@ -16,22 +18,29 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
   const DEFAULT_LAYOUT = [20, 80];
 
   //todo: use promise.all
-  const layoutPanes = await getCookie<number[] | null>('react-resizable-panels:layout') || DEFAULT_LAYOUT;
+
+  const layoutPanes = await getCookie<number[] | null>('react-resizable-panels-layout') || DEFAULT_LAYOUT;
   const playlists = await PlaylistModel.getInstance().getPlaylistsSummary() || [];
+  const deviceType = await getCookie<UserDeviceCookie>('user-device');
+
+  //TODO: move all cookie logic to a separate function
+  const device: UserDeviceValue = deviceType ? deviceType['device-type'] : 'desktop';
+  const isMobileDevice = isSmallScreen(device)
+
 
   return (
     <div className={clsx(className)}>
       <ResizablePanelGroup className={clsx(className)} direction="horizontal">
         {/* Sidebar - Resizable */}
-        <SidebarHandle />
+        {!isMobileDevice && <SidebarHandle />}
 
-
-        <SidebarProvider playlists={playlists}>
-
-          <SideBar defaultLayout={layoutPanes} className="flex-col h-full bg-zinc-900 rounded-2xl ml-2 mr-1" />
-
+        <SidebarProvider
+          toggleSideBar={!isMobileDevice} // sidebar is off on mobile
+          playlists={playlists}>
+          <SideBar
+            defaultLayout={layoutPanes}
+            isMobile={isMobileDevice} />
         </SidebarProvider>
-
 
         {/* Main content - Resizable */}
         <ResizablePanel

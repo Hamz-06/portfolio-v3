@@ -23,25 +23,31 @@ const projects: CategorisedProject[] = [
     slug: 'mona-lisa',
     sub_title: 'A masterpiece by Leonardo da Vinci',
     project_type: 'projects',
-  } ,{
+  }, {
     first_image_url: '/bart-simpson-cartoon.png',
     title: 'Work Experience Project',
     slug: 'work-experience-project',
     sub_title: 'A project showcasing work experience',
     project_type: 'work_experience',
-  },{
+  }, {
     first_image_url: '/playlist-heart.png',
     title: 'Liked Projects',
     slug: 'liked-projects',
     sub_title: 'A collection of liked projects',
     project_type: 'work_experience',
+  }, {
+    first_image_url: '/bart-simpson-cartoon.png',
+    title: 'Blog Post Example',
+    slug: 'blog-post-example',
+    sub_title: 'An example blog post',
+    project_type: 'blogs',
   }
 ]
 
 const randomCategorisedProjects: CategorisedProjects = {
   projects: [projects[0]],
-  blogs: [],
-  work_experience:[projects[1], projects[2]],
+  blogs: [projects[3]],
+  work_experience: [projects[1], projects[2]],
 };
 
 

@@ -3,18 +3,20 @@ import { cn } from "@/lib/utils"
 import { SidebarHeader } from "./sidebarHeader"
 import { SidebarSearch } from "./sidebarSearch"
 import { PlaylistList } from "../list/playlist/playlistList"
+import { switchToggleSidebar, useToggleSidebar } from "@/redux/slice/layoutSlice"
 import { ResizableHandle, ResizablePanel } from "../ui/resizable"
-import { useToggleSidebar } from "@/redux/slice/layoutSlice"
+import { GenericModal } from "../modal/genericModal"
+import { useDispatch } from "react-redux"
 
 
 type SideBarProps = {
-  className: string;
   defaultLayout: number[];
+  isMobile: boolean
 }
 
-export function SideBar({ className, defaultLayout }: SideBarProps) {
+export function SideBar({ defaultLayout, isMobile }: SideBarProps) {
   const toggleSidebar = useToggleSidebar()
-  console.log("toggleSidebar", toggleSidebar)
+  const dispatch = useDispatch()
   // todo: make this to  const file
   const SIDE_BAR_MAX_SIZE_IN_PERCENT = 32;
 
@@ -22,31 +24,53 @@ export function SideBar({ className, defaultLayout }: SideBarProps) {
     return null;
   }
   return (
+
     <>
-      <ResizablePanel
-        id='sidebar'
-        order={1}
-        collapsible={true}
-        minSize={20}
-        maxSize={SIDE_BAR_MAX_SIZE_IN_PERCENT}
-        defaultSize={defaultLayout[0]}
-        className="hidden lg:block">
+      {isMobile ? (
+        <GenericModal
+          title="Projects Library"
+          isOpen={toggleSidebar}
+          onModal={() => dispatch(switchToggleSidebar())}
+        >
+          <div>
+            <div className="h-12 flex items-center justify-center text-white mb-5">
+              <h1 className=" font-light">Your Playlist</h1>
+            </div>
+            <PlaylistList />
+          </div>
 
-        <div className={cn(className, 'group/sidebar')}>
-          {/* Library Header */}
-          <SidebarHeader />
+        </GenericModal>
+      ) : (
+        <>
+          <ResizablePanel
+            id='sidebar'
+            order={1}
+            collapsible={true}
+            minSize={20}
+            maxSize={SIDE_BAR_MAX_SIZE_IN_PERCENT}
+            defaultSize={defaultLayout[0]}
+            className="hidden lg:block">
 
-          {/* Search and Sort */}
-          <SidebarSearch />
+            <div className={cn('flex-col h-full bg-zinc-900 rounded-2xl ml-2 mr-1 group/sidebar')}>
+              {/* Library Header */}
+              <SidebarHeader />
 
-          {/* Library Items */}
-          <PlaylistList />
-        </div>
-      </ResizablePanel>
+              {/* Search and Sort */}
+              <SidebarSearch />
 
-      <ResizableHandle />
+              {/* Library Items */}
+              <PlaylistList />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle />
+        </>
+      )}
+
+
     </>
 
   )
 }
+
+
 

@@ -4,7 +4,6 @@
 :root {
   --desktop-header-height: 64px;
   --desktop-footer-height: 80px;
-  --mobile-secondary-header-height: 60px;
 }
 
 /* prevent over scrolling on the body element */
@@ -14,10 +13,14 @@ body {
   background-color: #000;
 }
 @media (max-width: 768px) {
+  :root{
+    --desktop-footer-height: 64px;
+  }
   html,
   body {
     overscroll-behavior: auto;
   }
+  
 }
 
 .project-details-card-background {

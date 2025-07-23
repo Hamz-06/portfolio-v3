@@ -6,20 +6,26 @@ import { VolumeControls } from './volumeControls'
 import { getCookie } from '@/actions/cookies/cookieHelper'
 import { FooterProvider } from '@/redux/provider/footerProvider'
 import { ProjectsModel } from '@/models/projectsModel'
-import { CurrentProjectCookieKey } from '@/types/cookieTypes'
+import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/types/cookieTypes'
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
+import { MobileFooter } from './mobileFooter'
+import { isSmallScreen } from '@/lib/utils'
 
 type FooterProps = {
   className: string;
 }
 
-// todo: somehow display the playlist section in the footer 
+// todo: somehow display the playlist section in the footer for mobile and tablet 
 async function Footer({ className }: FooterProps) {
-  const [currentProjectKey, shuffleActiveRaw, projectSummary] = await Promise.all([
+  const [currentProjectKey, shuffleActiveRaw, projectSummary, deviceType] = await Promise.all([
     getCookie<CurrentProjectCookieKey>('current-project'),
     getCookie<boolean>('is-shuffling-enabled'),
-    ProjectsModel.getInstance().getProjectSummary()
+    ProjectsModel.getInstance().getProjectSummary(),
+    getCookie<UserDeviceCookie>('user-device')
   ]);
+  //TODO: Create a new cookie function that handles this extra logix 
+  const device: UserDeviceValue = deviceType ? deviceType['device-type'] : 'desktop';
+
 
   const shuffleActive = shuffleActiveRaw || false;
   const [projectsArray, currentProject] = await getCurrentProject(projectSummary, currentProjectKey);
@@ -29,18 +35,31 @@ async function Footer({ className }: FooterProps) {
       <div className={clsx(className, 'relative')}>
 
         {/* displays the current project playing  */}
-        <DisplayCurrentProject />
+        {isSmallScreen(device) ? (
+          <>
+            <MobileFooter />
+          </>
+        ) :
+          (
+            <>
+              < DisplayCurrentProject />
 
-        {/* controls for the current project */}
-        <ProjectControls />
+              {/* controls for the current project */}
+              <ProjectControls />
 
-        {/* volume control and other buttons */}
-        <VolumeControls />
+              {/* volume control and other buttons */}
+              <VolumeControls />
+            </>
+          )}
+
+
+
 
       </div>
     </FooterProvider>
   )
 }
+
 
 const getCurrentProject = async (projectSummary: CategorisedProjects, currentProjectKey: CurrentProjectCookieKey | null)
   : Promise<[CategorisedProject[], CategorisedProject]> => {

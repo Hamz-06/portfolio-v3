@@ -74,7 +74,7 @@ export function ProjectCard({
         <div className="flex flex-col">
           <p className="line-clamp-1">{title}</p>
 
-          {subTitle && <span className="line-clamp-2 text-sm text-zinc-400">{subTitle}</span>}
+          {subTitle && <span className="line-clamp-1 text-sm text-zinc-400">{subTitle}</span>}
         </div>
       </Link>
     </div>

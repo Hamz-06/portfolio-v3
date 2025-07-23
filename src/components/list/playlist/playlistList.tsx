@@ -44,7 +44,7 @@ const LikedItemsPlaylist = () => {
     })
   }, [])
 
-  if (!loading) return <Skeleton className='h-16 w-full bg-zinc-800'></Skeleton>
+  if (loading) return <Skeleton className='h-16 w-full bg-zinc-800'></Skeleton>
   if (!likedPlaylistItem) return null
 
   return (

@@ -1,5 +1,5 @@
 import { DEFAULT_KV_EXPIRATION, PROJECT_KV_CACHE } from "@/const";
-import { randomCategorisedProjects, randomProject } from "@/lib/dev/projectsGenerator";
+import { projectSelected, randomCategorisedProjects } from "@/lib/dev/projectsGenerator";
 import { client } from "@/sanity/lib/client";
 import { PROJECTS_BY_CATEGORY_QUERY, SINGLE_PROJECT_QUERY } from "@/sanity/lib/queries";
 import { CategorisedProjects, Project } from "@/sanity/schema/schema-types";
@@ -20,7 +20,7 @@ class ProjectsModel {
   getProject = cache(async (projectSlug: string): Promise<Project | null> => {
     console.log('💚')
     if (process.env.NODE_ENV !== 'production') {
-      return randomProject(projectSlug);
+      return projectSelected(projectSlug);
     }
     const kv = await this.getKvNamespace(); // ✅ async-safe
     const PROJECT_CACHE_KEY = `${PROJECT_KV_CACHE.PROJECT}:${projectSlug}`;

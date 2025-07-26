@@ -15,6 +15,7 @@ function PlaylistCard({ playlist }: PlaylistCardProps) {
   const { type, slug, playlist_name, pinned: isPinned, description } = playlist
   const dispatch = useDispatch()
 
+  // TODO: this potentially might not need to be here, causes no harm but fnc call should be passed down
   const onClickHandler = () => {
     dispatch(setMobileToggleSidebar(false))
   }

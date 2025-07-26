@@ -31,5 +31,12 @@
       "pattern": "3hhh.org",
       "custom_domain": true
     }
-  ]
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SANITY_PROJECT_ID": "",
+    "NEXT_PUBLIC_SANITY_DATASET": "",
+    "JWT_SECRET": "",
+    "SITE_PASSWORD": "",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
 }

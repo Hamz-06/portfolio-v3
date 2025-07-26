@@ -36,9 +36,7 @@ async function Footer({ className }: FooterProps) {
 
         {/* displays the current project playing  */}
         {isSmallScreen(device) ? (
-          <>
-            <MobileFooter />
-          </>
+          <MobileFooter />
         ) :
           (
             <>
@@ -51,8 +49,6 @@ async function Footer({ className }: FooterProps) {
               <VolumeControls />
             </>
           )}
-
-
 
 
       </div>

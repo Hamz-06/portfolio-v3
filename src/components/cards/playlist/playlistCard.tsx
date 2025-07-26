@@ -1,18 +1,27 @@
 'use client'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
+import { setMobileToggleSidebar } from '@/redux/slice/layoutSlice'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { Pin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 type PlaylistCardProps = {
   playlist: NonNullable<PlaylistsSummary[number]>,
 }
 function PlaylistCard({ playlist }: PlaylistCardProps) {
   const { type, slug, playlist_name, pinned: isPinned, description } = playlist
+  const dispatch = useDispatch()
+
+  const onClickHandler = () => {
+    dispatch(setMobileToggleSidebar(false))
+  }
+
   return (
     <Link
+      onClick={() => onClickHandler()}
       href={`/portfolio/playlist/${slug}`}
       className="flex items-center gap-3 p-2 rounded-md h-16 hover:bg-zinc-800"
     >

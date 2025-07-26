@@ -64,10 +64,9 @@ function SidebarSearch() {
         value={query}
         type="text"
         placeholder="Search in Your Library"
-        className="w-full h-full pl-10 pr-4 rounded-md bg-zinc-800 text-sm text-white placeholder:text-zinc-400 outline-none border-none
-  focus-visible:ring-offset-0 focus-visible:ring-0"
+        className="w-full h-full pl-10 pr-4 rounded-md bg-zinc-800 text-sm text-white placeholder:text-zinc-400 outline-none
+         border-none focus-visible:ring-offset-0 focus-visible:ring-0"
         onBlur={onSearchBlur}
-        style={{ display: searchClick ? 'block' : 'none' }}
       />
       <Button
         onClick={onSearchClick}

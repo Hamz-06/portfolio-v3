@@ -20,8 +20,18 @@ body {
   body {
     overscroll-behavior: auto;
   }
-  
 }
+/* todo move to tailwind */
+.scrollable-content {
+  overflow: auto;           /* or scroll if you want always-scrollable */
+  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Edge */
+}
+
 
 .project-details-card-background {
 /* From https://css.glass */

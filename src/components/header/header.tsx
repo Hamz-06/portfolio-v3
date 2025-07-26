@@ -7,11 +7,15 @@ import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
 import { ProfileButton } from '../layout/profileButton';
 import { ProjectsModel } from '@/models/projectsModel';
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types';
+import ToolTip from '../tooltip/tooltip';
+import Link from 'next/link';
+import { Routes } from '@/types/routes';
 
 type HeaderProps = {
   className: string;
 }
 
+const HOME_PAGE: Routes = '/portfolio'
 async function Header({ className }: HeaderProps) {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
 
@@ -21,9 +25,15 @@ async function Header({ className }: HeaderProps) {
       <div className="flex items-center space-x-4">
 
         {/* Spotify Logo */}
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-          <SpotifyIcon />
-        </div>
+
+        <ToolTip tooltipContent='Home'>
+          <Link href={HOME_PAGE}>
+            <div
+              className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:cursor-pointer">
+              <SpotifyIcon />
+            </div>
+          </Link>
+        </ToolTip>
       </div>
 
 

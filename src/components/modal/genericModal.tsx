@@ -18,7 +18,7 @@ export function GenericModal({ isOpen, onModal, title, children }: GenericModalP
       <DialogContent
         closeButtonElement={<XIcon className="w-3 h-3 stroke-white" />}
         id="generic-modal"
-        className="h-[80%] bg-zinc-800 overflow-scroll border-0">
+        className="h-[80%] bg-zinc-800 overflow-scroll border-0 z-999 ">
         {/* Content goes here */}
         <VisuallyHidden>
           <DialogTitle>

@@ -22,7 +22,7 @@ export function ProjectList({ projectSummary }: ProjectListProps) {
   }, [])
 
   return (
-    <div className="p-2">
+    <div className="p-2 scrollable-content">
       {Object.entries(selectedCategory).map(([key, value]) => {
         if (category && key !== category) {
           return null;

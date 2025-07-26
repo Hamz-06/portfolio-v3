@@ -17,7 +17,6 @@ export const isSmallScreen = (device: UserDeviceValue): boolean => {
 }
 
 export function formatToMonthYear(isoString: string): string {
-  console.log("formatToMonthYear", isoString);
   const date = new Date(isoString);
   return date.toLocaleDateString("en-US", {
     year: "numeric",

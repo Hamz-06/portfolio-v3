@@ -1,4 +1,3 @@
-import { ProjectView } from '@/components/layout/project/projectView';
 import { ProjectProvider } from '@/redux/provider/projectProvider';
 import { Routes } from '@/types/routes';
 import { redirect } from 'next/navigation';
@@ -7,6 +6,12 @@ import { getCookie } from '@/actions/cookies/cookieHelper';
 import { isProjectLiked } from '@/lib/utils';
 import { ProjectsModel } from '@/models/projectsModel';
 import { Metadata } from 'next';
+import { Slider } from '@/components/layout/project/projectSlider';
+import CentreImage from '@/components/layout/project/centreImage';
+import { ProjectControls } from '@/components/layout/project/projectControls';
+import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal';
+import { ProjectSummary } from '@/components/layout/project/projectSummary';
+import TitleSlider from '@/components/layout/project/titleSlider';
 
 type ProjectPageProps = {
   params: Promise<{ slug: string; project_type: string }>;
@@ -59,8 +64,23 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <ProjectProvider project={project} isProjectLiked={isLiked}>
       {/* div used as the background, used here to allow the two div elements to slide */}
-      <div className="relative flex-1 bg-black overflow-y-scroll" />
-      <ProjectView />
-    </ProjectProvider>
+      <></>
+      <Slider title='top'>
+        <ProjectControls className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
+      </Slider>
+
+      <CentreImage />
+
+
+      <Slider title='bottom'>
+        <TitleSlider />
+      </Slider>
+
+
+      <ProjectDetailsModal>
+        <ProjectSummary />
+      </ProjectDetailsModal>
+
+    </ProjectProvider >
   );
 }

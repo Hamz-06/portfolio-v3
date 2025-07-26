@@ -16,7 +16,7 @@ import { CategorisedProject, CategorisedProjects, Project } from "@/sanity/schem
 //     sub_title: `This is project number ${i + 1}`,
 //     project_type: type,
 //   }));
-const projects: CategorisedProject[] = [
+export const projects: CategorisedProject[] = [
   {
     first_image_url: '/mona-lisa.png',
     title: 'Mona Lisa',

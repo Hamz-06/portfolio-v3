@@ -5,11 +5,13 @@ import { useSelector } from "react-redux";
 interface LayoutState {
   toggleSidebar: boolean,
   mainLayoutBar: boolean,
+  toggleMobileSidebar: boolean,
   displayFooter: boolean
 }
 
 const initialState: LayoutState = {
   toggleSidebar: true,
+  toggleMobileSidebar: false,
   mainLayoutBar: true,
   displayFooter: true
 }
@@ -27,12 +29,18 @@ export const layoutSlice = createSlice({
     },
     displayFooter: (state, action: PayloadAction<boolean>) => {
       state.displayFooter = action.payload;
+    },
+    setMobileToggleSidebar: (state, action: PayloadAction<boolean>) => {
+      state.toggleMobileSidebar = action.payload;
     }
   }
 })
 
-export const { switchToggleSidebar ,setToggleSidebar, displayFooter} = layoutSlice.actions;
+export const { switchToggleSidebar ,setToggleSidebar, displayFooter, setMobileToggleSidebar} = layoutSlice.actions;
 
+
+export const useMobileToggleSidebar = (): LayoutState['toggleMobileSidebar'] =>
+  useSelector((state: RootMainLayoutStore) => state.layoutProvider.toggleMobileSidebar)
 
 export const useToggleSidebar = (): LayoutState['toggleSidebar'] =>
   useSelector((state: RootMainLayoutStore) => state.layoutProvider.toggleSidebar)

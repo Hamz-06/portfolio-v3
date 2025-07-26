@@ -3,18 +3,16 @@
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setPlaylists } from '../slice/playlistSlice'
-import { setToggleSidebar } from '../slice/layoutSlice'
-import { Provider } from 'react-redux'
+import { setMobileToggleSidebar } from '../slice/layoutSlice'
 
 type ProviderProps = {
   children: React.ReactNode,
   playlists: PlaylistsSummary
-  toggleSideBar: boolean
+  toggleMobileSidebar: boolean
 }
 
-
-export function SidebarProvider({ children, playlists, toggleSideBar }: ProviderProps) {
-  StoreSingleton.getInstance().dispatch(setToggleSidebar(toggleSideBar))
+export function SidebarProvider({ children, playlists, toggleMobileSidebar }: ProviderProps) {
+  StoreSingleton.getInstance().dispatch(setMobileToggleSidebar(toggleMobileSidebar))
   StoreSingleton.getInstance().dispatch(setPlaylists(playlists))
-  return <Provider store={StoreSingleton.getInstance()}>{children}</Provider>
+  return <>{children}</>
 }

@@ -1,30 +1,30 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ListMusic } from 'lucide-react'
 import { NotificationIcon } from '../layout/customIcons'
 import { Button } from '../ui/button'
-import { setToggleSidebar, useToggleSidebar } from '@/redux/slice/layoutSlice'
+import { setMobileToggleSidebar, useMobileToggleSidebar } from '@/redux/slice/layoutSlice'
 import { useDispatch } from 'react-redux'
-
+import { ProjectNavigationButton } from '../button/projectNavigationButton'
+import { cn } from '@/lib/utils'
 const BUTTON_CLASS = 'flex flex-col items-center justify-center text-xs text-zinc-400 hover:text-white w-full h-full'
 
 function MobileFooter() {
-  const sidebar = useToggleSidebar()
+  const sidebar = useMobileToggleSidebar()
   const dispatch = useDispatch()
 
   const playlistsClickHandler = () => {
-    dispatch(setToggleSidebar(!sidebar))
+    dispatch(setMobileToggleSidebar(!sidebar))
   }
 
-  useEffect(() => {
-    console.log('Sidebar state changed:', sidebar)
-  }, [sidebar])
-
   return (
-    <div className="grid grid-cols-2 w-full px-10">
+    <div className="grid grid-cols-4 w-full">
 
-
+      <div className={cn(BUTTON_CLASS, 'justify-evenly')}>
+        <ProjectNavigationButton className='w-5 h-5' direction='previous' />
+        <span>previous</span>
+      </div>
       {/* Playlists Button */}
       <Button
         onClick={playlistsClickHandler}
@@ -49,7 +49,10 @@ function MobileFooter() {
         </div>
       </Button>
 
-
+      <div className={cn(BUTTON_CLASS, 'justify-evenly')}>
+        <ProjectNavigationButton className='w-5 h-5' direction='next' />
+        <span>next</span>
+      </div>
     </div>
   )
 }

@@ -29,30 +29,31 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
 
 
   return (
-    <div className={clsx(className)}>
-      <ResizablePanelGroup className={clsx(className)} direction="horizontal">
-        {/* Sidebar - Resizable */}
-        {!isMobileDevice && <SidebarHandle />}
+    <ResizablePanelGroup className={clsx(className)} direction="horizontal">
+      {/* Sidebar - Resizable */}
+      <SidebarHandle isMobile={isMobileDevice} />
 
-        <SidebarProvider
-          toggleSideBar={!isMobileDevice} // sidebar is off on mobile
-          playlists={playlists}>
-          <SideBar
-            defaultLayout={layoutPanes}
-            isMobile={isMobileDevice} />
-        </SidebarProvider>
+      <SidebarProvider
+        toggleMobileSidebar={false} // by default false
+        playlists={playlists}>
+        <SideBar
+          defaultLayout={layoutPanes}
+          isMobile={isMobileDevice} />
+      </SidebarProvider>
 
-        {/* Main content - Resizable */}
-        <ResizablePanel
-          // minSize={75}
-          defaultSize={layoutPanes[1]}
-          order={2}
-          className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900">
-          {children}
-        </ResizablePanel>
+      {/* Main content - Resizable */}
+      <ResizablePanel
+        // minSize={75}
+        id='main-content'
+        defaultSize={layoutPanes[1]}
+        order={2}
+        // className="flex-1 mr-2 ml-2 sm:ml-1 gap-2 rounded-2xl bg-zinc-900 relative">
+        className="flex-1 relative">
+        {children}
+      </ResizablePanel>
 
-      </ResizablePanelGroup>
-    </div >
+    </ResizablePanelGroup>
+
   )
 }
 

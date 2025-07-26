@@ -7,11 +7,15 @@ import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
 import { ProfileButton } from '../layout/profileButton';
 import { ProjectsModel } from '@/models/projectsModel';
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types';
+import ToolTip from '../tooltip/tooltip';
+import Link from 'next/link';
+import { Routes } from '@/types/routes';
 
 type HeaderProps = {
   className: string;
 }
 
+const HOME_PAGE: Routes = '/portfolio'
 async function Header({ className }: HeaderProps) {
   const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
 
@@ -21,9 +25,15 @@ async function Header({ className }: HeaderProps) {
       <div className="flex items-center space-x-4">
 
         {/* Spotify Logo */}
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-          <SpotifyIcon />
-        </div>
+
+        <ToolTip tooltipContent='Home'>
+          <Link href={HOME_PAGE}>
+            <div
+              className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:cursor-pointer">
+              <SpotifyIcon />
+            </div>
+          </Link>
+        </ToolTip>
       </div>
 
 
@@ -36,15 +46,13 @@ async function Header({ className }: HeaderProps) {
 
       {/* Right section */}
       <div className="flex items-center justify-end space-x-4">
-        {/* <button className="hidden md:block px-4 py-1 text-sm font-medium text-black bg-white rounded-full hover:bg-white/90">
-            Explore Premium
-          </button> */}
-        <div className="text-zinc-400 hover:text-white">
+
+        {/* TODO move the notif to new file */}
+        <div className="text-zinc-400 hover:text-white hidden sm:block">
           <NotificationIcon />
         </div>
 
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
-
           <ProfileButton />
         </div>
       </div>

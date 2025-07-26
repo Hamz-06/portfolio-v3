@@ -10,13 +10,7 @@ const SidebarHeader = () => {
 
   // todo set the cookies for this sidebar collapse
   const handleCollapse = () => {
-    console.log("Collapse Sidebar")
     dispatch(setToggleSidebar(false))
-  }
-
-  //todo need to implement expand sidebar
-  const expandSideBar = () => {
-    console.log("Expand Sidebar")
   }
 
   return (
@@ -44,7 +38,7 @@ const SidebarHeader = () => {
           asChild
           className="rounded-full p-2 hover:bg-zinc-800"
         >
-          <Maximize2 onClick={expandSideBar} className="text-zinc-400 w-9 h-9" />
+          <Maximize2 className="text-zinc-400 w-9 h-9" />
         </Button>
       </ToolTip>
     </div>

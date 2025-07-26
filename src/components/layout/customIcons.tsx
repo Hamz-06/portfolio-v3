@@ -33,9 +33,10 @@ export const SpotifyIcon = () => {
     </svg>
   )
 }
-export const NotificationIcon = () => {
+export const NotificationIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"

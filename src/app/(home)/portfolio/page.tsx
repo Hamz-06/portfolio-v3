@@ -1,9 +1,9 @@
 import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
-import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { ProjectsModel } from "@/models/projectsModel";
 import { projectCategories } from "@/lib/utils";
 import { Metadata } from "next";
+import { PortfolioProvider } from "@/redux/provider/portfolioProvider";
 
 export const metadata: Metadata = {
   title: 'Projects Summary',
@@ -21,18 +21,19 @@ export default async function Home() {
   }
 
   return (
-    <ResizableLayout
-      className="flex flex-1 overflow-hidden relative bg-black">
-      {/* takes into account the secondary header height on mobile */}
-      <div
-        className="w-full h-[calc(100%-var(--mobile-secondary-header-height))] sm:h-full relative overflow-auto"
-        id='main-content'>
 
-        <FilterBarHeader projectCategories={projectCategoriesKeys} />
-        <ProjectList projectSummary={projectsSummary} />
-
+    <PortfolioProvider>
+      <div className="sm:pl-1 pr-0 sm:pr-2 pl-2 h-full overflow-hidden">
+        <div
+          className="rounded-2xl bg-zinc-900 relative overflow-auto h-full"
+          id="main-content"
+        >
+          <FilterBarHeader projectCategories={projectCategoriesKeys} />
+          <ProjectList projectSummary={projectsSummary} />
+        </div>
       </div>
-    </ResizableLayout>
+    </PortfolioProvider>
+
   );
 }
 

@@ -1,6 +1,7 @@
 import { ProjectCard } from '@/components/cards/projectCard';
 import { PlaylistHeader } from '@/components/header/playlist/playlistHeader';
 import { PlaylistModel } from '@/models/playlistModel';
+import { PlaylistsProvider } from '@/redux/provider/playlistProvider';
 import { Playlist } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
 import { Metadata } from 'next';
@@ -62,39 +63,33 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
   }
 
   return (
-    <div className="flex-1 overflow-hidden relative">
-      <div className=' mx-1 sm:mx-2 gap-2 bg-zinc-900 rounded-2xl overflow-hidden h-full'>
-        <div className='w-full h-full overflow-auto'>
+    <PlaylistsProvider>
+      <div className="flex-1 overflow-hidden relative w-full h-full sm:pl-1 pr-0 sm:pr-2 pl-2">
+        <div className="bg-zinc-900 rounded-2xl h-full w-full">
           <div className="sticky top-0 z-10 h-8 flex items-center">
             <a className='ml-12'>
               Page still under construction 👷🏽
             </a>
           </div>
           <PlaylistHeader title={playlist.playlist_name} />
-          <div
-            className="grid gap-1 sm:gap-4 justify-start py-2 sm:px-10 [grid-template-columns:repeat(auto-fill,minmax(180px,1fr))] 
-            [grid-auto-rows:min-content]"
-          >
+          <div className="flex flex-wrap flex-row gap-3 p-2">
             {playlist.playlist.map((project, i) => (
-              <div key={i} className="size-full flex items-center justify-center">
-                <ProjectCard
-                  key={i}
-                  cardDetails={{
-                    title: `${project.title}`,
-                    slug: project.slug,
-                    first_image_url: project.first_image_url,
-                    sub_title: `${project.sub_title}`,
-                    project_type: project.project_type,
-                  }}
-                />
-              </div >
+              <ProjectCard
+                key={i}
+                cardDetails={{
+                  title: `${project.title}`,
+                  slug: project.slug,
+                  first_image_url: project.first_image_url,
+                  sub_title: `${project.sub_title}`,
+                  project_type: project.project_type,
+                }}
+              />
             ))
             }
           </div>
         </div>
       </div>
-    </div>
-
+    </PlaylistsProvider >
   )
 }
 

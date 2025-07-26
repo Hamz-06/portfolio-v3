@@ -9,6 +9,16 @@ type ProjectRowsProps = {
   title: string
   children: React.ReactNode
 }
+//TODO: move this to sanity load dynamically
+const TITLE_TAG_LINE: Record<ProjectTypes, string> = {
+  blogs: 'Throw back',
+  projects: 'Made for you',
+  work_experience: 'Chart topper'
+}
+const titleTagLine = (title: ProjectTypes) => {
+  return TITLE_TAG_LINE[title] || 'Welcome to my portfolio'
+}
+
 function ProjectRows({
   title,
   children,
@@ -23,11 +33,13 @@ function ProjectRows({
     }
     dispatch(setSelectedCategory(title))
   }
+  const tagline = titleTagLine(title as ProjectTypes)
+
   return (
-    <section className="mb-8 w-full mt-10 overflow-auto p-0 sm:pl-7">
+    <section className="mb-8 w-full mt-10 overflow-auto p-0 sm:pl-7 scrollable-content">
       <div className="mb-2 flex items-center justify-between">
         <div className="pl-3">
-          <h6 className="font-light text-xs text-zinc-400">Made for you</h6>
+          <h6 className="font-light text-xs text-zinc-400">{tagline}</h6>
           <h2 className="text-2xl font-bold">{underscoreToSpace(capitalizeFirstLetter(title))}</h2>
         </div>
         <Button

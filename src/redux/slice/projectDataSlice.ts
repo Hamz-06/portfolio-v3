@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootMainLayoutStore } from '../store/mainLayoutStore'
 import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/sanity/schema/schema-types';
 import { setClientCookie } from '@/actions/cookies/cookieHelperClient';
-import { NavigationStep } from '@/components/footer/projectControls';
+import { NavigationStep } from '@/components/button/projectNavigationButton';
 
 interface ProjectState {
   projects: CategorisedProjects | null;

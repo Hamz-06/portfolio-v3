@@ -47,6 +47,7 @@ export function SearchModal({ isOpen, onModal, searchList, querySearch }: Search
     router.push(url)
   }
 
+  // TODO: move modal to generinc modal file
   return (
     <Dialog
       open={isOpen}

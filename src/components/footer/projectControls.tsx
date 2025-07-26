@@ -4,40 +4,21 @@ import ToolTip from "@/components/tooltip/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  navigateCurrentProject,
   setShuffle,
-  useCurrentProject,
   useIsShufflingEnabled,
 } from "@/redux/slice/projectDataSlice";
-import { Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Play, Repeat, Shuffle } from "lucide-react";
 import { useDispatch } from "react-redux";
+import { ProjectNavigationButton } from "../button/projectNavigationButton";
 
-export type NavigationStep = "previous" | "next";
 
 function ProjectControls() {
   const dispatch = useDispatch();
-  const currentProject = useCurrentProject();
   const isShufflingEnabled = useIsShufflingEnabled();
-  const router = useRouter();
-  const [redirect, setRedirect] = useState(false);
-
-  const navigateCurrentProjectList = (step: NavigationStep) => {
-    dispatch(navigateCurrentProject(step));
-    setRedirect(true);
-  };
 
   const shuffleCurrentProjectList = () => {
     dispatch(setShuffle(!isShufflingEnabled));
   };
-  useEffect(() => {
-    if (!redirect || !currentProject) return;
-    router.push(
-      `/portfolio/${currentProject.project_type}/${currentProject.slug}`)
-
-    setRedirect(false);
-  }, [redirect])
 
 
   return (
@@ -66,17 +47,7 @@ function ProjectControls() {
           </Button>
         </ToolTip>
 
-        <ToolTip tooltipContent="Previous">
-          <Button
-            variant="ghost"
-            size="icon"
-            asChild
-            className="text-zinc-400 hover:text-white"
-            onClick={() => navigateCurrentProjectList("previous")}
-          >
-            <SkipBack className="h-6 w-6 sm:h-5 sm:w-5" />
-          </Button>
-        </ToolTip>
+        <ProjectNavigationButton direction="previous" className="h-8 w-8 sm:h-5 sm:w-5" />
 
         <Button
           asChild
@@ -89,17 +60,7 @@ function ProjectControls() {
           />
         </Button>
 
-        <ToolTip tooltipContent="Next">
-          <Button
-            asChild
-            onClick={() => navigateCurrentProjectList("next")}
-            variant="ghost"
-            size="icon"
-            className="text-zinc-400 hover:text-white "
-          >
-            <SkipForward className="h-8 w-8 sm:h-5 sm:w-5" />
-          </Button>
-        </ToolTip>
+        <ProjectNavigationButton direction="next" className="h-8 w-8 sm:h-5 sm:w-5" />
 
         <Button
           asChild

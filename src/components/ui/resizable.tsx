@@ -9,7 +9,7 @@ import { setClientCookie } from "@/actions/cookies/cookieHelperClient"
 
 
 const onLayout = (sizes: number[]) => {
-  setClientCookie(`react-resizable-panels:layout`, sizes)
+  setClientCookie(`react-resizable-panels-layout`, sizes)
 };
 
 function ResizablePanelGroup({

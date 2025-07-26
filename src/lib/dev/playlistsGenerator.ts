@@ -1,4 +1,5 @@
 import { Playlist, PlaylistsSummary } from "@/sanity/schema/schema-types";
+import { projects } from "./projectsGenerator";
 
 export const randomPlaylists: PlaylistsSummary = [
   {
@@ -22,13 +23,7 @@ export const randomPlaylists: PlaylistsSummary = [
 ]
 
 export const randomPlaylist: Playlist = {
-  playlist: Array.from({ length: 10 }, (_, i) => ({
-    title: `Project ${i + 1}`,
-    first_image_url: "/mona-lisa.png",
-    slug: `project-${i + 1}`,
-    sub_title: `Sub Title ${i + 1}`,
-    project_type: "projects"
-  })),
+  playlist: [projects[0], projects[1]],
   playlist_name: "Sample Playlist",
   slug: "sample-playlist",
   description: "Sample playlist description",

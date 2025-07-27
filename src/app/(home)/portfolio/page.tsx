@@ -5,6 +5,9 @@ import { projectCategories } from "@/lib/utils";
 import { Metadata } from "next";
 import { PortfolioProvider } from "@/redux/provider/portfolioProvider";
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Projects Summary',
   description: 'A summary of blogs, projects and work experience',

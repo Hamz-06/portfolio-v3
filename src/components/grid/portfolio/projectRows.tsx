@@ -13,7 +13,8 @@ type ProjectRowsProps = {
 const TITLE_TAG_LINE: Record<ProjectTypes, string> = {
   blogs: 'Throw back',
   projects: 'Made for you',
-  work_experience: 'Chart topper'
+  work_experience: 'Chart topper',
+  education: 'Learn with me',
 }
 const titleTagLine = (title: ProjectTypes) => {
   return TITLE_TAG_LINE[title] || 'Welcome to my portfolio'

@@ -25,6 +25,7 @@ export function SideBar({ defaultLayout, isMobile }: SideBarProps) {
   if (isMobile && toggleMobileSidebar) {
     return (
       <GenericModal
+        className="h-[80%] bg-zinc-800 overflow-scroll border-0 z-999"
         title="Projects Library"
         isOpen={toggleMobileSidebar}
         onModal={() => dispatch(setMobileToggleSidebar(!toggleMobileSidebar))}>

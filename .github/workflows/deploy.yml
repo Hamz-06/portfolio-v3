@@ -36,16 +36,18 @@ jobs:
       - name: 🗣️ Generate Cloudflare types
         run: npm run cf-typegen
 
+      - name: 🛡️ Write .dev.vars from GitHub secrets
+        run: |
+          cat <<EOF > .dev.vars
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          SITE_PASSWORD=${{ secrets.SITE_PASSWORD }}
+          NEXT_TELEMETRY_DISABLED=${{ secrets.NEXT_TELEMETRY_DISABLED }}
+          NEXT_PUBLIC_SANITY_PROJECT_ID=${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET=${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          EOF
+          
       - name: 🛠️ Build the Next.js app
         run: npm run build-deploy
-
-      - name: 🚀 Set Wrangler Secrets
-        run: |
-          echo "${{ secrets.JWT_SECRET }}" | npx wrangler secret put JWT_SECRET --yes
-          echo "${{ secrets.SITE_PASSWORD }}" | npx wrangler secret put SITE_PASSWORD --yes
-          echo "${{ secrets.NEXT_TELEMETRY_DISABLED }}" | npx wrangler secret put NEXT_TELEMETRY_DISABLED --yes
-          echo "${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" | npx wrangler secret put NEXT_PUBLIC_SANITY_PROJECT_ID --yes
-          echo "${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" | npx wrangler secret put NEXT_PUBLIC_SANITY_DATASET --yes
 
       - name: 🚀 Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3

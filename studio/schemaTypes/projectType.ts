@@ -41,6 +41,7 @@ export const projectType = defineType({
           { title: 'Project', value: 'projects' },
           { title: 'Blog', value: 'blogs' },
           { title: 'Work Experience', value: 'work_experience' },
+          {title: 'Education', value: 'education'}
         ],
       }
     }),

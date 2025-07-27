@@ -48,6 +48,7 @@ const randomCategorisedProjects: CategorisedProjects = {
   projects: [projects[0]],
   blogs: [projects[3]],
   work_experience: [projects[1], projects[2]],
+  education:[]
 };
 
 
@@ -58,7 +59,7 @@ const projectSelected = (slug: string): Project => {
 
   return {
     title: project.title,
-    project_images: [project.first_image_url],
+    project_images: [project.first_image_url, '/bart-simpson-cartoon.png'],
     slug: slug,
     sub_title: project.sub_title,
     project_type: project.project_type,

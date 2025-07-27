@@ -13,7 +13,8 @@ const COMMON_FIELDS = `{
 export const PROJECTS_BY_CATEGORY_QUERY = defineQuery(`{
   "projects": *[project_type == "projects"] | order(date_created desc) ${COMMON_FIELDS},
   "blogs": *[project_type == "blogs"] | order(date_created desc) ${COMMON_FIELDS},
-  "work_experience": *[project_type == "work_experience"] | order(date_created desc) ${COMMON_FIELDS}
+  "education": *[project_type == "education"] | order(date_created desc) ${COMMON_FIELDS},
+  "work_experience": *[project_type == "work_experience"] | order(date_created desc) ${COMMON_FIELDS},
 }`)
 
 

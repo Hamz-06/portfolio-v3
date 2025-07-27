@@ -15,15 +15,15 @@
   "kv_namespaces": [
     {
       "binding": "PLAYLIST_KV_CACHE",
-      "id": "5a7062a1c9884d1ea07c9815173b23e2"
+      "id": "1f663544c68448db8d17b83eccc25e16"
     },
     {
       "binding": "PROFILE_KV_CACHE",
-      "id": "a0f37e07a2ab4fa587af724458ec6013"
+      "id": "2e491f82154e4f09b74de91e0e4dd9b0"
     },
     {
       "binding": "PROJECT_KV_CACHE",
-      "id": "37f228e817ce4709b43e474fa32d69ea"
+      "id": "bddf02a24db041808360003002844f99"
     }
   ],
   "routes": [

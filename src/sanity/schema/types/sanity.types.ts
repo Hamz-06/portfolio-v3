@@ -83,7 +83,7 @@ export type Projects = {
     _type: "image";
     _key: string;
   }>;
-  project_type: "projects" | "blogs" | "work_experience";
+  project_type: "projects" | "blogs" | "work_experience" | "education";
   tools_used?: Array<string>;
   secondary_color: string;
   primary_color: string;
@@ -216,28 +216,35 @@ export type AllSanitySchemaTypes = Playlists | Profile | Projects | SanityImageP
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../src/sanity/lib/queries.ts
 // Variable: PROJECTS_BY_CATEGORY_QUERY
-// Query: {  "projects": *[project_type == "projects"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},  "blogs": *[project_type == "blogs"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},  "work_experience": *[project_type == "work_experience"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type}}
+// Query: {  "projects": *[project_type == "projects"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},  "blogs": *[project_type == "blogs"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},  "education": *[project_type == "education"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},  "work_experience": *[project_type == "work_experience"] | order(date_created desc) {  title,  "first_image_url": project_images[0].asset->url,  "slug": slug.current,  sub_title,  project_type},}
 export type PROJECTS_BY_CATEGORY_QUERYResult = {
   projects: Array<{
     title: string;
     first_image_url: string | null;
     slug: string;
     sub_title: string;
-    project_type: "blogs" | "projects" | "work_experience";
+    project_type: "blogs" | "education" | "projects" | "work_experience";
   }>;
   blogs: Array<{
     title: string;
     first_image_url: string | null;
     slug: string;
     sub_title: string;
-    project_type: "blogs" | "projects" | "work_experience";
+    project_type: "blogs" | "education" | "projects" | "work_experience";
+  }>;
+  education: Array<{
+    title: string;
+    first_image_url: string | null;
+    slug: string;
+    sub_title: string;
+    project_type: "blogs" | "education" | "projects" | "work_experience";
   }>;
   work_experience: Array<{
     title: string;
     first_image_url: string | null;
     slug: string;
     sub_title: string;
-    project_type: "blogs" | "projects" | "work_experience";
+    project_type: "blogs" | "education" | "projects" | "work_experience";
   }>;
 };
 // Variable: SINGLE_PROJECT_QUERY
@@ -289,7 +296,7 @@ export type SINGLE_PROJECT_QUERYResult = {
   project_images: Array<string | null>;
   slug: string;
   sub_title: string;
-  project_type: "blogs" | "projects" | "work_experience";
+  project_type: "blogs" | "education" | "projects" | "work_experience";
   date_created: string;
   description: string;
   primary_color: string;
@@ -324,7 +331,7 @@ export type SINGLE_PLAYLIST_QUERYResult = {
     first_image_url: string | null;
     slug: string;
     sub_title: string;
-    project_type: "blogs" | "projects" | "work_experience";
+    project_type: "blogs" | "education" | "projects" | "work_experience";
   }>;
 } | null;
 // Variable: PLAYLIST_SUMMARY_LIST_QUERY
@@ -363,14 +370,14 @@ export type PROJECTS_BY_SLUGS_QUERYResult = Array<{
   first_image_url: string | null;
   slug: string;
   sub_title: string;
-  project_type: "blogs" | "projects" | "work_experience";
+  project_type: "blogs" | "education" | "projects" | "work_experience";
 }>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"projects\": *[project_type == \"projects\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n  \"blogs\": *[project_type == \"blogs\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n  \"work_experience\": *[project_type == \"work_experience\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n}\n}": PROJECTS_BY_CATEGORY_QUERYResult;
+    "{\n  \"projects\": *[project_type == \"projects\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n  \"blogs\": *[project_type == \"blogs\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n  \"education\": *[project_type == \"education\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n  \"work_experience\": *[project_type == \"work_experience\"] | order(date_created desc) {\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n},\n}": PROJECTS_BY_CATEGORY_QUERYResult;
     "\n   *[slug.current == $slug][0]{\n      title,\n      \"project_images\": project_images[].asset->url,\n      \"slug\": slug.current,\n      sub_title,\n      project_type,\n        date_created,\n        description,\n        primary_color,\n        secondary_color,\n        tools_used,\n        achievements,\n        github_url_link,\n        live_url_link\n    }\n  ": SINGLE_PROJECT_QUERYResult;
     "\n  *[_type == \"profile\"][0]{\n    email_address,\n    github_link,\n    linkedin_link,\n    project_versions[]{\n      version_number,\n      version_url\n    }\n  }\n": MY_PROFILE_QUERYResult;
     "\n  *[_type == \"playlists\" && slug.current == $slug][0]{\n    playlist_name,\n    \"slug\":slug.current,\n    \"playlist_cover_image\":playlist_cover_image.asset->url,\n    description,\n    pinned,\n    type,\n    playlist[]->{\n  title,\n  \"first_image_url\": project_images[0].asset->url,\n  \"slug\": slug.current,\n  sub_title,\n  project_type\n}\n  }\n  ": SINGLE_PLAYLIST_QUERYResult;

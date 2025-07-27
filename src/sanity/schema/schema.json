@@ -435,6 +435,10 @@
             {
               "type": "string",
               "value": "work_experience"
+            },
+            {
+              "type": "string",
+              "value": "education"
             }
           ]
         },

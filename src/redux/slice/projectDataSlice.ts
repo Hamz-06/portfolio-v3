@@ -38,7 +38,7 @@ export const projectsList = createSlice({
         state.selectedCategory = null;
         return;
       }
-      const _selectedCategoryProjects = { ...state.projects }[categorySelected]
+      const _selectedCategoryProjects = state.projects?.[categorySelected];
       if (!_selectedCategoryProjects) {
         return;
       }

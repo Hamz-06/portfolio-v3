@@ -1,6 +1,6 @@
 import { ProjectCard } from '@/components/cards/projectCard';
 import { PlaylistHeader } from '@/components/header/playlist/playlistHeader';
-import { PlaylistModel } from '@/models/playlistModel';
+import { getLikedPlaylist, getPlaylist } from '@/models/playlistModel';
 import { PlaylistsProvider } from '@/redux/provider/playlistProvider';
 import { Playlist } from '@/sanity/schema/schema-types';
 import { Routes } from '@/types/routes';
@@ -17,7 +17,7 @@ export async function generateMetadata(
   { params }: PlaylistPageProps,
 ): Promise<Metadata> {
   const { playlist_slug: playlistSlug } = await params;
-  const playlist = await PlaylistModel.getInstance().getPlaylist(playlistSlug);
+  const playlist = await getPlaylist(playlistSlug);
 
   if (!playlist) {
     return {
@@ -53,9 +53,9 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
 
 
   if (isLikedPlaylist) {
-    playlist = await PlaylistModel.getInstance().getLikedPlaylist();
+    playlist = await getLikedPlaylist();
   } else {
-    playlist = await PlaylistModel.getInstance().getPlaylist(playlist_slug);
+    playlist = await getPlaylist(playlist_slug);
   }
 
   if (!playlist || playlist.playlist.length === 0) {

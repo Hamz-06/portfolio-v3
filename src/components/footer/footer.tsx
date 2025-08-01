@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { VolumeControls } from './volumeControls'
 import { getCookie } from '@/actions/cookies/cookieHelper'
 import { FooterProvider } from '@/redux/provider/footerProvider'
-import { ProjectsModel } from '@/models/projectsModel'
+import { getProjectSummary } from '@/models/projectsModel'
 import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/types/cookieTypes'
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
 import { MobileFooter } from './mobileFooter'
@@ -20,7 +20,7 @@ async function Footer({ className }: FooterProps) {
   const [currentProjectKey, shuffleActiveRaw, projectSummary, deviceType] = await Promise.all([
     getCookie<CurrentProjectCookieKey>('current-project'),
     getCookie<boolean>('is-shuffling-enabled'),
-    ProjectsModel.getInstance().getProjectSummary(),
+    getProjectSummary(),
     getCookie<UserDeviceCookie>('user-device')
   ]);
   //TODO: Create a new cookie function that handles this extra logix 

@@ -3,7 +3,7 @@ import { getCookie } from "@/actions/cookies/cookieHelper";
 import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { isSmallScreen } from "@/lib/utils";
-import { PlaylistModel } from "@/models/playlistModel";
+import { getPlaylistsSummary } from "@/models/playlistModel";
 import { SidebarProvider } from "@/redux/provider/sidebarProvider";
 import { UserDeviceCookie, UserDeviceValue } from "@/types/cookieTypes";
 import clsx from "clsx";
@@ -20,7 +20,7 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
   //todo: use promise.all
 
   const layoutPanes = await getCookie<number[] | null>('react-resizable-panels-layout') || DEFAULT_LAYOUT;
-  const playlists = await PlaylistModel.getInstance().getPlaylistsSummary() || [];
+  const playlists = await getPlaylistsSummary() || [];
   const deviceType = await getCookie<UserDeviceCookie>('user-device');
 
   //TODO: move all cookie logic to a separate function

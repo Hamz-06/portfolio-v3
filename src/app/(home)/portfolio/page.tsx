@@ -1,6 +1,6 @@
 import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
-import { ProjectsModel } from "@/models/projectsModel";
+import { getProjectSummary } from "@/models/projectsModel";
 import { projectCategories } from "@/lib/utils";
 import { Metadata } from "next";
 import { PortfolioProvider } from "@/redux/provider/portfolioProvider";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 
 export default async function Home() {
-  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
+  const projectsSummary = await getProjectSummary();
   const projectCategoriesKeys = projectCategories(projectsSummary); //todo: rename this
 
   if (!projectsSummary) {

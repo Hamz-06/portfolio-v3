@@ -1,49 +1,39 @@
 import { DEFAULT_KV_EXPIRATION, PROFILE_KV_CACHE } from "@/const";
-import { profileGenerator } from "@/lib/dev/profileGenerator"
-import { client } from "@/sanity/lib/client"
-import { MY_PROFILE_QUERY } from "@/sanity/lib/queries"
-import { Profile } from "@/sanity/schema/schema-types"
+import { profileGenerator } from "@/lib/dev/profileGenerator";
+import { client } from "@/sanity/lib/client";
+import { MY_PROFILE_QUERY } from "@/sanity/lib/queries";
+import { Profile } from "@/sanity/schema/schema-types";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { cache } from "react";
 
-class ProfileModel {
-  private static instance: ProfileModel | null = null;
+const getKvNamespace = async (): Promise<KVNamespace<string>> => {
+  const context = await getCloudflareContext({ async: true });
+  return context.env.PROFILE_KV_CACHE;
+};
 
-  public static getInstance(): ProfileModel {
-    if (!ProfileModel.instance) {
-      ProfileModel.instance = new ProfileModel();
-    }
-    return ProfileModel.instance;
+const getProfile = cache(async (): Promise<Profile> => {
+  if (process.env.NODE_ENV !== 'production') {
+    return profileGenerator;
   }
 
-  getProfile = cache(async (): Promise<Profile> => {
-    if (process.env.NODE_ENV !== 'production') {
-      return profileGenerator
-    }
-    const kv = await this.getKvNamespace();
-    const cachedProfile = await kv.get<Profile>('PROFILE_KV_CACHE', { type: 'json' });
-    if (cachedProfile) {
-      console.log("Found profile in KV cache.");
-      return cachedProfile;
-    }
-
-    const myProfile = await client.fetch<Profile>(MY_PROFILE_QUERY)
-
-    getCloudflareContext().ctx.waitUntil(
-      kv.put(
-        PROFILE_KV_CACHE.MY_PROFILE,
-        JSON.stringify(myProfile),
-        { expirationTtl: DEFAULT_KV_EXPIRATION }
-      )
-    );
-    console.log("Fetched profile from Sanity and stored in KV cache.");
-    return myProfile;
-  })
-
-  private async getKvNamespace(): Promise<KVNamespace<string>> {
-    const context = await getCloudflareContext({ async: true });
-    return context.env.PROFILE_KV_CACHE;
+  const kv = await getKvNamespace();
+  const cachedProfile = await kv.get<Profile>('PROFILE_KV_CACHE', { type: 'json' });
+  if (cachedProfile) {
+    console.log("Found profile in KV cache.");
+    return cachedProfile;
   }
-}
 
-export { ProfileModel }
+  const myProfile = await client.fetch<Profile>(MY_PROFILE_QUERY);
+
+  getCloudflareContext().ctx.waitUntil(
+    kv.put(
+      PROFILE_KV_CACHE.MY_PROFILE,
+      JSON.stringify(myProfile),
+      { expirationTtl: DEFAULT_KV_EXPIRATION }
+    )
+  );
+  console.log("Fetched profile from Sanity and stored in KV cache.");
+  return myProfile;
+});
+
+export { getProfile }

@@ -5,7 +5,7 @@ import { HomeButton } from '../button/homeButton';
 import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
 
 import { ProfileButton } from '../layout/profileButton';
-import { ProjectsModel } from '@/models/projectsModel';
+import { getProjectSummary } from '@/models/projectsModel';
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types';
 import ToolTip from '../tooltip/tooltip';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ type HeaderProps = {
 
 const HOME_PAGE: Routes = '/portfolio'
 async function Header({ className }: HeaderProps) {
-  const projectsSummary = await ProjectsModel.getInstance().getProjectSummary();
+  const projectsSummary = await getProjectSummary()
 
   return (
     <div className={clsx(className, 'w-full flex items-center justify-between')}>

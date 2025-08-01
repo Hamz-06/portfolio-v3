@@ -1,12 +1,12 @@
 
-import { ProfileModel } from '@/models/profileModel';
+import { getProfile } from '@/models/profileModel';
 import React from 'react'
 import { AccountMenuBar } from '../context-menu/accountMenu';
 import { Button } from '../ui/button';
 
 
 async function ProfileButton() {
-  const userProfile = await ProfileModel.getInstance().getProfile();
+  const userProfile = await getProfile()
 
   if (!userProfile) {
     return null;

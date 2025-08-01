@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import { getCookie } from '@/actions/cookies/cookieHelper';
 import { isProjectLiked } from '@/lib/utils';
-import { ProjectsModel } from '@/models/projectsModel';
+import { getProject } from '@/models/projectsModel';
 import { Metadata } from 'next';
 import { Slider } from '@/components/layout/project/projectSlider';
 import CentreImage from '@/components/layout/project/centreImage';
@@ -21,7 +21,7 @@ export async function generateMetadata(
   { params }: ProjectPageProps,
 ): Promise<Metadata> {
   const { slug } = await params;
-  const project = await ProjectsModel.getInstance().getProject(slug);
+  const project = await getProject(slug);
   if (!project) {
     return {
       title: 'Project Not Found',
@@ -51,7 +51,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
 
   const [project, likedProjects = []] = await Promise.all([
-    ProjectsModel.getInstance().getProject(slug),
+    getProject(slug),
     getCookie<string[]>('likes')
   ]);
 

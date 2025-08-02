@@ -23,6 +23,7 @@ export function ProjectCard({
     sub_title: subTitle,
     project_type: projectType,
   } = cardDetails;
+  const [loaded, setLoaded] = useState(false);
 
   const [isHovered, setIsHovered] = useState(false)
 
@@ -51,8 +52,10 @@ export function ProjectCard({
               src={firstImageUrl || "/placeholder.svg"}
               alt={title}
               fill
+              onLoad={() => setLoaded(true)}
               className={cn(
                 "object-cover transition-all duration-300 group-hover:scale-105",
+                loaded ? 'blur-0 opacity-100' : 'blur-md opacity-50'
               )}
             />
           </div>

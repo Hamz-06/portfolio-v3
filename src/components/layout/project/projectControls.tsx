@@ -11,6 +11,7 @@ import {
   from '@/redux/slice/projectPageSlice';
 import { cn } from '@/lib/utils';
 import { useHotkeys } from 'react-hotkeys-hook';
+import clsx from 'clsx';
 
 type Control = {
   icon: React.ReactNode;
@@ -38,9 +39,9 @@ function ProjectControls({ className }: ProjectControlsProps): React.ReactElemen
     return <></>
   }
 
-  const controlBaseStyles =
-    `stroke-[1.8] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 
-    stroke-gray-400/80 hover:drop-shadow-xl/50 cursor-pointer`
+  const controlBaseStyles = clsx(`stroke-[2] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 
+    stroke-white hover:drop-shadow-xl/50 cursor-pointer`)
+
 
   const controls: Control[] = [
     {
@@ -51,7 +52,7 @@ function ProjectControls({ className }: ProjectControlsProps): React.ReactElemen
     },
     {
       name: 'Like Project',
-      icon: <Heart fill={liked ? 'white' : '#99a1af'} className={cn(controlBaseStyles, liked ? 'stroke-white' : '')} />,
+      icon: <Heart fill={liked ? 'red' : 'transparent'} className={cn(controlBaseStyles, liked ? 'stroke-red-600' : '')} />,
       action: () => {
         dispatch(currentProjectLiked(!liked))
         dispatch(setLikedProject(project.slug))

@@ -7,6 +7,10 @@ import { useDispatch } from 'react-redux'
 type SidebarHandleProps = {
   isMobile: boolean
 }
+
+//TODO: Add type safety for the regex
+const PORTFOLIO_DETAIL_REGEX = /^\/portfolio\/(projects|work_experience|blogs|education)\/[^/]+$/;
+
 function SidebarHandle({ isMobile }: SidebarHandleProps) {
   const dispatch = useDispatch()
   const toggleSidebar = useToggleSidebar()
@@ -14,7 +18,8 @@ function SidebarHandle({ isMobile }: SidebarHandleProps) {
 
   if (isMobile) return <></>
 
-  const isProjectPage = pathname.startsWith('/portfolio/projects/')
+  // TODO: dont hardcode this path, use a constant or config
+  const isProjectPage = PORTFOLIO_DETAIL_REGEX.test(pathname)
   if (isProjectPage) {
     console.warn('Sidebar handle should not be displayed on project pages')
     return null

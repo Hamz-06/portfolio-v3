@@ -11,6 +11,7 @@ interface ProjectState {
   allCategories: ProjectTypes[],
   currentProject: CategorisedProject | null,
   isShufflingEnabled: boolean | null;
+  isPlaying: boolean;
   projectsArray: CategorisedProject[]
 }
 
@@ -18,7 +19,7 @@ const initialState: ProjectState = {
   projects: null,
   selectedCategory: null,
   allCategories: [],
-  // allProjectsArray: [],
+  isPlaying: false,
   projectsArray: [],
   currentProject: null,
   isShufflingEnabled: null,
@@ -51,9 +52,11 @@ export const projectsList = createSlice({
     setProjectsArray: (state, action: PayloadAction<CategorisedProject[]>) => {
       state.projectsArray = [...action.payload];
     },
+    setTogglePlay: (state, action: PayloadAction<boolean>) => {
+      state.isPlaying = action.payload;
+    },
     navigateCurrentProject: (state, action: PayloadAction<NavigationStep>) => {
       const projectsArray = state.projectsArray;
-
       if (state.isShufflingEnabled) {
         const randomIndex = Math.floor(Math.random() * projectsArray.length);
         const randomProject = projectsArray[randomIndex];
@@ -106,7 +109,12 @@ export const {
   navigateCurrentProject,
   setShuffle,
   setProjectsArray,
+  setTogglePlay
 } = projectsList.actions
+
+export const usePlayToggle = (): ProjectState['isPlaying'] => {
+  return useSelector((state: RootMainLayoutStore) => state.projectListProvider.isPlaying)
+}
 
 export const useSelectedCategory = (): ProjectState['selectedCategory'] =>
   useSelector((state: RootMainLayoutStore) => state.projectListProvider.selectedCategory)

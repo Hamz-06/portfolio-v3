@@ -48,7 +48,7 @@ async function Header({ className }: HeaderProps) {
       <div className="flex items-center justify-end space-x-4">
 
         {/* TODO move the notif to new file */}
-        <div className="text-zinc-400 hover:text-white hidden sm:block">
+        <div className="text-zinc-400  hidden sm:block">
           <NotificationIcon />
         </div>
 

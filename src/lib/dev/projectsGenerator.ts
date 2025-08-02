@@ -48,7 +48,7 @@ const randomCategorisedProjects: CategorisedProjects = {
   projects: [projects[0]],
   blogs: [projects[3]],
   work_experience: [projects[1], projects[2]],
-  education:[]
+  education: []
 };
 
 

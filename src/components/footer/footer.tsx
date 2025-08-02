@@ -40,7 +40,7 @@ async function Footer({ className }: FooterProps) {
         ) :
           (
             <>
-              < DisplayCurrentProject />
+              <DisplayCurrentProject />
 
               {/* controls for the current project */}
               <ProjectControls />

@@ -12,7 +12,8 @@
     "preview": "npm run build-deploy && opennextjs-cloudflare preview",
     "deploy": "npm run build-deploy && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "create-kv": "npx wrangler kv namespace create"
+    "create-kv": "npx wrangler kv namespace create",
+    "clear-kv-cache": "npx tsx bin/clearKvCache.ts"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.5.1",
@@ -28,6 +29,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
+    "dotenv": "^17.2.1",
     "embla-carousel-react": "^8.6.0",
     "jose": "^6.0.11",
     "js-cookie": "^3.0.5",
@@ -58,6 +60,7 @@
     "eslint-config-next": "^15.3.4",
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.20.3",
     "typescript": "^5",
     "wrangler": "^4.24.3"
   }

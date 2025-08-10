@@ -29,7 +29,7 @@ export function SideBar({ defaultLayout, isMobile }: SideBarProps) {
         title="Projects Library"
         isOpen={toggleMobileSidebar}
         onModal={() => dispatch(setMobileToggleSidebar(!toggleMobileSidebar))}>
-        <div id='mobile-sidebar'>
+        <div className="overflow-auto">
           <div className="h-12 flex items-center justify-center text-white mb-5">
             <h1 className=" font-light">Your Playlist</h1>
           </div>

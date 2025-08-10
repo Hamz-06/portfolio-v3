@@ -1,52 +1,17 @@
 'use client';
-
-import ToolTip from "@/components/tooltip/tooltip";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import {
-  setShuffle,
-  useIsShufflingEnabled,
-} from "@/redux/slice/projectDataSlice";
-import { Repeat, Shuffle } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { Repeat } from "lucide-react";
 import { ProjectNavigationButton } from "../button/projectNavigationButton";
 import { PlayButton } from "../button/playButton";
+import { ShuffleButton } from "../button/shuffleButton";
 
 
 function ProjectControls() {
-  const dispatch = useDispatch();
-  const isShufflingEnabled = useIsShufflingEnabled();
-
-  const shuffleCurrentProjectList = () => {
-    dispatch(setShuffle(!isShufflingEnabled));
-  };
-
 
   return (
     <div className="flex flex-col items-center w-full sm:w-1/3">
       <div className="flex items-center space-x-7 sm:space-x-4">
-        <ToolTip tooltipContent="Shuffle Projects">
-          <Button
-            variant="ghost"
-            onClick={shuffleCurrentProjectList}
-            size="icon"
-            asChild
-            className={cn(
-              isShufflingEnabled
-                ? "text-[#1ed760]"
-                : "text-zinc-400 hover:text-white"
-            )}
-          >
-            <span className="h-6 w-6 sm:h-5 sm:w-5 flex items-center justify-center">
-              <Shuffle className="h-full w-full" />
-              {isShufflingEnabled && (
-                <div className="w-1 h-1 rounded-full bg-[#1ed760] absolute translate-y-4">
-                  &nbsp;
-                </div>
-              )}
-            </span>
-          </Button>
-        </ToolTip>
+
+        <ShuffleButton className="h-6 w-6 sm:h-5 sm:w-5" />
 
         <ProjectNavigationButton direction="previous" className="h-8 w-8 sm:h-5 sm:w-5" />
 

@@ -1,0 +1,8 @@
+{
+  "site":{
+    "passwordProtected": false
+  },
+  "dev":{
+    "mobileView": false
+  }
+}

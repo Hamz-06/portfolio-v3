@@ -1,15 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import projectConfig from '@config/default.json';
+import { Routes } from '@/types/routes'
+
+const HOME_PAGE: Routes = '/portfolio'
 
 // TODO: style this page
 export default function EnterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
+
+  if (!projectConfig.site.passwordProtected) {
+    return redirect(HOME_PAGE)
+  }
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()

@@ -35,8 +35,9 @@ export function FilterBarHeader({ projectCategories }: FilterBarHeaderProps) {
   }, [])
   return (
     <div className="sticky top-0 z-10 h-16">
-      <motion.div className="flex gap-2 justify-start items-center px-2 sm:px-10 w-full h-full bg-green-600 z-20">
+      <motion.div className="scrollable-content flex gap-2 justify-start items-center px-2 sm:px-10 w-full h-full bg-green-600 z-20">
         <motion.div className="z-1 inset-0 w-full h-full bg-gradient-to-l from-black/50 via-black/60 to-black/45 absolute pointer-events-none" />
+
         <Button
           onClick={() => dispatch(setSelectedCategory(null))}
           className={cn(

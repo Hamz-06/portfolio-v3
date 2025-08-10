@@ -2,6 +2,7 @@ import { CategorisedProjects } from "@/sanity/schema/schema-types";
 import { UserDeviceValue } from "@/types/cookieTypes";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import projectConfig from '@config/default.json'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -12,7 +13,7 @@ export const capitalizeFirstLetter = (string: string): string => {
 }
 
 export const isSmallScreen = (device: UserDeviceValue): boolean => {
-  if (process.env.IS_MOBILE_VIEW) return true;
+  if (projectConfig.dev.mobileView) return true;
   return device === 'mobile' || device === 'tablet';
 }
 

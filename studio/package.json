@@ -11,7 +11,6 @@
     "generate-sanity-schema": "npx sanity schema extract --enforce-required-fields --path ../src/sanity/schema/schema.json",
     "generate-sanity-types": "npx sanity typegen generate --schema-path ../src/sanity/schema/schema.json --output-path ../src/sanity/schema/types/sanity.types.ts --source ../src/**/*.{ts,tsx,js,jsx}",
     "typegen": "npm run generate-sanity-schema && npm run generate-sanity-types",
-    
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy"
   },
@@ -19,10 +18,10 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^3.99.0",
+    "@sanity/vision": "^4.4.1",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^3.99.0",
+    "sanity": "^4.4.1",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

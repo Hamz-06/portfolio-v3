@@ -79,7 +79,7 @@ export function ProjectSummary() {
         </div>
 
         {/* Key Achievements */}
-        <div className="space-y-4">
+        {(project.achievements || []).length > 0 && <div className="space-y-4">
           <h3 className="text-xl font-semibold text-white">Key Achievements</h3>
           <div className="space-y-3">
             {project.achievements?.map((achievement, index) => (
@@ -92,7 +92,7 @@ export function ProjectSummary() {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
       </div>
     </div>

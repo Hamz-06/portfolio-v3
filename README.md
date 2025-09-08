@@ -1,4 +1,4 @@
-Portfolio Website 2025 
+**Portfolio Website 2025**
 
 In order for you to deploy this website,
 1. You must first create the different KV namespaces in your Cloudflare dashboard. 

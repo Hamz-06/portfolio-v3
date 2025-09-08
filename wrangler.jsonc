@@ -31,5 +31,8 @@
       "pattern": "3hhh.org",
       "custom_domain": true
     }
-  ]
+  ],
+    "placement": {
+    "mode": "smart"
+  }
 }

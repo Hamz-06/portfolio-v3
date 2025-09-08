@@ -56,7 +56,7 @@ export function SearchModal({ isOpen, onModal, searchList, querySearch }: Search
         closeButtonElement={<XIcon className="w-3 h-3 stroke-white" />}
         id="search-bar-modal"
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="h-[80%] bg-zinc-800 overflow-scroll border-0">
+        className="h-[80%] bg-zinc-800 overflow-scroll border-0 z-999">
         <VisuallyHidden>
           <DialogTitle>
             <p className="text-sm font-bold">Search Projects</p>

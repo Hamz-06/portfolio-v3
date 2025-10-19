@@ -14,14 +14,13 @@ export default async function RootLayout({
 
   return (
     <RootLayoutProvider>
-      <div id='main' className="flex flex-col min-h-svh  sm:h-screen text-white">
+      <div id='main' className="flex flex-col min-h-svh sm:h-screen text-white bg-amber-300">
         <Header className="h-[var(--desktop-header-height)] bg-black flex items-center px-4 sticky top-0 z-38" />
         <ResizableLayout
           className="flex flex-1 overflow-hidden bg-black">
           {children}
         </ResizableLayout>
-        {/* <Footer /> */}
-        <div className="bg-amber-200  fixed bottom-0">g</div>
+        <Footer />
       </div>
     </RootLayoutProvider>
   );

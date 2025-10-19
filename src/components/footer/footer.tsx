@@ -29,7 +29,7 @@ async function Footer() {
 
   return (
     <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
-      <footer className='h-[var(--desktop-footer-height)] z-36 mt-auto w-full bg-black p-2 px-4 flex items-center'>
+      <footer className='fixed bottom-0 h-[var(--desktop-footer-height)] z-36 mt-auto w-full bg-black p-2 px-4 flex items-center'>
 
         {/* displays the current project playing  */}
         {isSmallScreen(device) ? (

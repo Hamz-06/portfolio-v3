@@ -63,24 +63,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <ProjectProvider project={project} isProjectLiked={isLiked}>
-      {/* div used as the background, used here to allow the two div elements to slide */}
-      <></>
-      <Slider title='top'>
-        <ProjectControls className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
-      </Slider>
-
-      <CentreImage />
-
-
-      <Slider title='bottom'>
-        <TitleSlider />
-      </Slider>
-
-
-      <ProjectDetailsModal>
-        <ProjectSummary />
-      </ProjectDetailsModal>
-
-    </ProjectProvider >
+      {/* Fixed height container with scrollable content */}
+      <div className='w-screen h-screen bg-amber-400 overflow-hidden'>
+        <div className='w-full h-full overflow-y-auto'>
+          <div className="min-h-[200vh] p-8">
+            <div>Content that extends beyond viewport</div>
+            {/* Your actual content goes here */}
+          </div>
+        </div>
+      </div>
+    </ProjectProvider>
   );
 }

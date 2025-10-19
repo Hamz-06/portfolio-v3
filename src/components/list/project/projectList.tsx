@@ -29,7 +29,7 @@ export function ProjectList({ projectSummary }: ProjectListProps) {
   }, [])
 
   return (
-    <div className="p-2 scrollable-content">
+    <div id='project-scroll' className="p-2 scrollable-content">
       {PROJECT_RENDER_ORDER.map((key) => {
         const value = selectedCategory[key]
         if (!value || value.length === 0) return null

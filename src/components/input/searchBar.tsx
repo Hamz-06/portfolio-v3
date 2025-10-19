@@ -8,6 +8,8 @@ import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
 import { CategorisedProject } from '@/sanity/schema/schema-types'
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useDispatch } from 'react-redux'
+import { displayFooter, useDisplayFooter } from '@/redux/slice/layoutSlice'
 
 const SEARCHABLE_KEYS: (keyof CategorisedProject)[] = ['title', 'sub_title']
 
@@ -16,7 +18,8 @@ type SearchBarProps = {
 }
 
 function SearchBar({ projectsSummary }: SearchBarProps) {
-
+  const dispatch = useDispatch()
+  const isFooterActive = useDisplayFooter()
   const [querySearchValue, setQuerySearchValue] = React.useState<CategorisedProject[]>([])
   const [queryValue, setQuerySearch] = React.useState<string>('')
   const [isModal, setModal] = React.useState(false)
@@ -69,6 +72,10 @@ function SearchBar({ projectsSummary }: SearchBarProps) {
 
   return (
     <>
+
+      <Button onClick={() => dispatch(displayFooter(!isFooterActive))}>
+        On
+      </Button>
       <div className="flex justify-end items-center sm:hidden">
         <Button
           onClick={() => alert('search not implemented on mobile')}

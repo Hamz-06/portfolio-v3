@@ -26,11 +26,10 @@ export default async function Home() {
   return (
 
     <PortfolioProvider>
-      <div className="sm:pl-1 pr-0 sm:pr-2 pl-2 h-full overflow-hidden">
+      <div className="sm:pl-1 pr-0 sm:pr-2 pl-2 h-full">
         <div
           className="rounded-2xl bg-zinc-900 relative overflow-auto h-full"
-          id="main-content"
-        >
+          id="main-content">
           <FilterBarHeader projectCategories={projectCategoriesKeys} />
           <ProjectList projectSummary={projectsSummary} />
         </div>

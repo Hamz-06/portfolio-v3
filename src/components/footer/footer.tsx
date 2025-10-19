@@ -10,13 +10,10 @@ import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/ty
 import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
 import { MobileFooter } from './mobileFooter'
 import { isSmallScreen } from '@/lib/utils'
-
-type FooterProps = {
-  className: string;
-}
+import { FooterClient } from './footerClient'
 
 // todo: somehow display the playlist section in the footer for mobile and tablet 
-async function Footer({ className }: FooterProps) {
+async function Footer() {
   const [currentProjectKey, shuffleActiveRaw, projectSummary, deviceType] = await Promise.all([
     getCookie<CurrentProjectCookieKey>('current-project'),
     getCookie<boolean>('is-shuffling-enabled'),
@@ -32,7 +29,7 @@ async function Footer({ className }: FooterProps) {
 
   return (
     <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
-      <div className={clsx(className, 'relative')}>
+      <footer className='h-[var(--desktop-footer-height)] z-36 mt-auto w-full bg-black p-2 px-4 flex items-center'>
 
         {/* displays the current project playing  */}
         {isSmallScreen(device) ? (
@@ -51,7 +48,7 @@ async function Footer({ className }: FooterProps) {
           )}
 
 
-      </div>
+      </footer>
     </FooterProvider>
   )
 }

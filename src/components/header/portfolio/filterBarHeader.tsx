@@ -8,6 +8,7 @@ import { motion } from "framer-motion"
 import { Button } from "../../ui/button"
 import { CategorisedProjects, ProjectTypes } from "@/sanity/schema/schema-types"
 import { useEffect } from "react"
+import { useDisplayFooter } from "@/redux/slice/layoutSlice"
 
 
 
@@ -16,7 +17,6 @@ type FilterBarHeaderProps = {
 }
 export function FilterBarHeader({ projectCategories }: FilterBarHeaderProps) {
   const dispatch = useDispatch()
-
   const selectedCategory = useSelectedCategory()
 
 

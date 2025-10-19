@@ -20,7 +20,7 @@ async function Header({ className }: HeaderProps) {
   const projectsSummary = await getProjectSummary()
 
   return (
-    <div className={clsx(className, 'w-full flex items-center justify-between')}>
+    <header className={clsx(className, 'w-full flex items-center justify-between')}>
       {/* Left section */}
       <div className="flex items-center space-x-4">
 
@@ -57,7 +57,7 @@ async function Header({ className }: HeaderProps) {
         </div>
       </div>
       {/* </div> */}
-    </div >
+    </ header>
   )
 }
 

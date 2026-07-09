@@ -64,31 +64,31 @@ async function PlaylistPage({ params }: PlaylistPageProps) {
 
   return (
     <PlaylistsProvider>
-      <div className="flex-1 overflow-hidden relative w-full h-full sm:pl-1 pr-0 sm:pr-2 pl-2">
-        <div className="bg-zinc-900 rounded-2xl h-full w-full">
-          <div className="sticky top-0 z-10 h-8 flex items-center">
-            <a className='ml-12'>
-              Page still under construction 👷🏽
-            </a>
-          </div>
-          <PlaylistHeader title={playlist.playlist_name} />
-          <div className="flex flex-wrap flex-row gap-3 p-2">
-            {playlist.playlist.map((project, i) => (
-              <ProjectCard
-                key={i}
-                cardDetails={{
-                  title: `${project.title}`,
-                  slug: project.slug,
-                  first_image_url: project.first_image_url,
-                  sub_title: `${project.sub_title}`,
-                  project_type: project.project_type,
-                }}
-              />
-            ))
-            }
-          </div>
+      {/* <div className="flex-1 overflow-hidden relative w-full h-full sm:pl-1 pr-0 sm:pr-2 pl-2"> */}
+      <div className="sm:pl-1 pr-0 sm:pr-2 pl-2 h-full bg-amber-200">
+        <div className="sticky top-0 z-10 h-8 flex items-center">
+          <a className='ml-12'>
+            Page still under construction 👷🏽
+          </a>
+        </div>
+        <PlaylistHeader title={playlist.playlist_name} />
+        <div className="flex flex-wrap flex-row gap-3 p-2">
+          {playlist.playlist.map((project, i) => (
+            <ProjectCard
+              key={i}
+              cardDetails={{
+                title: `${project.title}`,
+                slug: project.slug,
+                first_image_url: project.first_image_url,
+                sub_title: `${project.sub_title}`,
+                project_type: project.project_type,
+              }}
+            />
+          ))
+          }
         </div>
       </div>
+      {/* </div> */}
     </PlaylistsProvider >
   )
 }

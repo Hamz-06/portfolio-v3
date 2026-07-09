@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 import { capitalizeFirstLetter, cn, underscoreToSpace } from "@/lib/utils"
 import { setSelectedCategory, useSelectedCategory } from "@/redux/slice/projectDataSlice"
 import { ProjectTypes } from "@/sanity/schema/schema-types"
+import { useCategoryStore } from "@/store/categoryStore"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
 
 type ProjectRowsProps = {
   title: string
@@ -29,8 +29,7 @@ function ProjectRows({
   title,
   children,
 }: ProjectRowsProps) {
-  const selectedCategory = useSelectedCategory()
-  const dispatch = useDispatch();
+  const { selectedCategory, setCategoryType } = useCategoryStore()
   const tagline = titleTagLine(title as ProjectTypes)
   const rowContainer = useRef<HTMLDivElement>(null)
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -38,24 +37,20 @@ function ProjectRows({
 
   const updateProjects = (title: ProjectTypes) => {
     if (selectedCategory === title) {
-      dispatch(setSelectedCategory(null))
+      setCategoryType('all')
       return
     }
-    dispatch(setSelectedCategory(title))
+    setCategoryType(title)
   }
 
 
   const onClick = (direction: OnClickDirection) => {
-    // rowContainer.current?.scrollBy({ left: -100 })
     if (direction === 'left') {
       rowContainer.current?.scrollBy({ left: -400, behavior: 'smooth' });
     } else {
       rowContainer.current?.scrollBy({ left: 400, behavior: 'smooth' });
     }
   }
-  useEffect(() => {
-    console.log('canScrollRight', canScrollRight)
-  }, [canScrollRight])
 
   useEffect(() => {
     const el = rowContainer.current;

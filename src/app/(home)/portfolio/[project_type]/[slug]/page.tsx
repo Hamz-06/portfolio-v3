@@ -6,12 +6,7 @@ import { getCookie } from '@/actions/cookies/cookieHelper';
 import { isProjectLiked } from '@/lib/utils';
 import { getProject } from '@/models/projectsModel';
 import { Metadata } from 'next';
-import { Slider } from '@/components/layout/project/projectSlider';
-import CentreImage from '@/components/layout/project/centreImage';
-import { ProjectControls } from '@/components/layout/project/projectControls';
-import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal';
-import { ProjectSummary } from '@/components/layout/project/projectSummary';
-import TitleSlider from '@/components/layout/project/titleSlider';
+
 
 type ProjectPageProps = {
   params: Promise<{ slug: string; project_type: string }>;

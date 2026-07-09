@@ -1,11 +1,11 @@
 'use client'
 
+import { useTRPC } from "@/backend/trpc/provider";
 import { ProjectCard } from "@/components/cards/projectCard";
 import { ProjectRows } from "@/components/grid/portfolio/projectRows";
-import { setProjects, useProjects, useSelectedCategory } from "@/redux/slice/projectDataSlice";
-import { CategorisedProjects, ProjectTypes } from "@/sanity/schema/schema-types";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { ProjectTypes } from "@/sanity/schema/schema-types";
+import { useCategoryStore } from "@/store/categoryStore";
+import { useQuery } from "@tanstack/react-query";
 
 // TODO: instead of querying a map object in sanity, query an array so it can be sorted on query time
 const PROJECT_RENDER_ORDER: ProjectTypes[] = [
@@ -15,29 +15,32 @@ const PROJECT_RENDER_ORDER: ProjectTypes[] = [
   "blogs"
 ]
 
-type ProjectListProps = {
-  projectSummary: CategorisedProjects
-}
-export function ProjectList({ projectSummary }: ProjectListProps) {
-  const selectedCategory = useProjects() || projectSummary
-  const category = useSelectedCategory()
-  const dispatch = useDispatch()
+export function ProjectList() {
+  const trpc = useTRPC()
 
-  useEffect(() => {
-    // sets the projects list in the redux store to allow it to be manipulated
-    dispatch(setProjects(projectSummary))
-  }, [])
+  const { data: projectSummary } = useQuery(
+    trpc.portfolio.getAllProjectsList.queryOptions()
+  )
+
+  const { selectedCategory } = useCategoryStore()
+
+  if (!projectSummary) {
+    return null // add skeleton loader here
+  }
+
+  const categoriesToRender: ProjectTypes[] = selectedCategory === 'all'
+    ? PROJECT_RENDER_ORDER
+    : [selectedCategory]
 
   return (
     <div id='project-scroll' className="p-2 scrollable-content">
-      {PROJECT_RENDER_ORDER.map((key) => {
-        const value = selectedCategory[key]
-        if (!value || value.length === 0) return null
-        if (category && category !== key) return null
+      {categoriesToRender.map((key) => {
+        const selectedProjects = projectSummary[key]
+        if (!selectedProjects || selectedProjects.length === 0) return null
 
         return (
           <ProjectRows key={key} title={key}>
-            {value.map((item, idx) => (
+            {selectedProjects.map((item, idx) => (
               <ProjectCard
                 key={`${idx}:${item.slug}`}
                 cardDetails={item}

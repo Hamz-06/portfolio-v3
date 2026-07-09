@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   direction: NavigationStep;
-  tooltip?: string;
   className?: string;
 };
 export type NavigationStep = "previous" | "next";
@@ -18,9 +17,9 @@ export type NavigationStep = "previous" | "next";
 
 export function ProjectNavigationButton({
   direction,
-  tooltip = direction === "next" ? "Next Project" : "Previous Project",
   className,
 }: Props) {
+  const tooltip = direction === "previous" ? "Previous Project" : "Next Project";
   const dispatch = useDispatch();
   const currentProject = useCurrentProject();
   const router = useRouter();

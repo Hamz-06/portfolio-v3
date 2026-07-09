@@ -1,16 +1,13 @@
 import React from 'react'
 import { DisplayCurrentProject } from './displayCurrentProject'
 import { ProjectControls } from './projectControls'
-import clsx from 'clsx'
 import { VolumeControls } from './volumeControls'
 import { getCookie } from '@/actions/cookies/cookieHelper'
 import { FooterProvider } from '@/redux/provider/footerProvider'
 import { getProjectSummary } from '@/models/projectsModel'
 import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/types/cookieTypes'
-import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
-import { MobileFooter } from './mobileFooter'
+import { CategorisedProject, CategorisedProjects, ProjectTypes } from '@/sanity/schema/schema-types'
 import { isSmallScreen } from '@/lib/utils'
-import { FooterClient } from './footerClient'
 
 // todo: somehow display the playlist section in the footer for mobile and tablet 
 async function Footer() {
@@ -25,35 +22,28 @@ async function Footer() {
 
 
   const shuffleActive = shuffleActiveRaw || false;
+  console.log('----------:', currentProjectKey);
   const [projectsArray, currentProject] = await getCurrentProject(projectSummary, currentProjectKey);
 
+  if (isSmallScreen(device)) {
+    return <></>
+  }
   return (
     <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
       <footer className='fixed bottom-0 h-[var(--desktop-footer-height)] z-36 mt-auto w-full bg-black p-2 px-4 flex items-center'>
+        <DisplayCurrentProject currentProjectKey={currentProjectKey} />
 
-        {/* displays the current project playing  */}
-        {isSmallScreen(device) ? (
-          <MobileFooter />
-        ) :
-          (
-            <>
-              <DisplayCurrentProject />
+        <ProjectControls />
 
-              {/* controls for the current project */}
-              <ProjectControls />
-
-              {/* volume control and other buttons */}
-              <VolumeControls />
-            </>
-          )}
-
-
+        <VolumeControls />
       </footer>
-    </FooterProvider>
+    </FooterProvider >
   )
+
 }
 
 
+// depreaced
 const getCurrentProject = async (projectSummary: CategorisedProjects, currentProjectKey: CurrentProjectCookieKey | null)
   : Promise<[CategorisedProject[], CategorisedProject]> => {
   const projectsArray = Object.values(projectSummary).flatMap((projects) => projects)

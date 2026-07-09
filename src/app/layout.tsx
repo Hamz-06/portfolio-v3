@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
 import Head from "next/head";
+import { TRPCReactProvider } from "@/backend/trpc/provider";
 
 type MainLayoutProps = {
   children: React.ReactNode
@@ -20,14 +21,16 @@ export default function MainLayout({
 }: MainLayoutProps) {
   return (
     <html lang="en">
-      <Head>
-        <link rel="icon" href="/icon.ico" sizes="any" />
-      </Head>
-      <body>
-        <main>
-          {children}
-        </main>
-      </body>
+      <TRPCReactProvider >
+        <Head>
+          <link rel="icon" href="/icon.ico" sizes="any" />
+        </Head>
+        <body>
+          <main>
+            {children}
+          </main>
+        </body>
+      </TRPCReactProvider>
     </html>
   )
 }

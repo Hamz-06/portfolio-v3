@@ -2,7 +2,7 @@ import React from 'react'
 import { SearchBar } from '../input/searchBar'
 import clsx from 'clsx';
 import { HomeButton } from '../button/homeButton';
-import { NotificationIcon, SpotifyIcon } from '../layout/customIcons';
+import { SpotifyIcon } from '../layout/customIcons';
 
 import { ProfileButton } from '../layout/profileButton';
 import { getProjectSummary } from '@/models/projectsModel';
@@ -24,16 +24,17 @@ async function Header({ className }: HeaderProps) {
       {/* Left section */}
       <div className="flex items-center space-x-4">
 
-        {/* Spotify Logo */}
-
-        <ToolTip tooltipContent='Home'>
-          <Link href={HOME_PAGE}>
-            <div
-              className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:cursor-pointer">
-              <SpotifyIcon />
-            </div>
-          </Link>
-        </ToolTip>
+        {/* Spotify Logo hidden on mobile */}
+        <div className='hidden sm:block'>
+          <ToolTip tooltipContent='Home'>
+            <Link href={HOME_PAGE}>
+              <div
+                className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:cursor-pointer">
+                <SpotifyIcon />
+              </div>
+            </Link>
+          </ToolTip>
+        </div>
       </div>
 
 
@@ -46,12 +47,6 @@ async function Header({ className }: HeaderProps) {
 
       {/* Right section */}
       <div className="flex items-center justify-end space-x-4">
-
-        {/* TODO move the notif to new file */}
-        <div className="text-zinc-400  hidden sm:block">
-          <NotificationIcon />
-        </div>
-
         <div className='p-1.5 rounded-full hover:bg-gray-400/40'>
           <ProfileButton />
         </div>

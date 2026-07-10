@@ -1,5 +1,5 @@
 import { projectCategories } from "@/lib/utils";
-import { getProjectSummary } from "@/models/projectsModel";
+import { getProject, getProjectSummary } from "@/models/projectsModel";
 import { CategorisedProjects } from "@/sanity/schema/schema-types";
 
 class PortfolioHandler {
@@ -10,6 +10,10 @@ class PortfolioHandler {
   async getProjectCategories(_request: Request, _response: Response): Promise<Array<keyof CategorisedProjects>> {
     const projectsSummary = await getProjectSummary();
     return projectCategories(projectsSummary);
+  }
+
+  async getProjectx(slug: string) {
+    return await getProject(slug)
   }
 }
 

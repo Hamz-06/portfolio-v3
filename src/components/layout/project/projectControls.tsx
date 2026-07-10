@@ -12,6 +12,8 @@ import {
 import { cn } from '@/lib/utils';
 import { useHotkeys } from 'react-hotkeys-hook';
 import clsx from 'clsx';
+import { useTRPC } from '@/backend/trpc/provider';
+import { useQuery } from '@tanstack/react-query';
 
 type Control = {
   icon: React.ReactNode;
@@ -23,16 +25,17 @@ type Control = {
 
 type ProjectControlsProps = {
   className?: string;
+  slug: string;
 }
-function ProjectControls({ className }: ProjectControlsProps): React.ReactElement {
+function ProjectControls({ className, slug }: ProjectControlsProps): React.ReactElement {
   useHotkeys('esc', () => dispatch(closeFullPage()))
   const dispatch = useDispatch()
+  const trpc = useTRPC()
 
-  const project = useProject()
   const fullScreen = useFullPage()
   const gridMode = useGridMode()
   const liked = useCurrentProjectLiked()
-
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
 
 
   if (!project) {

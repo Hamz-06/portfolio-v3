@@ -2,10 +2,16 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useFullPage, useProject } from '@/redux/slice/projectPageSlice'
+import { useTRPC } from '@/backend/trpc/provider'
+import { useQuery } from '@tanstack/react-query'
 
-function TitleSlider() {
+type TitleSliderProps = {
+  slug: string
+}
+function TitleSlider({ slug }: TitleSliderProps) {
   const fullScreen = useFullPage()
-  const project = useProject()
+  const trpc = useTRPC()
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
   if (!project) {
     return <></>
   }

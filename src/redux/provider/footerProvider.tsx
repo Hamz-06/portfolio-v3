@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { StoreSingleton } from '../store/storeSingleton'
-import { setCurrentProject, setProjectsArray, setShuffle } from '../slice/projectDataSlice'
+import { setProjectsArray, setShuffle } from '../slice/projectDataSlice'
 import { CategorisedProject } from '@/sanity/schema/schema-types'
 
 type FooterProviderProps = {
@@ -11,7 +11,6 @@ type FooterProviderProps = {
   shuffleEnabled: boolean
 }
 function FooterProvider({ children, projectsArray, currentProject, shuffleEnabled }: FooterProviderProps) {
-  StoreSingleton.getInstance().dispatch(setCurrentProject(currentProject))
   StoreSingleton.getInstance().dispatch(setProjectsArray(projectsArray))
   StoreSingleton.getInstance().dispatch(setShuffle(shuffleEnabled))
 

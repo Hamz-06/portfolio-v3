@@ -105,7 +105,6 @@ export const projectsList = createSlice({
 export const {
   setProjects,
   setSelectedCategory,
-  setCurrentProject,
   navigateCurrentProject,
   setShuffle,
   setProjectsArray,

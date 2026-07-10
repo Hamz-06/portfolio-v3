@@ -1,5 +1,6 @@
 import { PortfolioHandler } from "../router-handler/portfolioHandler";
 import { baseProcedure, createTRPCRouter } from "../trpc/init";
+import z from "zod";
 
 const portfolioHandler = new PortfolioHandler();
 
@@ -11,7 +12,17 @@ export const portfolioRouter = createTRPCRouter({
   }),
 
   getProjectCategories: baseProcedure.query(async ({ ctx }) => {
-      const { request, response } = ctx as { request: Request, response: Response };
-      return await portfolioHandler.getProjectCategories(request, response);
-  })
+    const { request, response } = ctx as { request: Request, response: Response };
+    return await portfolioHandler.getProjectCategories(request, response);
+  }),
+
+  getProject: baseProcedure
+    .input(z.object({
+      slug: z.string(),
+    }))
+    .query(async ({ input }) => {
+      return await portfolioHandler.getProjectx(input.slug);
+    }),
+
+
 })

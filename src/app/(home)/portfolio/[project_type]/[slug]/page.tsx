@@ -6,6 +6,14 @@ import { getCookie } from '@/actions/cookies/cookieHelper';
 import { isProjectLiked } from '@/lib/utils';
 import { getProject } from '@/models/projectsModel';
 import { Metadata } from 'next';
+import { Slider } from '@/components/layout/project/projectSlider';
+import { ProjectControls } from '@/components/layout/project/projectControls';
+import CentreImage from '@/components/layout/project/centreImage';
+import TitleSlider from '@/components/layout/project/titleSlider';
+import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal';
+import { ProjectSummary } from '@/components/layout/project/projectSummary';
+import { HydrateClient, trpc } from '@/backend/trpc/server';
+import { ImageGrid } from '@/components/grid/project/imageGrid';
 
 
 type ProjectPageProps = {
@@ -44,29 +52,39 @@ const HOME_ROUTE: Routes = '/portfolio';
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-
-  const [project, likedProjects = []] = await Promise.all([
-    getProject(slug),
-    getCookie<string[]>('likes')
-  ]);
+  const project = await getProject(slug);
+  const likedProjects = await getCookie<string[]>('likes')
 
   if (!project) {
     redirect(HOME_ROUTE);
   }
 
+  await trpc.portfolio.getProject.prefetch({ slug: project.slug });
+
   const isLiked = await isProjectLiked(project.slug, likedProjects);
 
   return (
-    <ProjectProvider project={project} isProjectLiked={isLiked}>
-      {/* Fixed height container with scrollable content */}
-      <div className='w-screen h-screen bg-amber-400 overflow-hidden'>
-        <div className='w-full h-full overflow-y-auto'>
-          <div className="min-h-[200vh] p-8">
-            <div>Content that extends beyond viewport</div>
-            {/* Your actual content goes here */}
-          </div>
-        </div>
-      </div>
-    </ProjectProvider>
+    <HydrateClient>
+      <ProjectProvider project={project} isProjectLiked={isLiked}>
+        {/* div used as the background, used here to allow the two div elements to slide */}
+        <></>
+        <Slider title='top'>
+          <ProjectControls slug={project.slug} className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
+        </Slider>
+
+        {/* <CentreImage /> */}
+        <ImageGrid slug={project.slug} />
+
+        <Slider title='bottom'>
+          <TitleSlider slug={project.slug} />
+        </Slider>
+
+
+        <ProjectDetailsModal>
+          <ProjectSummary slug={project.slug} />
+        </ProjectDetailsModal>
+
+      </ProjectProvider >
+    </HydrateClient>
   );
 }

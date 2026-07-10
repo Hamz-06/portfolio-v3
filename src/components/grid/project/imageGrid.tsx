@@ -1,10 +1,17 @@
-import { useFullPage, useProject } from '@/redux/slice/projectPageSlice'
+'use client'
+import { useFullPage } from '@/redux/slice/projectPageSlice'
 import Image from 'next/image'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTRPC } from '@/backend/trpc/provider'
+import { useQuery } from '@tanstack/react-query'
 
-function ImageGrid() {
-  const project = useProject()
+type ImageGridProps = {
+  slug: string
+}
+function ImageGrid({ slug }: ImageGridProps) {
+  const trpc = useTRPC()
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
   const fullScreen = useFullPage()
 
   if (!project) {

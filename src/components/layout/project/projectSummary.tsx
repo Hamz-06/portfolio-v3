@@ -6,9 +6,17 @@ import { Button } from "@/components/ui/button"
 import { DialogTitle } from "@/components/ui/dialog"
 import { useProject } from "@/redux/slice/projectPageSlice"
 import { formatToMonthYear } from "@/lib/utils"
+import { useTRPC } from "@/backend/trpc/provider"
+import { useQuery } from "@tanstack/react-query"
 
-export function ProjectSummary() {
-  const project = useProject()
+type ProjectSummaryProps = {
+  slug: string
+}
+
+export function ProjectSummary({ slug }: ProjectSummaryProps) {
+  const trpc = useTRPC()
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
+
   if (!project) {
     return <></>
   }

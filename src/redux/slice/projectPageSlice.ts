@@ -72,7 +72,7 @@ export const projectSlice = createSlice({
 })
 
 export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal
-  , setProject, setLikedProject, initialiseLikedProjects, currentProjectLiked
+  , setLikedProject, initialiseLikedProjects, currentProjectLiked
 } = projectSlice.actions;
 
 

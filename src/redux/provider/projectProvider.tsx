@@ -2,10 +2,9 @@
 
 import { CategorisedProject, Project } from '@/sanity/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
-import { currentProjectLiked, setProject } from '../slice/projectPageSlice'
+import { currentProjectLiked } from '../slice/projectPageSlice'
 import { useEffect } from 'react'
 import { setToggleSidebar } from '../slice/layoutSlice'
-import { setCurrentProject } from '../slice/projectDataSlice'
 import { setClientCookie } from '@/actions/cookies/cookieHelperClient'
 
 type ProviderProps = {
@@ -16,12 +15,10 @@ type ProviderProps = {
 
 export function ProjectProvider({ children, project, isProjectLiked }: ProviderProps) {
   useEffect(() => {
-    const categorisedProject = saveCurrentProject(project)
-    StoreSingleton.getInstance().dispatch(setCurrentProject(categorisedProject))
+    saveCurrentProject(project)
     StoreSingleton.getInstance().dispatch(setToggleSidebar(false))
     StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
-    StoreSingleton.getInstance().dispatch(setProject(project))
-  }, [project, isProjectLiked])
+  }, [])
 
   return <>{children}</>
 }

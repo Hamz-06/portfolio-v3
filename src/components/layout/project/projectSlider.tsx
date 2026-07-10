@@ -24,7 +24,7 @@ export const Slider = ({ children, title }: SliderProps) => {
     <>
       <motion.div
         style={{ background: project?.primary_color || 'blue', height: '60vh' }}
-        className={cn("fixed z-50 inset-x-3", (title === 'top' ? 'rounded-t-2xl' : 'rounded-b-2xl'))}
+        className={cn("absolute z-50 inset-x-3", (title === 'top' ? 'rounded-t-2xl' : 'rounded-b-2xl'))}
         animate={animation}
         initial={false}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}

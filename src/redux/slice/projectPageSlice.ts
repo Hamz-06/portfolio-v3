@@ -40,6 +40,9 @@ export const projectSlice = createSlice({
     toggleDisplayProjectDetailsModal: (state) => {
       state.displayProjectDetailsModal = !state.displayProjectDetailsModal;
     },
+    setDisplayProjectDetailsModal: (state, action: PayloadAction<boolean>) => {
+      state.displayProjectDetailsModal = action.payload;
+    },
     setProject: (state, action: PayloadAction<NonNullable<Project>>) => {
       state.project = action.payload;
     },
@@ -71,7 +74,7 @@ export const projectSlice = createSlice({
   }
 })
 
-export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal
+export const { toggleFullPage, closeFullPage, toggleGridMode, toggleDisplayProjectDetailsModal, setDisplayProjectDetailsModal
   , setProject, setLikedProject, initialiseLikedProjects, currentProjectLiked
 } = projectSlice.actions;
 

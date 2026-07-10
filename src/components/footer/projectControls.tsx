@@ -3,6 +3,7 @@ import { Repeat } from "lucide-react";
 import { ProjectNavigationButton } from "../button/projectNavigationButton";
 import { PlayButton } from "../button/playButton";
 import { ShuffleButton } from "../button/shuffleButton";
+import ToolTip from "@/components/tooltip/tooltip";
 
 
 function ProjectControls() {
@@ -19,7 +20,9 @@ function ProjectControls() {
 
         <ProjectNavigationButton direction="next" className="h-8 w-8 sm:h-5 sm:w-5" />
 
-        <Repeat className="w-6 h-6 sm:h-5 sm:w-5 text-zinc-400" />
+        <ToolTip tooltipContent="Repeat is disabled">
+          <Repeat className="w-6 h-6 sm:h-5 sm:w-5 text-zinc-400 opacity-50 cursor-not-allowed" />
+        </ToolTip>
       </div>
 
       <div className="w-full items-center space-x-2 mt-2 hidden sm:flex">

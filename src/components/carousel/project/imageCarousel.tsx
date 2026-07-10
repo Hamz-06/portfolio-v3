@@ -53,14 +53,27 @@ export function ImageCarousel() {
           {index + 1} / {imagesLength}
         </div>
 
-        <div className="text-white text-xs flex-row flex items-center justify-center gap-1 p-1 bg-black/50 rounded
-       absolute bottom-1 left-2 ">
-          <kbd className="bg-zinc-700 rounded-md border border-zinc-500 p-1 hidden sm:flex items-center justify-center w-5 h-5">
+        <div className="text-white text-xs flex-row flex items-center justify-center gap-1 p-1 bg-black/50 rounded absolute bottom-1 left-2 z-10">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              prev()
+            }}
+            className="bg-zinc-700 rounded-md border border-zinc-500 p-1 hidden sm:flex items-center justify-center w-5 h-5 hover:bg-zinc-600 active:scale-95 transition-all cursor-pointer"
+            aria-label="Previous image"
+          >
             <ChevronLeft className="w-3 h-3" />
-          </kbd>
-          <kbd className="bg-zinc-700 rounded-md border border-zinc-500 p-1 hidden sm:flex items-center justify-center w-5 h-5">
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              next()
+            }}
+            className="bg-zinc-700 rounded-md border border-zinc-500 p-1 hidden sm:flex items-center justify-center w-5 h-5 hover:bg-zinc-600 active:scale-95 transition-all cursor-pointer"
+            aria-label="Next image"
+          >
             <ChevronRight className="w-3 h-3" />
-          </kbd>
+          </button>
           <span className="leading-none hidden sm:block">To navigate</span>
           <span className="leading-none block sm:hidden">Click for full screen</span>
         </div>

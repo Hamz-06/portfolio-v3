@@ -18,7 +18,7 @@ export const Slider = ({ children, title }: SliderProps) => {
 
   const animation: TargetAndTransition = title === 'top'
     ? { top: fullScreen ? SLIDER_INSET_Y : 'auto' }
-    : { bottom: fullScreen ? SLIDER_INSET_Y : `${footerHeight}` };
+    : { bottom: SLIDER_INSET_Y };
 
   return (
     <>

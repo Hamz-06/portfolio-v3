@@ -2,7 +2,6 @@ import React from 'react'
 import { DisplayCurrentProject } from './displayCurrentProject'
 import { ProjectControls } from './projectControls'
 import clsx from 'clsx'
-import { VolumeControls } from './volumeControls'
 import { getCookie } from '@/actions/cookies/cookieHelper'
 import { FooterProvider } from '@/redux/provider/footerProvider'
 import { getProjectSummary } from '@/models/projectsModel'
@@ -45,8 +44,8 @@ async function Footer({ className }: FooterProps) {
               {/* controls for the current project */}
               <ProjectControls />
 
-              {/* volume control and other buttons */}
-              <VolumeControls />
+              {/* volume control spacer */}
+              <div className="w-1/3 hidden sm:block" />
             </>
           )}
 

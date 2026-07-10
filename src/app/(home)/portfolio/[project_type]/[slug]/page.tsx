@@ -66,7 +66,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <ProjectProvider project={project} isProjectLiked={isLiked}>
       <div className="flex flex-col lg:flex-row h-full w-full relative overflow-hidden bg-black gap-2">
         {/* Left Pane (Visuals & Slides) */}
-        <div className="flex-1 relative h-full overflow-hidden bg-zinc-900 rounded-2xl">
+        <div className="flex-1 relative h-full overflow-hidden bg-black rounded-2xl">
           <Slider title='top'>
             <ProjectControls className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
           </Slider>

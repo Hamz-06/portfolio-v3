@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useEffect } from 'react'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setPlaylists } from '../slice/playlistSlice'
@@ -12,7 +13,10 @@ type ProviderProps = {
 }
 
 export function SidebarProvider({ children, playlists, toggleMobileSidebar }: ProviderProps) {
-  StoreSingleton.getInstance().dispatch(setMobileToggleSidebar(toggleMobileSidebar))
-  StoreSingleton.getInstance().dispatch(setPlaylists(playlists))
+  useEffect(() => {
+    StoreSingleton.getInstance().dispatch(setMobileToggleSidebar(toggleMobileSidebar))
+    StoreSingleton.getInstance().dispatch(setPlaylists(playlists))
+  }, [playlists, toggleMobileSidebar])
+
   return <>{children}</>
 }

@@ -6,7 +6,7 @@ import ToolTip from '@/components/tooltip/tooltip'
 import { useDispatch } from 'react-redux';
 import {
   closeFullPage, currentProjectLiked, setLikedProject, toggleDisplayProjectDetailsModal,
-  toggleFullPage, toggleGridMode, useCurrentProjectLiked, useFullPage, useGridMode, useProject
+  toggleFullPage, toggleGridMode, useCurrentProjectLiked, useFullPage, useGridMode, useProject, useDisplayProjectDetailsModal
 }
   from '@/redux/slice/projectPageSlice';
 import { cn } from '@/lib/utils';
@@ -45,12 +45,19 @@ function ProjectControls({ className, slug }: ProjectControlsProps): React.React
   const controlBaseStyles = clsx(`stroke-[2] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 
     stroke-white hover:drop-shadow-xl/50 cursor-pointer`)
 
+  const handleInfoToggle = () => {
+    const nextState = !isDetailsOpen
+    dispatch(toggleDisplayProjectDetailsModal())
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('show-project-details', String(nextState))
+    }
+  }
 
   const controls: Control[] = [
     {
       name: 'Project Information',
       icon: <Info className={cn(controlBaseStyles, 'stroke-white')} />,
-      action: () => dispatch(toggleDisplayProjectDetailsModal()),
+      action: handleInfoToggle,
       animation: fullScreen ? { y: -100 } : { y: 0 }
     },
     {
@@ -64,12 +71,6 @@ function ProjectControls({ className, slug }: ProjectControlsProps): React.React
       divider: true,
     },
 
-    {
-      name: 'Grid View',
-      icon: <Grid2x2 className={cn(controlBaseStyles, gridMode ? 'stroke-white' : '')} />,
-      action: () => dispatch(toggleGridMode()),
-      animation: fullScreen ? { y: 0 } : { y: 0 },
-    },
     {
       name: 'Full Screen',
       icon: <Minimize2 className={cn(controlBaseStyles, fullScreen ? 'stroke-white' : '')} />,

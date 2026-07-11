@@ -18,7 +18,15 @@ export function ProjectProvider({ children, project, isProjectLiked }: ProviderP
     saveCurrentProject(project)
     StoreSingleton.getInstance().dispatch(setToggleSidebar(false))
     StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
-  }, [])
+    StoreSingleton.getInstance().dispatch(setProject(project))
+
+    let showDetails = true
+    if (typeof window !== 'undefined') {
+      const showDetailsPref = window.localStorage.getItem('show-project-details')
+      showDetails = showDetailsPref === null ? true : showDetailsPref === 'true'
+    }
+    StoreSingleton.getInstance().dispatch(setDisplayProjectDetailsModal(showDetails))
+  }, [project, isProjectLiked])
 
   return <>{children}</>
 }

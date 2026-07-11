@@ -16,7 +16,7 @@ const SidebarHeader = () => {
   return (
     <div className="flex items-center justify-between pt-4 pb-2 px-3.5">
       <div className="flex-1">
-        <ToolTip tooltipContent="Collapse Your Library">
+        <ToolTip tooltipContent="Collapse My Library">
           <div
             onClick={handleCollapse}
             className="*:transition-transform *:duration-300 flex fle-col items-center *:cursor-pointer">
@@ -25,7 +25,7 @@ const SidebarHeader = () => {
             hover:text-white text-zinc-400">
               <HideSideBarIcon />
             </div>
-            <h2 className="font-medium group-hover/sidebar:translate-x-9 truncate">Your Library</h2>
+            <h2 className="font-medium group-hover/sidebar:translate-x-9 truncate">My Library</h2>
           </div>
         </ToolTip>
       </div>

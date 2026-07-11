@@ -1,5 +1,6 @@
 'use client'
-import React from 'react'
+
+import React, { useEffect } from 'react'
 import { StoreSingleton } from '../store/storeSingleton'
 import { setProjectsArray, setShuffle } from '../slice/projectDataSlice'
 import { CategorisedProject } from '@/sanity/schema/schema-types'

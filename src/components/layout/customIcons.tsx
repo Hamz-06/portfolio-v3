@@ -23,16 +23,18 @@ export const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-export const SpotifyIcon = () => {
+export const SpotifyIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <svg width="32" height="32" viewBox="0 0 24 24" className="text-black">
-      <path
-        fill="currentColor"
-        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.062 14.583c-.168.275-.525.367-.8.2-2.19-1.338-4.947-1.641-8.2-.9-.35.08-.7-.13-.78-.48-.08-.35.13-.7.48-.78 3.566-.813 6.622-.456 9.1 1.04.275.168.367.525.2.8zm1.14-2.54c-.21.34-.66.45-1 .24-2.51-1.54-6.33-1.99-9.3-1.09-.42.13-.86-.09-.99-.51-.13-.42.09-.86.51-.99 3.39-1.03 7.68-.53 10.54 1.25.34.21.45.66.24 1zm.1-2.64C14.94 9.95 9.9 9.73 7.1 10.54c-.49.14-1.01-.14-1.15-.63-.14-.49.14-1.01.63-1.15 3.2-.93 8.74-.67 12.14 1.55.39.25.51.78.26 1.17-.25.39-.78.51-1.17.26z"
-      />
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 12h8" />
+      <path d="M12 8v8" />
+      <path d="M10 10v4" />
+      <path d="M14 10v4" />
     </svg>
   )
 }
+
 export const NotificationIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg

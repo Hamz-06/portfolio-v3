@@ -10,6 +10,7 @@ import { Slider } from '@/components/layout/project/projectSlider';
 import CentreImage from '@/components/layout/project/centreImage';
 import { ProjectControls } from '@/components/layout/project/projectControls';
 import { ProjectDetailsModal } from '@/components/modal/slider/projectDetailsModal';
+import { ProjectDetailSidePane } from '@/components/layout/project/projectDetailSidePane';
 import { ProjectSummary } from '@/components/layout/project/projectSummary';
 import TitleSlider from '@/components/layout/project/titleSlider';
 
@@ -63,24 +64,30 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <ProjectProvider project={project} isProjectLiked={isLiked}>
-      {/* div used as the background, used here to allow the two div elements to slide */}
-      <></>
-      <Slider title='top'>
-        <ProjectControls className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
-      </Slider>
+      <div className="flex flex-col lg:flex-row h-full w-full relative overflow-hidden bg-black gap-2">
+        {/* Left Pane (Visuals & Slides) */}
+        <div className="flex-1 relative h-full overflow-hidden bg-black rounded-2xl">
+          <Slider title='top'>
+            <ProjectControls className="absolute top-0 right-0 m-5 flex pointer-events-auto" />
+          </Slider>
 
-      <CentreImage />
+          <CentreImage />
 
+          <Slider title='bottom'>
+            <TitleSlider />
+          </Slider>
+        </div>
 
-      <Slider title='bottom'>
-        <TitleSlider />
-      </Slider>
+        {/* Right Pane (Persistent Details on desktop) */}
+        <ProjectDetailSidePane />
+      </div>
 
-
-      <ProjectDetailsModal>
-        <ProjectSummary />
-      </ProjectDetailsModal>
-
+      {/* Modal Drawer Sheet fallback for mobile/tablet where the right panel is hidden */}
+      <div className="lg:hidden">
+        <ProjectDetailsModal>
+          <ProjectSummary />
+        </ProjectDetailsModal>
+      </div>
     </ProjectProvider >
   );
 }

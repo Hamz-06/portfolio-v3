@@ -3,11 +3,13 @@ import { cn } from "@/lib/utils"
 import { SidebarHeader } from "./sidebarHeader"
 import { SidebarSearch } from "./sidebarSearch"
 import { PlaylistList } from "../list/playlist/playlistList"
-import { setMobileToggleSidebar, useMobileToggleSidebar, useToggleSidebar }
+import { setMobileToggleSidebar, useMobileToggleSidebar, useToggleSidebar, setToggleSidebar }
   from "@/redux/slice/layoutSlice"
 import { ResizableHandle, ResizablePanel } from "../ui/resizable"
 import { GenericModal } from "../modal/genericModal"
 import { useDispatch } from "react-redux"
+import { Library } from "lucide-react"
+import ToolTip from "../tooltip/tooltip"
 
 
 type SideBarProps = {
@@ -64,5 +66,19 @@ export function SideBar({ defaultLayout, isMobile }: SideBarProps) {
   </>
   )
 
+  // Collapsed / condensed sidebar view for desktop
+  return (
+    <div className="hidden lg:flex flex-col w-[72px] shrink-0 h-full bg-zinc-900 rounded-2xl ml-2 mr-1 py-4 items-center gap-4">
+      <ToolTip tooltipContent="Expand My Library">
+        <button
+          onClick={() => dispatch(setToggleSidebar(true))}
+          className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+          aria-label="Expand My Library"
+        >
+          <Library className="w-6 h-6" />
+        </button>
+      </ToolTip>
+    </div>
+  )
 }
 

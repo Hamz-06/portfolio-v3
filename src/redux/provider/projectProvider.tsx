@@ -2,7 +2,7 @@
 
 import { CategorisedProject, Project } from '@/sanity/schema/schema-types'
 import { StoreSingleton } from '../store/storeSingleton'
-import { currentProjectLiked, setProject } from '../slice/projectPageSlice'
+import { currentProjectLiked, setProject, setDisplayProjectDetailsModal } from '../slice/projectPageSlice'
 import { useEffect } from 'react'
 import { setToggleSidebar } from '../slice/layoutSlice'
 import { setCurrentProject } from '../slice/projectDataSlice'
@@ -21,6 +21,13 @@ export function ProjectProvider({ children, project, isProjectLiked }: ProviderP
     StoreSingleton.getInstance().dispatch(setToggleSidebar(false))
     StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
     StoreSingleton.getInstance().dispatch(setProject(project))
+    
+    let showDetails = true
+    if (typeof window !== 'undefined') {
+      const showDetailsPref = window.localStorage.getItem('show-project-details')
+      showDetails = showDetailsPref === null ? true : showDetailsPref === 'true'
+    }
+    StoreSingleton.getInstance().dispatch(setDisplayProjectDetailsModal(showDetails))
   }, [project, isProjectLiked])
 
   return <>{children}</>

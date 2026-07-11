@@ -18,13 +18,13 @@ export const Slider = ({ children, title }: SliderProps) => {
 
   const animation: TargetAndTransition = title === 'top'
     ? { top: fullScreen ? SLIDER_INSET_Y : 'auto' }
-    : { bottom: fullScreen ? SLIDER_INSET_Y : `${footerHeight}` };
+    : { bottom: SLIDER_INSET_Y };
 
   return (
     <>
       <motion.div
         style={{ background: project?.primary_color || 'blue', height: '60vh' }}
-        className={cn("fixed z-50 inset-x-3", (title === 'top' ? 'rounded-t-2xl' : 'rounded-b-2xl'))}
+        className={cn("absolute z-50 inset-x-3", (title === 'top' ? 'rounded-t-2xl' : 'rounded-b-2xl'))}
         animate={animation}
         initial={false}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}

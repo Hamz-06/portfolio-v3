@@ -3,10 +3,8 @@ import { create } from 'zustand'
 type LayoutState = {
   toggleSidebar: boolean
   mainLayoutBar: boolean
-  toggleMobileSidebar: boolean
   switchToggleSidebar: () => void
   setToggleSidebar: (value: boolean) => void
-  setMobileToggleSidebar: (value: boolean) => void
 }
 
 export const useToggleSidebarStore = create<LayoutState>((set) => ({
@@ -26,14 +24,9 @@ export const useToggleSidebarStore = create<LayoutState>((set) => ({
         toggleSidebar: value,
       }
     }),
-  setMobileToggleSidebar: (value) =>
-    set({
-      toggleMobileSidebar: value,
-    }),
-}))
 
-export const useMobileToggleSidebar = () =>
-  useToggleSidebarStore((state) => state.toggleMobileSidebar)
+})
+)
 
 export const useToggleSidebar = () =>
   useToggleSidebarStore((state) => state.toggleSidebar)
@@ -45,5 +38,3 @@ export const switchToggleSidebar = () =>
 export const setToggleSidebar = (value: boolean) =>
   useToggleSidebarStore.getState().setToggleSidebar(value)
 
-export const setMobileToggleSidebar = (value: boolean) =>
-  useToggleSidebarStore.getState().setMobileToggleSidebar(value)

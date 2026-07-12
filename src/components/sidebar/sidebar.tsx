@@ -3,41 +3,21 @@ import { cn } from "@/lib/utils"
 import { SidebarHeader } from "./sidebarHeader"
 import { SidebarSearch } from "./sidebarSearch"
 import { PlaylistList } from "../list/playlist/playlistList"
-import { setMobileToggleSidebar, useMobileToggleSidebar, useToggleSidebar, setToggleSidebar }
+import { useToggleSidebar, setToggleSidebar }
   from "@/zustand/toggleSidebar"
 import { ResizableHandle, ResizablePanel } from "../ui/resizable"
-import { GenericModal } from "../modal/genericModal"
 import { Library } from "lucide-react"
 import ToolTip from "../tooltip/tooltip"
 
 
 type SideBarProps = {
   defaultLayout: number[];
-  isMobile: boolean
 }
 
-export function SideBar({ defaultLayout, isMobile }: SideBarProps) {
+export function SideBar({ defaultLayout }: SideBarProps) {
   const toggleSidebar = useToggleSidebar()
-  const toggleMobileSidebar = useMobileToggleSidebar()
-  // todo: make this to  const file
   const SIDE_BAR_MAX_SIZE_IN_PERCENT = 25;
 
-  if (isMobile && toggleMobileSidebar) {
-    return (
-      <GenericModal
-        className="h-[80%] bg-zinc-800 overflow-scroll border-0 z-999"
-        title="Projects Library"
-        isOpen={toggleMobileSidebar}
-        onModal={() => setMobileToggleSidebar(!toggleMobileSidebar)}>
-        <div className="overflow-auto">
-          <div className="h-12 flex items-center justify-center text-white mb-5">
-            <h1 className=" font-light">Your Playlist</h1>
-          </div>
-          <PlaylistList />
-        </div>
-      </GenericModal>
-    );
-  }
 
   if (toggleSidebar) return (<>
     <ResizablePanel

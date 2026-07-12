@@ -1,11 +1,9 @@
 'use client'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
-import { setMobileToggleSidebar } from '@/zustand/toggleSidebar'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import { Pin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 import { PLAYLIST_PAGE_ROUTE } from '@/constants/pageRoutes'
 
 type PlaylistCardProps = {
@@ -14,13 +12,8 @@ type PlaylistCardProps = {
 function PlaylistCard({ playlist }: PlaylistCardProps) {
   const { type, slug, playlist_name, pinned: isPinned, description } = playlist
 
-  const onClickHandler = () => {
-    setMobileToggleSidebar(false)
-  }
-
   return (
     <Link
-      onClick={() => onClickHandler()}
       href={PLAYLIST_PAGE_ROUTE(slug)}
       className="flex items-center gap-3 p-2 rounded-md h-16 hover:bg-zinc-800"
     >

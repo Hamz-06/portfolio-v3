@@ -3,18 +3,15 @@ import { setToggleSidebar, useToggleSidebar } from '@/zustand/toggleSidebar'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-type SidebarHandleProps = {
-  isMobile: boolean
-}
+
 
 //TODO: Add type safety for the regex
 const PORTFOLIO_DETAIL_REGEX = /^\/portfolio\/(projects|work_experience|blogs|education)\/[^/]+$/;
 
-function SidebarHandle({ isMobile }: SidebarHandleProps) {
+function SidebarHandle() {
   const toggleSidebar = useToggleSidebar()
   const pathname = usePathname()
 
-  if (isMobile) return <></>
 
   // TODO: dont hardcode this path, use a constant or config
   const isProjectPage = PORTFOLIO_DETAIL_REGEX.test(pathname)

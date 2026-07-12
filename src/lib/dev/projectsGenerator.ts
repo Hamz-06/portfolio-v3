@@ -3,19 +3,6 @@
 import { CategorisedProject, CategorisedProjects, Project } from "@/sanity/schema/schema-types";
 
 
-// const images = ['/bart-simpson-cartoon.png', '/mona-lisa.png'];
-
-// const randomSlug = (base: string, i: number) => `${base}-${i + 1}`;
-// const randomImage = () => images[Math.floor(Math.random() * images.length)];
-
-// const createRandomProjects = (type: ProjectTypes, count: number) =>
-//   Array.from({ length: count }, (_, i) => ({
-//     title: `Project ${i + 1}`,
-//     first_image_url: randomImage(),
-//     slug: randomSlug(type, i),
-//     sub_title: `This is project number ${i + 1}`,
-//     project_type: type,
-//   }));
 export const projects: CategorisedProject[] = [
   {
     first_image_url: '/mona-lisa.png',

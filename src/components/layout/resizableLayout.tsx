@@ -2,10 +2,8 @@
 import { getCookie } from "@/actions/cookies/cookieHelper";
 import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { isSmallScreen } from "@/lib/utils";
 import { getPlaylistsSummary } from "@/models/playlistModel";
 import { PlaylistProvider } from "@/zustand/provider/playlistProvider";
-import { UserDeviceCookie, UserDeviceValue } from "@/types/cookieTypes";
 import clsx from "clsx";
 import React from 'react'
 import { SidebarHandle } from "../sidebar/sideBarHandle";
@@ -21,22 +19,16 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
 
   const layoutPanes = await getCookie<number[] | null>('react-resizable-panels-layout') || DEFAULT_LAYOUT;
   const playlists = await getPlaylistsSummary() || [];
-  const deviceType = await getCookie<UserDeviceCookie>('user-device');
-
-  //TODO: move all cookie logic to a separate function
-  const device: UserDeviceValue = deviceType ? deviceType['device-type'] : 'desktop';
-  const isMobileDevice = isSmallScreen(device)
 
 
   return (
     <ResizablePanelGroup className={clsx(className)} direction="horizontal">
       {/* Sidebar - Resizable */}
-      <SidebarHandle isMobile={isMobileDevice} />
+      <SidebarHandle />
 
       <PlaylistProvider playlists={playlists}>
         <SideBar
-          defaultLayout={layoutPanes}
-          isMobile={isMobileDevice} />
+          defaultLayout={layoutPanes} />
       </PlaylistProvider>
 
       {/* Main content - Resizable */}

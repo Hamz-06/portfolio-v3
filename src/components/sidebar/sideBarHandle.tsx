@@ -1,8 +1,7 @@
 'use client'
-import { setToggleSidebar, useToggleSidebar } from '@/redux/slice/layoutSlice'
+import { setToggleSidebar, useToggleSidebar } from '@/zustand/toggleSidebar'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { useDispatch } from 'react-redux'
 
 type SidebarHandleProps = {
   isMobile: boolean
@@ -12,7 +11,6 @@ type SidebarHandleProps = {
 const PORTFOLIO_DETAIL_REGEX = /^\/portfolio\/(projects|work_experience|blogs|education)\/[^/]+$/;
 
 function SidebarHandle({ isMobile }: SidebarHandleProps) {
-  const dispatch = useDispatch()
   const toggleSidebar = useToggleSidebar()
   const pathname = usePathname()
 
@@ -27,7 +25,7 @@ function SidebarHandle({ isMobile }: SidebarHandleProps) {
 
   const displaySideBarOnclick = () => {
     console.log('Display Sidebar')
-    dispatch(setToggleSidebar(true))
+    setToggleSidebar(true)
   }
   if (toggleSidebar) {
     return null

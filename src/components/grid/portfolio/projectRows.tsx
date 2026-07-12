@@ -1,77 +1,70 @@
-'use client'
-import ToolTip from "@/components/tooltip/tooltip"
-import { Button } from "@/components/ui/button"
-import { capitalizeFirstLetter, cn, underscoreToSpace } from "@/lib/utils"
-import { setSelectedCategory, useSelectedCategory } from "@/redux/slice/projectDataSlice"
-import { ProjectTypes } from "@/sanity/schema/schema-types"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+'use client';
+
+import ToolTip from '@/components/tooltip/tooltip';
+import { Button } from '@/components/ui/button';
+import { capitalizeFirstLetter, cn, underscoreToSpace } from '@/lib/utils';
+import { ProjectTypes } from '@/sanity/schema/schema-types';
+import { useCategoryStore } from '@/store/categoryStore';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 type ProjectRowsProps = {
-  title: string
-  children: React.ReactNode
-}
-//TODO: move this to sanity load dynamically
-const TITLE_TAG_LINE: Record<ProjectTypes, string> = {
+  title: string;
+  children: React.ReactNode;
+};
+
+// TODO: Move to Sanity and load dynamically
+const TITLE_TAG_LINES: Record<ProjectTypes, string> = {
   blogs: 'Throw back',
   projects: 'Made for you',
   work_experience: 'Chart topper',
   education: 'Learn with me',
-}
-const titleTagLine = (title: ProjectTypes) => {
-  return TITLE_TAG_LINE[title] || 'Welcome to my portfolio'
-}
+};
 
-type OnClickDirection = 'left' | 'right'
+const SCROLL_DISTANCE = 400;
+const SCROLL_BEHAVIOR = 'smooth' as const;
+const SCROLL_BUTTON_CLASS = 'absolute bg-zinc-600 top-1/2 -translate-y-1/2 p-1 rounded-full group hover:cursor-pointer';
+const DEFAULT_TAGLINE = 'Welcome to my portfolio';
 
-function ProjectRows({
-  title,
-  children,
-}: ProjectRowsProps) {
-  const selectedCategory = useSelectedCategory()
-  const dispatch = useDispatch();
-  const tagline = titleTagLine(title as ProjectTypes)
-  const rowContainer = useRef<HTMLDivElement>(null)
+function ProjectRows({ title, children }: ProjectRowsProps) {
+  const { selectedCategory, setCategoryType } = useCategoryStore();
+  const tagline = TITLE_TAG_LINES[title as ProjectTypes] ?? DEFAULT_TAGLINE;
+  const rowContainer = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
-  const updateProjects = (title: ProjectTypes) => {
+  const handleCategoryToggle = () => {
     if (selectedCategory === title) {
-      dispatch(setSelectedCategory(null))
-      return
+      setCategoryType('all');
+      return;
     }
-    dispatch(setSelectedCategory(title))
-  }
+    setCategoryType(title as ProjectTypes);
+  };
 
-
-  const onClick = (direction: OnClickDirection) => {
-    // rowContainer.current?.scrollBy({ left: -100 })
-    if (direction === 'left') {
-      rowContainer.current?.scrollBy({ left: -400, behavior: 'smooth' });
-    } else {
-      rowContainer.current?.scrollBy({ left: 400, behavior: 'smooth' });
-    }
-  }
-  useEffect(() => {
-    console.log('canScrollRight', canScrollRight)
-  }, [canScrollRight])
+  const handleScroll = (direction: 'left' | 'right') => {
+    const scrollDistance = direction === 'left' ? -SCROLL_DISTANCE : SCROLL_DISTANCE;
+    rowContainer.current?.scrollBy({ left: scrollDistance, behavior: SCROLL_BEHAVIOR });
+  };
 
   useEffect(() => {
     const el = rowContainer.current;
     if (!el) return;
 
-    const update = () => {
-      setCanScrollLeft(el.scrollLeft > 0);
-      setCanScrollRight(el.scrollWidth > el.clientWidth && el.scrollLeft < el.scrollWidth - el.clientWidth);
+    const updateScrollState = () => {
+      const isAtStart = el.scrollLeft === 0;
+      const isAtEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth;
+
+      setCanScrollLeft(!isAtStart);
+      setCanScrollRight(!isAtEnd);
     };
 
-    update();
-    el.addEventListener('scroll', update);
-    window.addEventListener('resize', update);
+    updateScrollState();
+    el.addEventListener('scroll', updateScrollState);
+    window.addEventListener('resize', updateScrollState);
+
     return () => {
-      el.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
+      el.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
     };
   }, []);
 
@@ -83,47 +76,48 @@ function ProjectRows({
           <h2 className="text-2xl font-bold">{underscoreToSpace(capitalizeFirstLetter(title))}</h2>
         </div>
         <Button
-          onClick={() => updateProjects(title as ProjectTypes)}
-          className="text-sm text-zinc-400 hover:underline font-bold">
+          onClick={handleCategoryToggle}
+          className="text-sm text-zinc-400 hover:underline font-bold"
+        >
           Show All
         </Button>
       </div>
 
-
-      {/* render the children in a grid layout if category is selected */}
-      {/* todo not centred on mobile  */}
       <div
         ref={rowContainer}
         className={cn(
           'scrollable-content',
           selectedCategory
-            ? "flex flex-wrap gap-3 px-4 sm:px-0"
-            : "grid grid-flow-col auto-cols-max gap-4 overflow-x-auto"
+            ? 'flex flex-wrap gap-3 px-4 sm:px-0'
+            : 'grid grid-flow-col auto-cols-max gap-4 overflow-x-auto'
         )}
       >
         {children}
       </div>
+
       <div className="hidden sm:block">
         <ToolTip tooltipContent="Scroll Left">
-          <div
-            onClick={() => onClick('left')}
-            className={cn(canScrollLeft ? 'block' : 'hidden',
-              "absolute bg-zinc-600 left-0 top-1/2 -translate-y-1/2 p-1 group rounded-full hover:cursor-pointer")}>
+          <button
+            onClick={() => handleScroll('left')}
+            className={cn(SCROLL_BUTTON_CLASS, 'left-0', canScrollLeft ? 'block' : 'hidden')}
+            aria-label="Scroll left"
+          >
             <ChevronLeft className="stroke-zinc-400 group-hover:stroke-white" />
-          </div>
+          </button>
         </ToolTip>
 
         <ToolTip tooltipContent="Scroll Right">
-          <div
-            onClick={() => onClick('right')}
-            className={cn(
-              canScrollRight ? 'block' : 'hidden',
-              "absolute bg-zinc-600 right-0 top-1/2 -translate-y-1/2 p-1 rounded-full mr-2 group hover:cursor-pointer")}>
+          <button
+            onClick={() => handleScroll('right')}
+            className={cn(SCROLL_BUTTON_CLASS, 'right-0 mr-2', canScrollRight ? 'block' : 'hidden')}
+            aria-label="Scroll right"
+          >
             <ChevronRight className="stroke-zinc-400 group-hover:stroke-white" />
-          </div>
+          </button>
         </ToolTip>
       </div>
     </section>
-  )
+  );
 }
-export { ProjectRows }
+
+export { ProjectRows };

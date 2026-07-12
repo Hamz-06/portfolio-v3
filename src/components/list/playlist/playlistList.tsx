@@ -1,10 +1,10 @@
 'use client'
 
 import { PlaylistCard } from '@/components/cards/playlist/playlistCard'
-import { useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
+import { useQueryPlaylistsResults } from '@/zustand/playlistQuery'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
 import React, { useEffect, useState } from 'react'
-import { getClientCookie } from '@/actions/cookies/cookieHelperClient'
+import { getClientCookie } from '@/helper/cookieHelperClient'
 import { Skeleton } from '@/components/ui/skeleton'
 
 function PlaylistList() {

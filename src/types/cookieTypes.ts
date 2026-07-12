@@ -1,4 +1,4 @@
-export type CookieKey = 'current-project' | 'react-resizable-panels-layout' | 'is-shuffling-enabled' | 'likes' | 'auth_token'
+export type CookieKey = 'current-project' | 'react-resizable-panels-layout' | 'is-shuffling-enabled' | 'is-sidebar-enabled' | 'likes' | 'auth_token'
   | 'user-device';
 
 import { ProjectTypes } from "@/sanity/schema/schema-types";

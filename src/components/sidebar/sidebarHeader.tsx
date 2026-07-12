@@ -1,20 +1,15 @@
-import { setToggleSidebar } from "@/redux/slice/layoutSlice"
-import { useDispatch } from "react-redux"
+import { setToggleSidebar } from "@/zustand/toggleSidebar"
 import ToolTip from "../tooltip/tooltip"
 import { HideSideBarIcon } from "../layout/customIcons"
-import { Button } from "../ui/button"
-import { Maximize2 } from "lucide-react"
 
 const SidebarHeader = () => {
-  const dispatch = useDispatch()
-
   // todo set the cookies for this sidebar collapse
   const handleCollapse = () => {
-    dispatch(setToggleSidebar(false))
+    setToggleSidebar(false)
   }
 
   return (
-    <div className="flex items-center justify-between pt-4 pb-2 px-3.5">
+    <div className="flex items-center justify-between pt-4 pb-2 px-3.5 ">
       <div className="flex-1">
         <ToolTip tooltipContent="Collapse My Library">
           <div
@@ -29,18 +24,6 @@ const SidebarHeader = () => {
           </div>
         </ToolTip>
       </div>
-
-      {/* expand  */}
-      <ToolTip tooltipContent='Expand sidebar'>
-        <Button
-          onClick={() => alert('Expand sidebar not implemented yet')}
-          variant="ghost"
-          asChild
-          className="rounded-full p-2 hover:bg-zinc-800"
-        >
-          <Maximize2 className="text-zinc-400 w-9 h-9" />
-        </Button>
-      </ToolTip>
     </div>
   )
 }

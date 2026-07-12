@@ -1,26 +1,21 @@
 'use client'
 
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useDisplayProjectDetailsModal, toggleDisplayProjectDetailsModal } from '@/redux/slice/projectPageSlice'
 import { ProjectSummary } from './projectSummary'
 import { X } from 'lucide-react'
+import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/zustand/projectDetailsModal'
 
 export function ProjectDetailSidePane() {
-  const dispatch = useDispatch()
   const isVisible = useDisplayProjectDetailsModal()
 
   if (!isVisible) return null
 
   const handleCollapse = () => {
-    dispatch(toggleDisplayProjectDetailsModal())
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('show-project-details', 'false')
-    }
+    toggleDisplayProjectDetailsModal()
   }
 
   return (
-    <div className="hidden lg:flex flex-col w-[30%] shrink-0 h-full rounded-2xl bg-zinc-900 overflow-hidden relative">
+    <div className="hidden lg:flex flex-col w-[30%] shrink-0 h-full rounded-2xl bg-zinc-900 overflow-hidden relative mr-2 ml-2">
       {/* Collapse button header */}
       <div className="flex justify-end p-4 pb-0 z-10 shrink-0">
         <button

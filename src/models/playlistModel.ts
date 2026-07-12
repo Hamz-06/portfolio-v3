@@ -1,5 +1,4 @@
 'use server'
-'use server'
 
 import { getCookie } from "@/actions/cookies/cookieHelper";
 import { DEFAULT_KV_EXPIRATION, PLAYLIST_KV_CACHE } from "@/const";

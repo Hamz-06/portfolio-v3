@@ -21,10 +21,6 @@ type AccountMenuBarProps = {
   userProfile: NonNullable<Profile>
 }
 export function AccountMenuBar({ children, userProfile }: AccountMenuBarProps) {
-
-
-  // todo: create new endpoint to get the latest commit version
-
   const {
     email_address: emailAddress,
     github_link: githubLink,
@@ -40,17 +36,6 @@ export function AccountMenuBar({ children, userProfile }: AccountMenuBarProps) {
         <MenubarTrigger asChild>{children}</MenubarTrigger>
 
         <MenubarContent >
-          <ToolTip tooltipContent='Latest Commit' tooltipSide='left'>
-            <MenubarItem disabled className='hover:bg-transparent cursor-default'>
-              <span
-                // onClick={() => window.open(latestVersion, '_blank')} //todo yet to implement
-                className='hover:underline cursor-pointer italic'>
-                v:{"a1b2c3d4e5f67890abcdef1234567890abcdef12".slice(0, 15)}
-              </span>
-            </MenubarItem>
-          </ToolTip>
-
-          <MenubarSeparator className='border-t border-zinc-700 my-1' />
 
           <MenubarItem
             onClick={() => window.open(githubLink, '_blank')}>

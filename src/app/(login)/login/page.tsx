@@ -5,9 +5,8 @@ import { redirect, useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import projectConfig from '@config/default.json';
-import { Routes } from '@/types/routes'
+import { HOME_PAGE_ROUTE } from '@/constants/pageRoutes'
 
-const HOME_PAGE: Routes = '/portfolio'
 
 // TODO: style this page
 export default function EnterPage() {
@@ -16,7 +15,7 @@ export default function EnterPage() {
   const router = useRouter()
 
   if (!projectConfig.site.passwordProtected) {
-    return redirect(HOME_PAGE)
+    return redirect(HOME_PAGE_ROUTE)
   }
 
   const submit = async (e: React.FormEvent) => {

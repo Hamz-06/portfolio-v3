@@ -2,39 +2,47 @@
 
 import { useState } from "react"
 import Image from "next/image"
-// import { Button } from "@/components/ui/button"
-// import { ChevronLeft, ChevronRight } from "lucide-react"
-import { motion } from "framer-motion"
-import { useFullPage, useProject } from "@/redux/slice/projectPageSlice"
 import { useHotkeys } from "react-hotkeys-hook"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { GenericModal } from "@/components/modal/genericModal"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { useTRPC } from "@/backend/trpc/provider"
+import { useParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 
 
 export function ImageCarousel() {
-  const fullScreen = useFullPage()
-  const project = useProject()
+
   const [index, setIndex] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
 
+  const trpc = useTRPC()
+  const params = useParams<{ project_type: string; slug: string }>();
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug: params.slug }))
   const projectImages = project?.project_images || []
   const imagesLength = projectImages.length
 
-  const prev = () => setIndex((prev) => (prev - 1 + imagesLength) % imagesLength)
-  const next = () => setIndex((prev) => (prev + 1) % imagesLength)
+  const prev = () => {
+    if (imagesLength === 0) return
+    setIndex((prev) => (prev - 1 + imagesLength) % imagesLength)
+  }
+
+  const next = () => {
+    if (imagesLength === 0) return
+    setIndex((prev) => (prev + 1) % imagesLength)
+  }
 
 
   useHotkeys('left', () => prev())
   useHotkeys('right', () => next())
 
+  if (!project) {
+    return <></>
+  }
+
   return (
-    <motion.div
-      animate={{ scale: fullScreen ? 1.3 : 1 }}
-      initial={false}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-90"
-    >
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-90">
 
       <div
         onClick={() => setModalOpen(true)}
@@ -103,7 +111,7 @@ export function ImageCarousel() {
 
         </div>
       </GenericModal>
-    </motion.div >
+    </div>
   )
 }
 

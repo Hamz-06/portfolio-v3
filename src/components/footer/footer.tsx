@@ -1,66 +1,40 @@
-import React from 'react'
-import { DisplayCurrentProject } from './displayCurrentProject'
-import { ProjectControls } from './projectControls'
-import clsx from 'clsx'
-import { getCookie } from '@/actions/cookies/cookieHelper'
-import { FooterProvider } from '@/redux/provider/footerProvider'
-import { getProjectSummary } from '@/models/projectsModel'
-import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/types/cookieTypes'
-import { CategorisedProject, CategorisedProjects } from '@/sanity/schema/schema-types'
-import { MobileFooter } from './mobileFooter'
-import { isSmallScreen } from '@/lib/utils'
+import { DisplayCurrentProject } from './displayCurrentProject';
+import { ProjectControls } from './projectControls';
+import { cn } from '@/lib/utils';
+import { getCookie } from '@/actions/cookies/cookieHelper';
+import { CurrentProjectCookieKey, UserDeviceCookie, UserDeviceValue } from '@/types/cookieTypes';
+import { MobileFooter } from './mobileFooter';
+import { isSmallScreen } from '@/lib/utils';
 
 type FooterProps = {
-  className: string;
-}
+  className?: string;
+};
 
-// todo: somehow display the playlist section in the footer for mobile and tablet 
+// TODO: Display playlist section in footer for mobile and tablet
 async function Footer({ className }: FooterProps) {
-  const [currentProjectKey, shuffleActiveRaw, projectSummary, deviceType] = await Promise.all([
+  const [currentProjectKey, deviceType] = await Promise.all([
     getCookie<CurrentProjectCookieKey>('current-project'),
-    getCookie<boolean>('is-shuffling-enabled'),
-    getProjectSummary(),
     getCookie<UserDeviceCookie>('user-device')
   ]);
-  //TODO: Create a new cookie function that handles this extra logix 
-  const device: UserDeviceValue = deviceType ? deviceType['device-type'] : 'desktop';
 
+  const device: UserDeviceValue = deviceType?.['device-type'] ?? 'desktop';
+  const isMobileView = isSmallScreen(device);
 
-  const shuffleActive = shuffleActiveRaw || false;
-  const [projectsArray, currentProject] = await getCurrentProject(projectSummary, currentProjectKey);
 
   return (
-    <FooterProvider projectsArray={projectsArray} currentProject={currentProject} shuffleEnabled={shuffleActive}>
-      <div className={clsx(className, 'relative')}>
-
-        {/* displays the current project playing  */}
-        {isSmallScreen(device) ? (
-          <MobileFooter />
-        ) :
-          (
-            <>
-              <DisplayCurrentProject />
-
-              {/* controls for the current project */}
-              <ProjectControls />
-
-              {/* volume control spacer */}
-              <div className="w-1/3 hidden sm:block" />
-            </>
-          )}
-
-
-      </div>
-    </FooterProvider>
-  )
+    <div className={cn('relative', className)}>
+      {isMobileView ? (
+        <MobileFooter />
+      ) : (
+        <>
+          <DisplayCurrentProject currentProjectKey={currentProjectKey} />
+          <ProjectControls />
+          <div className="hidden w-1/3 sm:block" />
+        </>
+      )}
+    </div>
+  );
 }
 
-
-const getCurrentProject = async (projectSummary: CategorisedProjects, currentProjectKey: CurrentProjectCookieKey | null)
-  : Promise<[CategorisedProject[], CategorisedProject]> => {
-  const projectsArray = Object.values(projectSummary).flatMap((projects) => projects)
-  const currentProject = projectsArray.find((project) => project.slug === currentProjectKey?.project_slug) || projectsArray[0];
-  return [projectsArray, currentProject]
-}
 
 export { Footer }

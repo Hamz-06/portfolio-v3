@@ -1,36 +1,49 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button } from '../ui/button'
 import { Play, Pause } from 'lucide-react'
-import { setTogglePlay, useCurrentProject, usePlayToggle } from '@/redux/slice/projectDataSlice'
-import { useDispatch } from 'react-redux'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePlayToggle } from '@/zustand/togglePlay'
+import { useRouter } from 'next/navigation'
+import { useTRPC } from '@/backend/trpc/provider'
+import { CurrentProjectCookieKey } from '@/types/cookieTypes'
+import { getClientCookie } from '@/helper/cookieHelperClient'
+import { navigateCurrentProject } from '@/helper/navigateProjects'
+import { useQuery } from '@tanstack/react-query'
+import { PROJECT_PAGE_ROUTE } from '@/constants/pageRoutes'
 
-//TODO: Add type safety for the regex
-const PORTFOLIO_DETAIL_REGEX = /^\/portfolio\/(projects|work_experience|blogs|education)\/[^/]+$/;
 
 function PlayButton() {
   const isPlayButton = usePlayToggle();
-  const currentProject = useCurrentProject();
-  const dispatch = useDispatch();
-  const pathname = usePathname()
+  const trpc = useTRPC()
   const router = useRouter()
 
-  useEffect(() => {
-    const isDetailPage = PORTFOLIO_DETAIL_REGEX.test(pathname);
-    console.log('Page changed to:', isDetailPage)
-    dispatch(setTogglePlay(isDetailPage))
-  }, [pathname, dispatch])
+  const { data: allProjects } = useQuery(trpc.portfolio.getAllProjectsFlatList.queryOptions())
 
-  const onClick = () => {
-    if (PORTFOLIO_DETAIL_REGEX.test(pathname) || !currentProject) return;
-    router.push(`/portfolio/${currentProject.project_type}/${currentProject.slug}`);
-  }
+  const handleClick = () => {
+    if (!allProjects) return;
+
+    const currentProject = getClientCookie<CurrentProjectCookieKey>('current-project');
+    const isShuffleEnabled =
+      getClientCookie<boolean>('is-shuffling-enabled') ?? false;
+
+    const nextProject = navigateCurrentProject(
+      allProjects,
+      currentProject,
+      'play',
+      isShuffleEnabled
+    );
+
+    if (!nextProject) return;
+
+    router.push(
+      PROJECT_PAGE_ROUTE(nextProject.projectType, nextProject.projectSlug)
+    );
+  };
 
   return (
     <Button
       asChild
-      onClick={onClick}
+      onClick={handleClick}
       size="icon"
       className="bg-white text-black hover:bg-white/90 rounded-full "
     >

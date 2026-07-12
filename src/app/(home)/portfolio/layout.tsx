@@ -2,7 +2,7 @@ import { Header } from "@/components/header/header";
 import { Footer } from "@/components/footer/footer";
 import { ResizableLayout } from "@/components/layout/resizableLayout";
 import { getCookie } from "@/actions/cookies/cookieHelper";
-import { RootLayoutProvider } from "@/redux/provider/rootProvider";
+import { RootLayoutProvider } from "@/zustand/provider/rootProvider";
 
 type MainLayoutProps = {
   children: React.ReactNode;

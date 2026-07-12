@@ -1,4 +1,3 @@
-import { ProjectProvider } from '@/redux/provider/projectProvider';
 import { redirect } from 'next/navigation';
 import { getCookie } from '@/actions/cookies/cookieHelper';
 import { cn, isProjectLiked } from '@/lib/utils';
@@ -12,6 +11,7 @@ import { ProjectSummary } from '@/components/layout/project/projectSummary';
 import { trpc } from '@/backend/trpc/server';
 import { ImageCarousel } from '@/components/carousel/project/imageCarousel';
 import { HOME_PAGE_ROUTE } from '@/constants/pageRoutes';
+import { ProjectProvider } from '@/zustand/provider/projectProvider';
 
 
 type ProjectPageProps = {

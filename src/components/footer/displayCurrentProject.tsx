@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useTRPC } from '@/backend/trpc/provider';
 import { PROJECT_PAGE_ROUTE } from '@/constants/pageRoutes';
 import { getCurrentProject } from '@/helper/navigateProjects';
-import { PORTFOLIO_DETAIL_REGEX } from '@/redux/provider/rootProvider';
 import { CurrentProjectCookieKey } from '@/types/cookieTypes';
+import { PORTFOLIO_DETAIL_REGEX } from '@/zustand/provider/rootProvider';
 
 const IMAGE_DIMENSIONS = 56;
 const IMAGE_CLASS = 'mr-3 h-14 w-14 flex-none rounded object-cover hover:cursor-pointer';

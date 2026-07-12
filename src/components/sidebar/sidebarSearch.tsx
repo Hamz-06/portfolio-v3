@@ -3,17 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Search } from 'lucide-react'
-import { setQueryResults, usePlaylists, useQueryPlaylistsResults } from '@/redux/slice/playlistSlice'
+import { usePlaylists, usePlaylistsStore, useQueryPlaylistsResults } from '@/zustand/playlistQuery'
 import { PlaylistsSummary } from '@/sanity/schema/schema-types'
-import { useDispatch } from 'react-redux'
 
 
 const SEARCHABLE_KEYS: (keyof PlaylistsSummary[0])[] = ['playlist_name']
 
 function SidebarSearch() {
-  const dispatch = useDispatch()
   const queryPlaylists = useQueryPlaylistsResults()
   const playlists = usePlaylists()
+  const setQueryResults = usePlaylistsStore((state) => state.setQueryResults)
   const [searchClick, setSearchClick] = useState(false)
   const [query, setQuery] = useState("")
 
@@ -29,7 +28,7 @@ function SidebarSearch() {
     setQuery(query) // swap
     // Handle the search query here
     if (query.length === 0) {
-      dispatch(setQueryResults(playlists || []))
+      setQueryResults(playlists || [])
       return
     }
 
@@ -40,7 +39,7 @@ function SidebarSearch() {
       })
     )
 
-    dispatch(setQueryResults(queriedPlaylists))
+    setQueryResults(queriedPlaylists)
   }
 
   // has to be done as the state needs to be set before the focus

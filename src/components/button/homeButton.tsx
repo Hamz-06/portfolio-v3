@@ -3,11 +3,10 @@ import React from 'react'
 import ToolTip from '../tooltip/tooltip'
 import { Button } from '../ui/button'
 import { House } from 'lucide-react'
-import { Routes } from '@/types/routes';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { HOME_PAGE_ROUTE } from '@/constants/pageRoutes'
 
-const HOME_PAGE_ROUTE: Routes = '/portfolio';
 
 function HomeButton() {
   const router = useRouter();

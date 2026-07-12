@@ -2,7 +2,6 @@ import { FilterBarHeader } from "@/components/header/portfolio/filterBarHeader";
 import { ProjectList } from "@/components/list/project/projectList";
 import { Metadata } from "next";
 
-// Force dynamic rendering for this page
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export const metadata: Metadata = {
 export default async function Home() {
 
   return (
-    // <PortfolioProvider>
     <div className="sm:pl-1 pr-0 sm:pr-2 pl-0 h-full">
       <div
         className="rounded-2xl bg-zinc-900 relative overflow-auto h-full"
@@ -22,8 +20,6 @@ export default async function Home() {
         <ProjectList />
       </div>
     </div>
-    // </PortfolioProvider>
-
   );
 }
 

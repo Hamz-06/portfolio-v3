@@ -4,7 +4,7 @@ import { SideBar } from "@/components/sidebar/sidebar";
 import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { isSmallScreen } from "@/lib/utils";
 import { getPlaylistsSummary } from "@/models/playlistModel";
-import { SidebarProvider } from "@/redux/provider/sidebarProvider";
+import { PlaylistProvider } from "@/zustand/provider/playlistProvider";
 import { UserDeviceCookie, UserDeviceValue } from "@/types/cookieTypes";
 import clsx from "clsx";
 import React from 'react'
@@ -33,13 +33,11 @@ async function ResizableLayout({ className, children }: ResizableLayoutProps) {
       {/* Sidebar - Resizable */}
       <SidebarHandle isMobile={isMobileDevice} />
 
-      <SidebarProvider
-        toggleMobileSidebar={false} // by default false
-        playlists={playlists}>
+      <PlaylistProvider playlists={playlists}>
         <SideBar
           defaultLayout={layoutPanes}
           isMobile={isMobileDevice} />
-      </SidebarProvider>
+      </PlaylistProvider>
 
       {/* Main content - Resizable */}
       <ResizablePanel

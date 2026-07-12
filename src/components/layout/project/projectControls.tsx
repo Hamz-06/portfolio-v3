@@ -1,106 +1,87 @@
 'use client';
 
-import { motion, TargetAndTransition } from 'framer-motion'
-import { Info, Grid2x2, Heart, Minimize2 } from 'lucide-react'
-import ToolTip from '@/components/tooltip/tooltip'
-import { useDispatch } from 'react-redux';
-import {
-  closeFullPage, currentProjectLiked, setLikedProject, toggleDisplayProjectDetailsModal,
-  toggleFullPage, toggleGridMode, useCurrentProjectLiked, useFullPage, useGridMode, useProject, useDisplayProjectDetailsModal
-}
-  from '@/redux/slice/projectPageSlice';
+import { Heart, Info } from 'lucide-react';
+import ToolTip from '@/components/tooltip/tooltip';
+import { useCurrentProjectLiked, useLikedProjectsStore } from '@/zustand/likedProjects';
+import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/zustand/projectDetailsModal';
 import { cn } from '@/lib/utils';
-import { useHotkeys } from 'react-hotkeys-hook';
-import clsx from 'clsx';
 import { useTRPC } from '@/backend/trpc/provider';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
-type Control = {
+type ControlButton = {
   icon: React.ReactNode;
-  action: () => void;
-  animation: TargetAndTransition | boolean
-  divider?: boolean;
-  name: string;
-}
+  label: string;
+  onClick: () => void;
+  visible?: boolean;
+};
 
 type ProjectControlsProps = {
   className?: string;
-  slug: string;
-}
-function ProjectControls({ className, slug }: ProjectControlsProps): React.ReactElement {
-  useHotkeys('esc', () => dispatch(closeFullPage()))
-  const dispatch = useDispatch()
-  const trpc = useTRPC()
+};
 
-  const fullScreen = useFullPage()
-  const gridMode = useGridMode()
-  const liked = useCurrentProjectLiked()
-  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
+function ProjectControls({ className }: ProjectControlsProps): React.ReactElement {
+  const trpc = useTRPC();
+  const params = useParams<{ project_type: string; slug: string }>();
+  const isLiked = useCurrentProjectLiked();
+  const detailsOpen = useDisplayProjectDetailsModal();
+  const currentProjectLiked = useLikedProjectsStore((state) => state.currentProjectLiked);
+  const setLikedProject = useLikedProjectsStore((state) => state.setLikedProject);
 
+  const { data: project } = useQuery(
+    trpc.portfolio.getProject.queryOptions({ slug: params.slug })
+  );
 
   if (!project) {
-    return <></>
+    return <></>;
   }
 
-  const controlBaseStyles = clsx(`stroke-[2] opacity-70 h-9 w-9 p-2 mx-1 rounded-full hover:bg-white/50 
-    stroke-white hover:drop-shadow-xl/50 cursor-pointer`)
+  const handleToggleLike = () => {
+    currentProjectLiked(!isLiked);
+    setLikedProject(project.slug);
+  };
 
-  const handleInfoToggle = () => {
-    const nextState = !isDetailsOpen
-    dispatch(toggleDisplayProjectDetailsModal())
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('show-project-details', String(nextState))
-    }
-  }
+  const handleOpenDetails = () => {
+    toggleDisplayProjectDetailsModal();
+  };
 
-  const controls: Control[] = [
+  const controls: ControlButton[] = [
     {
-      name: 'Project Information',
-      icon: <Info className={cn(controlBaseStyles, 'stroke-white')} />,
-      action: handleInfoToggle,
-      animation: fullScreen ? { y: -100 } : { y: 0 }
+      label: 'Project Information',
+      icon: <Info className="block stroke-2 text-zinc-300 stroke-zinc-300 hover:text-white hover:stroke-white transition-colors" />,
+      onClick: handleOpenDetails,
+      visible: !detailsOpen,
     },
     {
-      name: 'Like Project',
-      icon: <Heart fill={liked ? 'red' : 'transparent'} className={cn(controlBaseStyles, liked ? 'stroke-red-600' : '')} />,
-      action: () => {
-        dispatch(currentProjectLiked(!liked))
-        dispatch(setLikedProject(project.slug))
-      },
-      animation: fullScreen ? { y: -100 } : { y: 0 },
-      divider: true,
+      label: 'Like Project',
+      icon: (
+        <Heart
+          fill={isLiked ? 'currentColor' : 'none'}
+          className={cn(
+            'block stroke-2 transition-colors',
+            isLiked ? 'text-rose-500 stroke-rose-500' : 'text-zinc-300 stroke-zinc-300 hover:text-white hover:stroke-white'
+          )}
+        />
+      ),
+      onClick: handleToggleLike,
     },
+  ].filter((control) => control.visible !== false);
 
-    {
-      name: 'Full Screen',
-      icon: <Minimize2 className={cn(controlBaseStyles, fullScreen ? 'stroke-white' : '')} />,
-      action: () => dispatch(toggleFullPage()),
-      animation: fullScreen ? { y: 0 } : { y: 0 },
-    }
-  ]
   return (
-    <div className={cn(className)}>
-      {
-        controls.map((control, index) => {
-          const { icon, action, divider, animation, name, } = control;
-
-          return (
-            <div className={'flex justify-center items-center'} key={index}>
-              <ToolTip tooltipSide='bottom' tooltipContent={name} >
-
-                <motion.div
-                  animate={animation}
-                  onClick={action}
-                >
-                  {icon}
-                </motion.div>
-              </ToolTip>
-              {divider && <motion.div animate={animation} className="w-[2px] mx-2 h-7 bg-gray-400/80" />}
-            </div>
-          )
-        })
-      }
-    </div>)
+    <div className={className}>
+      {controls.map((control) => (
+        <ToolTip key={control.label} tooltipSide="bottom" tooltipContent={control.label}>
+          <button
+            onClick={control.onClick}
+            className="inline-flex h-9 w-9 items-center justify-center p-2 mx-1 rounded-full leading-none transition-colors cursor-pointer hover:bg-white/15 hover:shadow-none"
+            aria-label={control.label}
+          >
+            {control.icon}
+          </button>
+        </ToolTip>
+      ))}
+    </div>
+  );
 }
 
-export { ProjectControls }
+export { ProjectControls };

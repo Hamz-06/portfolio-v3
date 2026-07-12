@@ -1,10 +1,10 @@
 import { initTRPC } from '@trpc/server';
 import { cache } from 'react';
-export const createTRPCContext = cache(async (request?: Request, response?: Response) => {
+export const createTRPCContext = cache(async (request?: Request) => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
-  return { request: request, response: response };
+  return { request: request };
 });
 // Avoid exporting the entire t-object
 // since it's not very descriptive.

@@ -2,15 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { XIcon } from 'lucide-react'
-import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/redux/slice/projectPageSlice'
-import { useDispatch } from 'react-redux'
+import { toggleDisplayProjectDetailsModal, useDisplayProjectDetailsModal } from '@/zustand/projectDetailsModal'
 
 type ProjectDetailsModalProps = {
   children: React.ReactNode;
 }
 
 function ProjectDetailsModal({ children }: ProjectDetailsModalProps) {
-  const dispatch = useDispatch()
   const isModalOpen = useDisplayProjectDetailsModal()
   const [isMobileOrTablet, setIsMobileOrTablet] = useState(false)
 
@@ -26,10 +24,7 @@ function ProjectDetailsModal({ children }: ProjectDetailsModalProps) {
   const shouldOpen = isModalOpen && isMobileOrTablet
 
   const handleClose = () => {
-    dispatch(toggleDisplayProjectDetailsModal())
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('show-project-details', 'false')
-    }
+    toggleDisplayProjectDetailsModal()
   }
 
   return (

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Play } from 'lucide-react'
 import { CategorisedProject } from '@/sanity/schema/schema-types'
 import { cn } from '@/lib/utils'
+import { PROJECT_PAGE_ROUTE } from '@/constants/pageRoutes'
 
 type ProjectRowProps = {
   project: CategorisedProject
@@ -16,11 +17,10 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [imgLoaded, setImgLoaded] = useState(false)
 
-  const href = `/portfolio/${project.project_type}/${project.slug}`
 
   return (
     <Link
-      href={href}
+      href={PROJECT_PAGE_ROUTE(project.project_type, project.slug)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="flex items-center justify-between p-2 rounded-md hover:bg-zinc-800/60 transition-colors duration-150 group cursor-pointer"

@@ -1,11 +1,11 @@
 'use client'
 
 import { CategorisedProject, Project } from '@/sanity/schema/schema-types'
-import { StoreSingleton } from '../store/storeSingleton'
-import { currentProjectLiked } from '../slice/projectPageSlice'
 import { useEffect } from 'react'
-import { setToggleSidebar } from '../slice/layoutSlice'
-import { setClientCookie } from '@/actions/cookies/cookieHelperClient'
+import { setClientCookie } from '@/helper/cookieHelperClient'
+import { useLikedProjectsStore } from '@/zustand/likedProjects'
+import { usePathname } from 'next/navigation'
+import { setToggleSidebar } from '@/zustand/toggleSidebar'
 
 type ProviderProps = {
   children: React.ReactNode,
@@ -13,20 +13,20 @@ type ProviderProps = {
   isProjectLiked: boolean
 }
 
+
 export function ProjectProvider({ children, project, isProjectLiked }: ProviderProps) {
+  const pathname = usePathname()
+  const setCurrentProjectLiked = useLikedProjectsStore((state) => state.currentProjectLiked)
+
   useEffect(() => {
     saveCurrentProject(project)
-    StoreSingleton.getInstance().dispatch(setToggleSidebar(false))
-    StoreSingleton.getInstance().dispatch(currentProjectLiked(isProjectLiked))
-    StoreSingleton.getInstance().dispatch(setProject(project))
+    setCurrentProjectLiked(isProjectLiked)
+  }, [project, isProjectLiked, setCurrentProjectLiked])
 
-    let showDetails = true
-    if (typeof window !== 'undefined') {
-      const showDetailsPref = window.localStorage.getItem('show-project-details')
-      showDetails = showDetailsPref === null ? true : showDetailsPref === 'true'
-    }
-    StoreSingleton.getInstance().dispatch(setDisplayProjectDetailsModal(showDetails))
-  }, [project, isProjectLiked])
+  useEffect(() => {
+
+    setToggleSidebar(false)
+  }, [pathname])
 
   return <>{children}</>
 }

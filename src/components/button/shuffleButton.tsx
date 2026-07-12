@@ -1,22 +1,21 @@
 'use client'
 
-import { useDispatch } from 'react-redux'
-import { setShuffle, useIsShufflingEnabled } from '@/redux/slice/projectDataSlice'
 import { Shuffle } from 'lucide-react'
 import ToolTip from '../tooltip/tooltip'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
+import { useShuffleStore } from '@/zustand/shuffle'
 
 type Props = {
   className?: string
 }
 
 export function ShuffleButton({ className }: Props) {
-  const dispatch = useDispatch()
-  const isShufflingEnabled = useIsShufflingEnabled()
+  const isShufflingEnabled = useShuffleStore((state) => state.isShuffled)
+  const toggleShuffle = useShuffleStore((state) => state.toggleShuffle)
 
   const shuffleCurrentProjectList = () => {
-    dispatch(setShuffle(!isShufflingEnabled))
+    toggleShuffle()
   }
 
   return (

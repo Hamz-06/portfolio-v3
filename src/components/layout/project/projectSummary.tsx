@@ -3,18 +3,17 @@
 import { ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { useProject } from "@/redux/slice/projectPageSlice"
 import { formatToMonthYear } from "@/lib/utils"
 import { useTRPC } from "@/backend/trpc/provider"
 import { useQuery } from "@tanstack/react-query"
+import { useParams } from "next/navigation"
 
-type ProjectSummaryProps = {
-  slug: string
-}
 
-export function ProjectSummary({ slug }: ProjectSummaryProps) {
+export function ProjectSummary() {
   const trpc = useTRPC()
-  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug }))
+  const params = useParams<{ project_type: string; slug: string }>();
+
+  const { data: project } = useQuery(trpc.portfolio.getProject.queryOptions({ slug: params.slug }))
 
   if (!project) {
     return <></>
@@ -37,7 +36,7 @@ export function ProjectSummary({ slug }: ProjectSummaryProps) {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-8 pt-0 space-y-8">
-                {/* Project Description */}
+        {/* Project Description */}
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-white">About this project</h3>
           <p className="text-zinc-300 leading-relaxed">
